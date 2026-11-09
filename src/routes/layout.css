@@ -3,6 +3,7 @@
 @import "shadcn-svelte/tailwind.css";
 @import "@fontsource-variable/montserrat";
 @import "@fontsource-variable/merriweather";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 

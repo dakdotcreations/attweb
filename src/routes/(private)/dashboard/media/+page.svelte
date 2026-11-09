@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto, refreshAll } from '$app/navigation';
 	import { page } from '$app/state';
 	import MediaEditDialog from '#lib/components/admin/media/media-edit-dialog.svelte';
 	import MediaUploader from '#lib/components/admin/media/media-uploader.svelte';
@@ -54,7 +54,7 @@
 </PageHeader>
 
 {#if showUploader}
-	<MediaUploader class="mb-6" onAllDone={() => invalidateAll()} />
+	<MediaUploader class="mb-6" onAllDone={() => refreshAll()} />
 {/if}
 
 <div class="mb-4 flex flex-wrap items-center gap-4">

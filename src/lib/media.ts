@@ -30,3 +30,6 @@ export function formatBytes(bytes: number) {
 	if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
 	return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
+
+/** Minimal image reference used by content forms (cover images, galleries). */
+export type MediaRef = Pick<MediaItem, 'id' | 'thumbUrl' | 'alt'> & { url?: string };
