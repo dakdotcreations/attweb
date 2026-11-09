@@ -36,5 +36,20 @@ export const variables = defineEnvVars({
 	SMTP_FROM: {
 		schema: required,
 		description: 'From header for outgoing mail, e.g. "Altura Tours <no-reply@altura.example>"'
+	},
+	AZURE_STORAGE_CONNECTION_STRING: {
+		schema: required,
+		description: 'Azure Storage account connection string (Access keys → Connection string)'
+	},
+	AZURE_STORAGE_CONTAINER: {
+		schema: z.string().regex(/^[a-z0-9](?!.*--)[a-z0-9-]{1,61}[a-z0-9]$/, 'Invalid Azure container name'),
+		description: 'Blob container for media; created with public blob read access if missing'
+	},
+	AZURE_STORAGE_PUBLIC_URL: {
+		schema: z
+			.union([z.literal(''), z.url()])
+			.optional()
+			.transform((v) => v?.replace(/\/+$/, '') || undefined),
+		description: 'Optional public base URL (CDN / custom domain) for blobs, no trailing slash'
 	}
 });

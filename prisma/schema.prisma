@@ -1,5 +1,5 @@
 // Prisma schema for Altura Tours & Travel.
-// Phase 1: authentication tables only (shaped for better-auth). Business models are added in later phases.
+// Auth tables are shaped for better-auth; business models follow.
 
 generator client {
   provider = "prisma-client"
@@ -31,6 +31,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  uploads       Media[]
 
   @@map("user")
 }
@@ -80,4 +81,39 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+// ----------------------------------------------------------------------------
+// Media library (Azure Blob). Every image has a full-size blob and a thumbnail.
+// ----------------------------------------------------------------------------
+
+model Media {
+  id              String   @id @default(cuid())
+  /// Blob path of the full image, e.g. "media/2026/11/<id>.webp"
+  blobKey         String   @unique
+  url             String
+  thumbBlobKey    String   @unique
+  thumbUrl        String
+  /// Original file name as uploaded (for search/display)
+  filename        String
+  mimeType        String
+  /// Size in bytes of the stored full image
+  size            Int
+  width           Int
+  height          Int
+  /// Whether the upload was compressed/optimized with sharp
+  compressed      Boolean
+  alt             String   @default("")
+  caption         String?
+  /// Shown on the public Gallery page
+  showInGallery   Boolean  @default(false)
+  galleryCategory String?
+  uploadedById    String?
+  uploadedBy      User?    @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([showInGallery, createdAt])
+  @@index([createdAt])
+  @@map("media")
 }
