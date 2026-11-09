@@ -24,3 +24,515 @@ SvelteKit 3 + Svelte 5 + TypeScript + Tailwind CSS v4 + shadcn-svelte. `better-a
 ## Tooling notes
 
 - The Svelte AI-tools plugin (`svelte@svelte`) is enabled in `.claude/settings.json`. For `.svelte` / `.svelte.ts` work, use the Svelte MCP/skills (`svelte-code-writer`, `svelte-core-bestpractices`) and the project `shadcn-svelte` skill in `.claude/skills/`.
+
+# =============================================================================
+# ALTURA TOURS & TRAVEL PROJECT CONTEXT =============================================================================
+
+## Project Overview
+
+This project is a custom-built tourism and travel management platform for Altura Tours & Travel.
+
+The platform has two primary goals:
+
+1. Build credibility and trust through a premium tourism website.
+2. Generate and manage customer inquiries through an internal admin system.
+
+This is not a booking marketplace and is not intended to compete with portals such as Booking.com, Expedia, or Airbnb.
+
+Version 1 focuses on:
+
+- Marketing
+- Lead generation
+- Content management
+- Inquiry management
+
+Version 1 does NOT include:
+
+- Online payments
+- Customer accounts
+- Customer dashboards
+- Mobile money
+- Card payments
+- Travel inventory management
+- Airline APIs
+- Hotel APIs
+- Day-by-day itinerary builders
+- Automated quotation systems
+
+---
+
+# Technology Stack
+
+## Frontend
+
+- SvelteKit
+- TypeScript
+- TailwindCSS
+- Lucide Icons
+
+## Components
+
+### Admin Area
+
+Use:
+
+- shadcn-svelte
+
+### Public Website
+
+DO NOT use shadcn-svelte as the primary design system.
+
+Public-facing pages should use custom components and custom styling to create a unique travel brand experience.
+
+---
+
+## Backend
+
+Everything is self-contained inside SvelteKit.
+
+Use:
+
+- Server Actions
+- Server Routes
+
+DO NOT build a separate backend.
+
+DO NOT introduce FastAPI or external backend services.
+
+---
+
+## Database
+
+- PostgreSQL
+- Prisma
+
+---
+
+## Package Manager
+
+- pnpm
+
+---
+
+# Authentication
+
+Use:
+
+- better-auth
+
+Authentication method:
+
+- Email OTP only
+
+DO NOT implement passwords.
+
+DO NOT implement public registration.
+
+Only pre-created users can authenticate.
+
+---
+
+## Login Flow
+
+Email
+→ Verify user exists
+→ Generate OTP
+→ Send Email
+→ Verify OTP
+→ Create Session
+→ Redirect to Dashboard
+
+---
+
+## Roles
+
+enum UserRole:
+
+- ADMIN
+- EDITOR
+
+### ADMIN
+
+Can manage:
+
+- Users
+- Settings
+- Services
+- Tours
+- Blog
+- Testimonials
+- Inquiries
+- Media
+
+### EDITOR
+
+Can manage:
+
+- Services
+- Tours
+- Blog
+- Testimonials
+- Media
+
+Cannot:
+
+- Manage users
+- Manage application settings
+
+---
+
+# Routing Structure
+
+Use route groups.
+
+```text
+src/routes/
+
+(public)
+(auth)
+(private)
+```
+
+---
+
+## Public
+
+Contains:
+
+```text
+/
+about
+services
+tours
+gallery
+blog
+contact
+```
+
+Uses public layout.
+
+No authentication.
+
+---
+
+## Auth
+
+Contains:
+
+```text
+/auth/login
+/auth/verify
+```
+
+Uses auth layout.
+
+No sidebar.
+
+No dashboard navigation.
+
+---
+
+## Private
+
+Contains:
+
+```text
+/dashboard
+
+/dashboard/services
+/dashboard/packages
+/dashboard/media
+/dashboard/blog
+/dashboard/testimonials
+/dashboard/inquiries
+/dashboard/settings
+/dashboard/users
+```
+
+Requires authentication.
+
+Uses dashboard layout.
+
+---
+
+# Storage
+
+Use:
+
+- Azure Blob Storage
+
+---
+
+## Image Uploads
+
+Every upload should support:
+
+```ts
+compress: boolean
+```
+
+If:
+
+```ts
+compress === true
+```
+
+Process:
+
+Upload
+→ Validation
+→ Compression
+→ Optimization
+→ Azure Blob
+
+Use:
+
+```ts
+sharp
+```
+
+for image processing.
+
+---
+
+# Currency System
+
+The application supports:
+
+- UGX
+- USD
+
+Do NOT use exchange-rate conversion.
+
+Store both values directly in the database.
+
+Example:
+
+```text
+UGX 3,500,000
+USD 950
+```
+
+The business controls both prices.
+
+---
+
+## Currency Detection
+
+Default:
+
+```text
+Uganda → UGX
+
+Everywhere Else → USD
+```
+
+---
+
+## Currency Override
+
+Provide a currency switcher.
+
+Store preference in cookies.
+
+Manual selection always wins.
+
+---
+
+# Database Models
+
+Authentication:
+
+- User
+- Session
+- OtpCode
+
+Business:
+
+- Service
+- TourPackage
+- PackagePrice
+- TourHighlight
+- TourInclusion
+- TourExclusion
+- Inquiry
+- Testimonial
+- Media
+- PackageGalleryImage
+- BlogPost
+- SiteSettings
+
+---
+
+# Development Order
+
+## Phase 1
+
+Authentication
+
+Build:
+
+- better-auth integration
+- OTP login
+- Session handling
+- Role system
+- Protected layouts
+
+Nothing else before auth.
+
+---
+
+## Phase 2
+
+Admin Dashboard
+
+Build:
+
+- Dashboard shell
+- Sidebar
+- Navigation
+- Authentication guards
+
+---
+
+## Phase 3
+
+Media System
+
+Build:
+
+- Azure uploads
+- Compression
+- Media library
+
+Media must be completed before services/packages.
+
+---
+
+## Phase 4
+
+Content Management
+
+Build:
+
+- Services
+- Packages
+- Pricing
+- Blog
+- Testimonials
+- Settings
+
+---
+
+## Phase 5
+
+Inquiry Management
+
+Build:
+
+- Inquiry listing
+- Status updates
+- Search
+- Filters
+
+---
+
+## Phase 6
+
+Public Website
+
+Build:
+
+- Homepage
+- Services
+- Package pages
+- Blog
+- Gallery
+- Contact
+
+Only begin public website after admin functionality is complete.
+
+---
+
+# UI Philosophy
+
+Public Website:
+
+- Premium
+- Trustworthy
+- Travel-focused
+- Content-driven
+- Strong imagery
+- Safari-inspired
+- Professional healthcare presentation for Medical Tourism
+
+Admin System:
+
+- Functional
+- Minimal
+- Fast
+- Business-oriented
+
+---
+
+# Brand Colors
+
+Primary:
+
+```text
+#0F4C81
+```
+
+Travel Blue
+
+Secondary:
+
+```text
+#F4B400
+```
+
+Safari Gold
+
+Accent:
+
+```text
+#22C55E
+```
+
+WhatsApp Green
+
+Neutral:
+
+```text
+#F8FAFC
+#1F2937
+```
+
+---
+
+# Important Constraints
+
+Do NOT build:
+
+- Online payments
+- Mobile money
+- Card processing
+- Customer accounts
+- Customer dashboards
+- Day-by-day itineraries
+- Hotel booking engines
+- Flight booking APIs
+- Inventory systems
+
+Tour packages should consist of:
+
+- Description
+- Duration
+- Pricing
+- Highlights
+- Inclusions
+- Exclusions
+- Gallery
+- Inquiry CTA
+
+NOT itinerary builders.
