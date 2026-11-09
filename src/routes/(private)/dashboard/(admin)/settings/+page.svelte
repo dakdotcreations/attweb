@@ -1,6 +1,7 @@
-<svelte:head>
-	<title>Settings · Altura</title>
-</svelte:head>
+<script lang="ts">
+	import PageHeader from '#lib/components/admin/page-header.svelte';
+</script>
 
-<h1 class="text-2xl font-semibold">Settings</h1>
-<p class="text-muted-foreground mt-1">ADMIN only. Site settings are built in Phase 4.</p>
+<PageHeader title="Settings" description="Contact details, WhatsApp number, social links and SEO defaults." />
+
+<p class="text-muted-foreground text-sm">Coming in Phase 4.</p>

@@ -1,6 +1,7 @@
-<svelte:head>
-	<title>Users · Altura</title>
-</svelte:head>
+<script lang="ts">
+	import PageHeader from '#lib/components/admin/page-header.svelte';
+</script>
 
-<h1 class="text-2xl font-semibold">Users</h1>
-<p class="text-muted-foreground mt-1">ADMIN only. User management is built in Phase 4.</p>
+<PageHeader title="Users" description="People who can sign in to this dashboard." />
+
+<p class="text-muted-foreground text-sm">Coming in Phase 4.</p>
