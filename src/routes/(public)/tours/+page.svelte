@@ -35,7 +35,7 @@
 				{@const isActive = data.activeService === s.slug}
 				<a
 					href={s.slug ? `/tours?service=${s.slug}` : '/tours'}
-					data-sveltekit-noscroll
+					data-sveltekit-reset="false"
 					aria-current={isActive ? 'page' : undefined}
 					class={cn(
 						'shrink-0 rounded-full px-4 py-2 text-sm font-bold whitespace-nowrap transition-colors',

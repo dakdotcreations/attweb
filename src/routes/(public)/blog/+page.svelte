@@ -49,7 +49,7 @@
 				{@const isActive = data.activeTopic === t.slug}
 				<a
 					href={t.slug ? `/blog?topic=${t.slug}` : '/blog'}
-					data-sveltekit-noscroll
+					data-sveltekit-reset="false"
 					aria-current={isActive ? 'page' : undefined}
 					class={cn(
 						'shrink-0 rounded-full px-4 py-2 text-sm font-bold whitespace-nowrap transition-colors',
