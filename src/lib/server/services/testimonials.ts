@@ -36,3 +36,22 @@ export function saveTestimonial(id: string | null, data: TestimonialData) {
 export function deleteTestimonial(id: string) {
 	return db.testimonial.delete({ where: { id } });
 }
+
+/** Published testimonials for public pages, featured first. */
+export function listPublishedTestimonials(take = 6) {
+	return db.testimonial.findMany({
+		where: { status: 'PUBLISHED' },
+		orderBy: [{ featured: 'desc' }, { sortOrder: 'asc' }, { createdAt: 'desc' }],
+		take,
+		select: {
+			id: true,
+			name: true,
+			location: true,
+			quote: true,
+			rating: true,
+			photo: { select: { thumbUrl: true, alt: true } },
+			package: { select: { title: true, slug: true, status: true } },
+			service: { select: { name: true, slug: true, status: true } }
+		}
+	});
+}

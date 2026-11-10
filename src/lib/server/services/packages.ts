@@ -110,3 +110,70 @@ export function listPackageOptions() {
 		select: { id: true, title: true }
 	});
 }
+
+/** Published, featured packages with a cover image, for the homepage hero (max 5). */
+export async function listFeaturedPackages(take = 5) {
+	const packages = await db.tourPackage.findMany({
+		where: { status: 'PUBLISHED', featured: true, coverImageId: { not: null } },
+		orderBy: [{ sortOrder: 'asc' }, { updatedAt: 'desc' }],
+		take,
+		select: {
+			id: true,
+			title: true,
+			slug: true,
+			summary: true,
+			durationDays: true,
+			durationNights: true,
+			location: true,
+			coverImage: { select: { url: true, alt: true, width: true, height: true } },
+			prices: {
+				orderBy: [{ isFromPrice: 'desc' }, { sortOrder: 'asc' }],
+				take: 1,
+				select: { label: true, amountUGX: true, amountUSD: true }
+			}
+		}
+	});
+	return packages.map(({ prices, coverImage, ...p }) => ({
+		...p,
+		coverImage: coverImage!,
+		fromPrice: prices[0] ?? null
+	}));
+}
+
+/** Published packages as cards (homepage, tour listings). Featured first, then display order. */
+export async function listPublishedPackages(params: { take?: number; serviceSlug?: string } = {}) {
+	const packages = await db.tourPackage.findMany({
+		where: {
+			status: 'PUBLISHED',
+			...(params.serviceSlug ? { services: { some: { service: { slug: params.serviceSlug, status: 'PUBLISHED' } } } } : {})
+		},
+		orderBy: [{ featured: 'desc' }, { sortOrder: 'asc' }, { title: 'asc' }],
+		take: params.take,
+		select: {
+			id: true,
+			title: true,
+			slug: true,
+			summary: true,
+			durationDays: true,
+			durationNights: true,
+			location: true,
+			coverImage: { select: { url: true, thumbUrl: true, alt: true } },
+			services: {
+				where: { service: { status: 'PUBLISHED' } },
+				select: { service: { select: { name: true, slug: true } } }
+			},
+			prices: {
+				orderBy: [{ isFromPrice: 'desc' }, { sortOrder: 'asc' }],
+				take: 1,
+				select: { label: true, amountUGX: true, amountUSD: true }
+			}
+		}
+	});
+	return packages.map(({ prices, services, ...p }) => ({
+		...p,
+		services: services.map((s) => s.service),
+		fromPrice: prices[0] ?? null
+	}));
+}
+
+export type PackageCardData = Awaited<ReturnType<typeof listPublishedPackages>>[number];

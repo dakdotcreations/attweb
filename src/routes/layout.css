@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn-svelte/tailwind.css";
 @import "@fontsource-variable/montserrat";
-@import "@fontsource-variable/merriweather";
+@import "@fontsource-variable/cinzel";
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
@@ -77,8 +77,8 @@
 }
 
 @theme inline {
-	--font-sans: 'Montserrat Variable', sans-serif;
-	--font-heading: 'Merriweather Variable', serif;
+	--font-sans: 'Montserrat Variable', ui-sans-serif, system-ui, sans-serif;
+	--font-heading: 'Cinzel Variable', 'Times New Roman', serif;
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -117,6 +117,50 @@
 	--radius-2xl: calc(var(--radius) * 1.8);
 	--radius-3xl: calc(var(--radius) * 2.2);
 	--radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+ * Altura brand palette (public website), from the crowned-crane logo.
+ * Separate from the shadcn tokens above, which style the dashboard.
+ * Gold is for accents and large text on forest only, never small text on cream.
+ */
+@theme {
+	--color-forest-950: #062b19;
+	--color-forest-900: #0b3d24;
+	--color-forest-800: #0b4d2c;
+	--color-forest-700: #145f38;
+	--color-forest-600: #1f7547;
+	--color-forest-100: #e3efe7;
+	--color-gold-600: #a8841f;
+	--color-gold-500: #c9a23a;
+	--color-gold-400: #ddbb5c;
+	--color-gold-300: #ead18a;
+	--color-gold-100: #f7edd0;
+	--color-cream: #fbf7ea;
+	--color-cream-200: #f3ecd6;
+	--color-ink: #1f2937;
+	--color-crane-red: #c8102e;
+	--color-whatsapp: #22c55e;
+	--color-whatsapp-dark: #16a34a;
+}
+
+@utility gold-rule {
+	height: 1px;
+	background: linear-gradient(90deg, transparent, var(--color-gold-500) 20%, var(--color-gold-300) 50%, var(--color-gold-500) 80%, transparent);
+}
+
+@utility gold-text {
+	background: linear-gradient(180deg, var(--color-gold-300), var(--color-gold-500) 55%, var(--color-gold-600));
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+@utility gold-border {
+	border: 1px solid transparent;
+	background:
+		linear-gradient(var(--gold-border-fill, var(--color-forest-900)), var(--gold-border-fill, var(--color-forest-900))) padding-box,
+		linear-gradient(135deg, var(--color-gold-300), var(--color-gold-600), var(--color-gold-400)) border-box;
 }
 
 @layer base {

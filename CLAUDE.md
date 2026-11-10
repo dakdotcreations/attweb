@@ -483,38 +483,30 @@ Admin System:
 
 ---
 
-# Brand Colors
+# Brand (from the logo and flyers; supersedes the earlier Travel Blue palette)
 
-Primary:
+The logo is a grey crowned crane with ribbons in the Uganda flag colours and a Trajan-style "ALTURA" wordmark. Tagline: **"Your journey, our passion"**. The public site uses these as Tailwind utilities defined in `src/routes/layout.css` (`@theme`), separate from the shadcn tokens the dashboard uses:
 
-```text
-#0F4C81
-```
+- **Forest green** (primary): `forest-800` #0B4D2C, with 950/900/700/600/100 shades
+- **Gold** (accent): `gold-500` #C9A23A, with 600/400/300/100 shades. Only for accents and large text on forest, never small text on cream.
+- **Cream** background: `cream` #FBF7EA. Ink: `ink` #1F2937.
+- **Crane red** `crane-red` #C8102E: tiny accents only.
+- **WhatsApp green** `whatsapp` #22C55E: WhatsApp buttons only.
+- Utilities: `gold-rule`, `gold-text`, `gold-border` (set `--gold-border-fill` for the inner background).
 
-Travel Blue
+**Fonts:** Cinzel (`font-heading`) for display and section headings; Montserrat (`font-sans`) for everything else, including bold destination titles and price badges.
 
-Secondary:
+**Logo files** go in `static/brand/` (`logo-full.png`, `logo-full-light.png`, `logo-mark.png`). The `Logo` component falls back to a Cinzel wordmark when they're missing.
 
-```text
-#F4B400
-```
+**Audience order:** inbound safaris (gorillas, wildlife) first. Then outbound holidays for Ugandans (Mombasa, Egypt, Dubai, Turkey…), flights and hotels, visas, medical tourism (India), study abroad, school tours, corporate travel and car hire.
 
-Safari Gold
+**Public site motion:** GSAP via `useGsap` (`src/lib/hooks/UseGsap.svelte.ts`).
+- ScrollSmoother is set up once in `(public)/+layout.svelte`. Fixed elements (header, WhatsApp button, mobile menu) must stay outside `#smooth-wrapper`.
+- Respect `reducedMotion` (no smoother, no animations).
+- Animate only transform and opacity.
+- Never hide content in CSS waiting for JS: first-paint intros are CSS keyframes, and GSAP handles later interactions.
 
-Accent:
-
-```text
-#22C55E
-```
-
-WhatsApp Green
-
-Neutral:
-
-```text
-#F8FAFC
-#1F2937
-```
+**Currency:** `locals.currency` comes from the `currency` cookie, otherwise `x-vercel-ip-country` (UG → UGX, else USD). It's switched via POST `/currency`. Show prices with the public `PriceTag`, which falls back to the other currency if one is missing.
 
 ---
 

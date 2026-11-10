@@ -45,3 +45,12 @@ export function deleteService(id: string) {
 	// Package tags (PackageService) cascade; blog posts/testimonials keep their content with the link cleared.
 	return db.service.delete({ where: { id } });
 }
+
+/** Published services for the public nav and homepage, in display order. */
+export function listPublishedServices() {
+	return db.service.findMany({
+		where: { status: 'PUBLISHED' },
+		orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+		select: { id: true, name: true, slug: true, summary: true, coverImage: { select: mediaRefSelect } }
+	});
+}

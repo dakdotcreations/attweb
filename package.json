@@ -21,7 +21,6 @@
 		"db:studio": "prisma studio"
 	},
 	"devDependencies": {
-		"@fontsource-variable/merriweather": "^5.3.0",
 		"@fontsource-variable/montserrat": "^5.3.0",
 		"@internationalized/date": "^3.12.4",
 		"@lucide/svelte": "^1.70.0",
@@ -48,6 +47,7 @@
 	},
 	"dependencies": {
 		"@azure/storage-blob": "^12.34.0",
+		"@fontsource-variable/cinzel": "5.3.0",
 		"@prisma/adapter-pg": "^7.10.1",
 		"@prisma/client": "^7.10.1",
 		"@tiptap/core": "^3.33.0",
@@ -55,9 +55,11 @@
 		"@tiptap/pm": "^3.33.0",
 		"@tiptap/starter-kit": "^3.33.0",
 		"better-auth": "^1.7.18",
+		"gsap": "3.15.0",
 		"nodemailer": "^10.4.0",
 		"sanitize-html": "^2.18.1",
 		"sharp": "^0.35.5",
+		"simple-icons": "16.36.0",
 		"zod": "^4.6.7"
 	}
 }

@@ -67,3 +67,21 @@ export async function saveBlogPost(id: string | null, data: BlogPostData, userId
 export function deleteBlogPost(id: string) {
 	return db.blogPost.delete({ where: { id } });
 }
+
+/** Latest published posts for public listings. */
+export function listLatestPosts(take = 3) {
+	return db.blogPost.findMany({
+		where: { status: 'PUBLISHED', publishedAt: { not: null } },
+		orderBy: { publishedAt: 'desc' },
+		take,
+		select: {
+			id: true,
+			title: true,
+			slug: true,
+			excerpt: true,
+			publishedAt: true,
+			coverImage: { select: { url: true, thumbUrl: true, alt: true } },
+			service: { select: { name: true } }
+		}
+	});
+}
