@@ -54,3 +54,41 @@ export function listPublishedServices() {
 		select: { id: true, name: true, slug: true, summary: true, coverImage: { select: mediaRefSelect } }
 	});
 }
+
+/** Public service page: published service + its packages, testimonials and guides. */
+export async function getPublicService(slug: string) {
+	const service = await db.service.findFirst({
+		where: { slug, status: 'PUBLISHED' },
+		select: {
+			id: true,
+			name: true,
+			slug: true,
+			summary: true,
+			content: true,
+			seoTitle: true,
+			seoDescription: true,
+			coverImage: { select: { url: true, alt: true } },
+			testimonials: {
+				where: { status: 'PUBLISHED' },
+				orderBy: [{ featured: 'desc' }, { sortOrder: 'asc' }],
+				take: 3,
+				select: { id: true, name: true, location: true, quote: true, rating: true, photo: { select: { thumbUrl: true } } }
+			},
+			blogPosts: {
+				where: { status: 'PUBLISHED', publishedAt: { not: null } },
+				orderBy: { publishedAt: 'desc' },
+				take: 3,
+				select: {
+					id: true,
+					title: true,
+					slug: true,
+					excerpt: true,
+					publishedAt: true,
+					coverImage: { select: { url: true, thumbUrl: true, alt: true } },
+					service: { select: { name: true } }
+				}
+			}
+		}
+	});
+	return service;
+}
