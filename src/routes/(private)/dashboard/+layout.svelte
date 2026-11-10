@@ -8,7 +8,7 @@
 </script>
 
 <Sidebar.Provider open={data.sidebarOpen}>
-	<AppSidebar user={data.user} />
+	<AppSidebar user={data.user} badges={data.navBadges} />
 	<Sidebar.Inset>
 		<SiteHeader />
 		<main class="flex-1 p-4 md:p-6">

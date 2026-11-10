@@ -5,7 +5,14 @@
 	import NavUser from './nav-user.svelte';
 	import { isNavItemActive, navForRole, type Role } from './nav.js';
 
-	let { user }: { user: { name: string; email: string; role: Role } } = $props();
+	let {
+		user,
+		badges = {}
+	}: {
+		user: { name: string; email: string; role: Role };
+		/** Counts shown next to nav items, keyed by href (0 hides the badge). */
+		badges?: Record<string, number>;
+	} = $props();
 
 	const groups = $derived(navForRole(user.role));
 	const sidebar = Sidebar.useSidebar();
@@ -54,6 +61,9 @@
 										</a>
 									{/snippet}
 								</Sidebar.MenuButton>
+								{#if badges[item.href]}
+									<Sidebar.MenuBadge aria-label="{badges[item.href]} new">{badges[item.href]}</Sidebar.MenuBadge>
+								{/if}
 							</Sidebar.MenuItem>
 						{/each}
 					</Sidebar.Menu>
