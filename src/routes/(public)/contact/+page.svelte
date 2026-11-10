@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Seo from '#lib/components/public/seo.svelte';
 	import BrandIcon from '#lib/components/public/brand-icon.svelte';
 	import InquiryForm from '#lib/components/public/inquiry-form.svelte';
 	import PageHero from '#lib/components/public/page-hero.svelte';
@@ -20,10 +21,11 @@
 	);
 </script>
 
-<svelte:head>
-	<title>Contact us | {site.companyName}</title>
-	<meta name="description" content="Plan your safari or trip with {site.companyName}. Message us on WhatsApp, email, or visit our office on Kampala Road." />
-</svelte:head>
+<Seo
+	site={site}
+	title="Contact us | {site.companyName}"
+	description="Plan your safari or trip with {site.companyName}. Message us on WhatsApp, email, or visit our office on Kampala Road."
+/>
 
 <PageHero
 	eyebrow="Contact"

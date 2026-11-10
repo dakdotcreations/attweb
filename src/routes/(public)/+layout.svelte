@@ -89,12 +89,6 @@
 
 <svelte:document onclick={onDocumentClick} />
 
-<svelte:head>
-	<title>{data.site.seoTitle || `${data.site.companyName} | Safaris & tours in Uganda`}</title>
-	{#if data.site.seoDescription}<meta name="description" content={data.site.seoDescription} />{/if}
-	{#if data.site.ogImageUrl}<meta property="og:image" content={data.site.ogImageUrl} />{/if}
-</svelte:head>
-
 <!-- Fixed elements live outside the smooth wrapper: transforms on it would break `position: fixed`. -->
 <SiteHeader services={data.services} currency={data.currency} whatsappNumber={data.site.whatsappNumber} {overHero} />
 <WhatsappFab number={data.site.whatsappNumber} />

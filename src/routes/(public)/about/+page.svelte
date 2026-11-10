@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Seo from '#lib/components/public/seo.svelte';
 	import { AIRLINES, BROCHURE_SERVICES, IMPACT, MISSION, OBJECTIVES, VISION } from '#lib/components/public/about-content.js';
 	import PlanCta from '#lib/components/public/home/plan-cta.svelte';
 	import Logo from '#lib/components/public/logo.svelte';
@@ -36,10 +37,11 @@
 	};
 </script>
 
-<svelte:head>
-	<title>About us | {data.site.companyName}</title>
-	<meta name="description" content="{data.site.companyName} is a Kampala-based tours and travel company. {VISION}" />
-</svelte:head>
+<Seo
+	site={data.site}
+	title="About us | {data.site.companyName}"
+	description="{data.site.companyName} is a Kampala-based tours and travel company. {VISION}"
+/>
 
 <!-- Intro: the full crest belongs on a light background. -->
 <section class="bg-cream relative overflow-hidden">

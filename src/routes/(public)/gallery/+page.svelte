@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/state';
+	import Seo from '#lib/components/public/seo.svelte';
 	import PlanCta from '#lib/components/public/home/plan-cta.svelte';
 	import Lightbox from '#lib/components/public/lightbox.svelte';
 	import PageHero from '#lib/components/public/page-hero.svelte';
@@ -24,14 +24,13 @@
 	const pageHref = (n: number) => href({ category: data.activeCategory, page: n });
 </script>
 
-<svelte:head>
-	<title>{title}{data.page > 1 ? ` (page ${data.page})` : ''} | {data.site.companyName}</title>
-	<meta
-		name="description"
-		content="Photos from {data.site.companyName} journeys: gorillas, wildlife safaris, beach holidays and travellers on the road with us."
-	/>
-	<link rel="canonical" href={page.url.origin + pageHref(data.page)} />
-</svelte:head>
+<Seo
+	site={data.site}
+	title="{title}{data.page > 1 ? ` (page ${data.page})` : ''} | {data.site.companyName}"
+	description="Photos from {data.site.companyName} journeys: gorillas, wildlife safaris, beach holidays and travellers on the road with us."
+	path={pageHref(data.page)}
+	image={data.photos[0]?.url}
+/>
 
 <PageHero
 	eyebrow="Gallery"

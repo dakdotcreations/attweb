@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Seo from '#lib/components/public/seo.svelte';
 	import PlanCta from '#lib/components/public/home/plan-cta.svelte';
 	import PageHero from '#lib/components/public/page-hero.svelte';
 	import { reveal } from '#lib/components/public/reveal.js';
@@ -8,13 +9,12 @@
 	let { data }: PageProps = $props();
 </script>
 
-<svelte:head>
-	<title>Our services | {data.site.companyName}</title>
-	<meta
-		name="description"
-		content="Gorilla trekking, wildlife safaris, holidays, flights, visas, medical tourism, study abroad and school tours, all arranged by {data.site.companyName} in Kampala."
-	/>
-</svelte:head>
+<Seo
+	site={data.site}
+	title="Our services | {data.site.companyName}"
+	description="Gorilla trekking, wildlife safaris, holidays, flights, visas, medical tourism, study abroad and school tours, all arranged by {data.site.companyName} in Kampala."
+	image={data.allServices.find((s) => s.coverImage?.url)?.coverImage?.url}
+/>
 
 <PageHero
 	eyebrow="Our services"

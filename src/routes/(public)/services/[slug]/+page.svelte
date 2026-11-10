@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/state';
+	import Seo from '#lib/components/public/seo.svelte';
 	import LatestStories from '#lib/components/public/home/latest-stories.svelte';
 	import InquiryForm from '#lib/components/public/inquiry-form.svelte';
 	import PackageCard from '#lib/components/public/package-card.svelte';
@@ -19,13 +19,14 @@
 	const metaDescription = $derived(service.seoDescription || service.summary);
 </script>
 
-<svelte:head>
-	<title>{metaTitle}</title>
-	{#if metaDescription}<meta name="description" content={metaDescription} />{/if}
-	<meta property="og:title" content={service.name} />
-	{#if service.coverImage}<meta property="og:image" content={service.coverImage.url} />{/if}
-	<link rel="canonical" href={page.url.origin + page.url.pathname} />
-</svelte:head>
+<Seo
+	site={data.site}
+	title={metaTitle}
+	description={metaDescription}
+	ogTitle={service.name}
+	image={service.coverImage?.url}
+	imageAlt={service.coverImage?.alt}
+/>
 
 <section class="bg-forest-950 relative isolate flex min-h-[62svh] items-end overflow-hidden">
 	{#if service.coverImage}

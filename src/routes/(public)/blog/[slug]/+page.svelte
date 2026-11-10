@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Seo from '#lib/components/public/seo.svelte';
 	import { page } from '$app/state';
 	import LatestStories from '#lib/components/public/home/latest-stories.svelte';
 	import { reveal } from '#lib/components/public/reveal.js';
@@ -37,17 +38,19 @@
 	);
 </script>
 
-<svelte:head>
-	<title>{metaTitle}</title>
-	{#if metaDescription}<meta name="description" content={metaDescription} />{/if}
-	<meta property="og:type" content="article" />
-	<meta property="og:title" content={post.title} />
-	{#if metaDescription}<meta property="og:description" content={metaDescription} />{/if}
-	{#if post.coverImage}<meta property="og:image" content={post.coverImage.url} />{/if}
+<Seo
+	site={data.site}
+	title={metaTitle}
+	description={metaDescription}
+	ogTitle={post.title}
+	type="article"
+	image={post.coverImage?.url}
+	imageAlt={post.coverImage?.alt}
+>
 	{#if published}<meta property="article:published_time" content={published} />{/if}
-	<link rel="canonical" href={canonical} />
+	{#if post.service}<meta property="article:section" content={post.service.name} />{/if}
 	{@html `<script type="application/ld+json">${jsonLd}</script>`}
-</svelte:head>
+</Seo>
 
 <section class={cn('bg-forest-950 relative isolate flex items-end overflow-hidden', post.coverImage && 'min-h-[62svh]')}>
 	{#if post.coverImage}

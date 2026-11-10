@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Seo from '#lib/components/public/seo.svelte';
 	import PlanCta from '#lib/components/public/home/plan-cta.svelte';
 	import PackageCard from '#lib/components/public/package-card.svelte';
 	import PageHero from '#lib/components/public/page-hero.svelte';
@@ -12,16 +13,15 @@
 	const title = $derived(active ? `${active.name} tours` : 'Tours & journeys');
 </script>
 
-<svelte:head>
-	<title>{title} | {data.site.companyName}</title>
-	<meta
-		name="description"
-		content={active
-			? `${active.name} packages from ${data.site.companyName}: prices, highlights and what's included.`
-			: `Gorilla trekking, safaris and holidays from ${data.site.companyName}, with prices, highlights and what's included.`}
-	/>
-	{#if active}<link rel="canonical" href="/tours?service={active.slug}" />{/if}
-</svelte:head>
+<Seo
+	site={data.site}
+	title="{title} | {data.site.companyName}"
+	description={active
+		? `${active.name} packages from ${data.site.companyName}: prices, highlights and what's included.`
+		: `Gorilla trekking, safaris and holidays from ${data.site.companyName}, with prices, highlights and what's included.`}
+	path={active ? `/tours?service=${active.slug}` : '/tours'}
+	image={data.packages.find((p) => p.coverImage)?.coverImage?.url}
+/>
 
 <PageHero
 	eyebrow="Tours"

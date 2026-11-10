@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/state';
+	import Seo from '#lib/components/public/seo.svelte';
 	import BlogCard from '#lib/components/public/blog-card.svelte';
 	import PlanCta from '#lib/components/public/home/plan-cta.svelte';
 	import PageHero from '#lib/components/public/page-hero.svelte';
@@ -27,16 +27,15 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{title}{data.page > 1 ? ` (page ${data.page})` : ''} | {data.site.companyName}</title>
-	<meta
-		name="description"
-		content={active
-			? `${active.name} guides and tips from the ${data.site.companyName} team in Kampala.`
-			: `Gorilla permits, safaris, visas, medical tourism and more: practical travel guides from the ${data.site.companyName} team.`}
-	/>
-	<link rel="canonical" href={page.url.origin + pageHref(data.page)} />
-</svelte:head>
+<Seo
+	site={data.site}
+	title="{title}{data.page > 1 ? ` (page ${data.page})` : ''} | {data.site.companyName}"
+	description={active
+		? `${active.name} guides and tips from the ${data.site.companyName} team in Kampala.`
+		: `Gorilla permits, safaris, visas, medical tourism and more: practical travel guides from the ${data.site.companyName} team.`}
+	path={pageHref(data.page)}
+	image={data.posts.find((p) => p.coverImage)?.coverImage?.url}
+/>
 
 <PageHero
 	eyebrow="Blog"

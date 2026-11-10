@@ -7,6 +7,10 @@
 	let { data, children }: LayoutProps = $props();
 </script>
 
+<svelte:head>
+	<meta name="robots" content="noindex, nofollow" />
+</svelte:head>
+
 <Sidebar.Provider open={data.sidebarOpen}>
 	<AppSidebar user={data.user} badges={data.navBadges} />
 	<Sidebar.Inset>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Seo from '#lib/components/public/seo.svelte';
 	import { page } from '$app/state';
 	import InquiryForm from '#lib/components/public/inquiry-form.svelte';
 	import PackageCard from '#lib/components/public/package-card.svelte';
@@ -80,15 +81,16 @@
 	);
 </script>
 
-<svelte:head>
-	<title>{metaTitle}</title>
-	{#if metaDescription}<meta name="description" content={metaDescription} />{/if}
-	<meta property="og:title" content={pkg.title} />
-	{#if metaDescription}<meta property="og:description" content={metaDescription} />{/if}
-	{#if pkg.coverImage}<meta property="og:image" content={pkg.coverImage.url} />{/if}
-	<link rel="canonical" href={page.url.origin + page.url.pathname} />
+<Seo
+	site={data.site}
+	title={metaTitle}
+	description={metaDescription}
+	ogTitle={pkg.title}
+	image={pkg.coverImage?.url}
+	imageAlt={pkg.coverImage?.alt}
+>
 	{@html `<script type="application/ld+json">${jsonLd}</script>`}
-</svelte:head>
+</Seo>
 
 <!-- Hero -->
 <section class="bg-forest-950 relative isolate flex min-h-[70svh] items-end overflow-hidden">
