@@ -177,3 +177,67 @@ export async function listPublishedPackages(params: { take?: number; serviceSlug
 }
 
 export type PackageCardData = Awaited<ReturnType<typeof listPublishedPackages>>[number];
+
+/** Full public package page data (published only). */
+export async function getPublicPackage(slug: string) {
+	const pkg = await db.tourPackage.findFirst({
+		where: { slug, status: 'PUBLISHED' },
+		select: {
+			id: true,
+			title: true,
+			slug: true,
+			summary: true,
+			description: true,
+			durationDays: true,
+			durationNights: true,
+			location: true,
+			seoTitle: true,
+			seoDescription: true,
+			updatedAt: true,
+			coverImage: { select: { url: true, alt: true, width: true, height: true } },
+			services: {
+				where: { service: { status: 'PUBLISHED' } },
+				select: { service: { select: { id: true, name: true, slug: true } } }
+			},
+			prices: { orderBy: { sortOrder: 'asc' }, select: { id: true, label: true, amountUGX: true, amountUSD: true, isFromPrice: true } },
+			highlights: { orderBy: { sortOrder: 'asc' }, select: { text: true } },
+			inclusions: { orderBy: { sortOrder: 'asc' }, select: { text: true } },
+			exclusions: { orderBy: { sortOrder: 'asc' }, select: { text: true } },
+			gallery: {
+				orderBy: { sortOrder: 'asc' },
+				select: { media: { select: { id: true, url: true, thumbUrl: true, alt: true, caption: true, width: true, height: true } } }
+			},
+			testimonials: {
+				where: { status: 'PUBLISHED' },
+				orderBy: [{ featured: 'desc' }, { sortOrder: 'asc' }],
+				take: 3,
+				select: { id: true, name: true, location: true, quote: true, rating: true, photo: { select: { thumbUrl: true } } }
+			}
+		}
+	});
+	if (!pkg) return null;
+	const fromPrice = pkg.prices.find((p) => p.isFromPrice) ?? pkg.prices[0] ?? null;
+	return {
+		...pkg,
+		services: pkg.services.map((s) => s.service),
+		highlights: pkg.highlights.map((h) => h.text),
+		inclusions: pkg.inclusions.map((i) => i.text),
+		exclusions: pkg.exclusions.map((e) => e.text),
+		gallery: pkg.gallery.map((g) => g.media),
+		fromPrice
+	};
+}
+
+/** Other published packages sharing a service with this one (falls back to any). */
+export async function listRelatedPackages(packageId: string, serviceIds: string[], take = 3) {
+	const related = await listPublishedPackages({ take: take + 6 });
+	const others = related.filter((p) => p.id !== packageId);
+	if (!serviceIds.length) return others.slice(0, take);
+	const ids = new Set(serviceIds);
+	const sharing = await db.packageService.findMany({
+		where: { serviceId: { in: [...ids] }, packageId: { not: packageId }, package: { status: 'PUBLISHED' } },
+		select: { packageId: true }
+	});
+	const sharingIds = new Set(sharing.map((s) => s.packageId));
+	return [...others.filter((p) => sharingIds.has(p.id)), ...others.filter((p) => !sharingIds.has(p.id))].slice(0, take);
+}

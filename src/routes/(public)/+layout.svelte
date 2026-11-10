@@ -4,7 +4,12 @@
 	import SiteFooter from '#lib/components/public/site-footer.svelte';
 	import SiteHeader from '#lib/components/public/site-header.svelte';
 	import WhatsappFab from '#lib/components/public/whatsapp-fab.svelte';
-	import { useGsap, type GsapModules } from '#lib/hooks/UseGsap.svelte.js';
+	import {
+		markSmootherReady,
+		resetSmootherReady,
+		useGsap,
+		type GsapModules
+	} from '#lib/hooks/UseGsap.svelte.js';
 	import { cn } from '#lib/utils.js';
 	import { tick } from 'svelte';
 	import type { LayoutProps } from './$types';
@@ -32,7 +37,10 @@
 	useGsap(({ ScrollSmoother, ScrollTrigger, reducedMotion }) => {
 		refresh = () => ScrollTrigger.refresh();
 		// Native scrolling for reduced motion; smoothing only on pointer devices (smoothTouch off).
-		if (reducedMotion || !wrapper || !content) return;
+		if (reducedMotion || !wrapper || !content) {
+			markSmootherReady();
+			return resetSmootherReady;
+		}
 		smoother = ScrollSmoother.create({
 			wrapper,
 			content,
@@ -41,10 +49,27 @@
 			smoothTouch: false
 		});
 		applyEffects();
+		markSmootherReady();
 		return () => {
 			smoother = null;
+			resetSmootherReady();
 		};
 	});
+
+	// Same-page anchor links (e.g. "Inquire now" → #inquire): glide there with the smoother
+	// instead of letting the browser jump. Works for links outside the wrapper too (mobile bar).
+	function onDocumentClick(event: MouseEvent) {
+		if (!smoother || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey) return;
+		const link = (event.target as Element | null)?.closest('a');
+		if (!link?.hash || link.target) return;
+		const url = new URL(link.href);
+		if (url.origin !== location.origin || url.pathname !== location.pathname) return;
+		const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+		if (!target) return;
+		event.preventDefault();
+		smoother.scrollTo(target, true, `top ${HEADER_OFFSET}px`);
+		history.replaceState(history.state, '', url.hash);
+	}
 
 	afterNavigate(async ({ to, type }) => {
 		await tick();
@@ -61,6 +86,8 @@
 		requestAnimationFrame(() => refresh?.());
 	});
 </script>
+
+<svelte:document onclick={onDocumentClick} />
 
 <svelte:head>
 	<title>{data.site.seoTitle || `${data.site.companyName} | Safaris & tours in Uganda`}</title>

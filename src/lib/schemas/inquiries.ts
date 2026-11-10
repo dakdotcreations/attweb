@@ -64,3 +64,26 @@ export const inquiryNoteSchema = z.object({
 
 export type InquiryDetailsInput = z.input<typeof inquiryDetailsSchema>;
 export type InquiryDetailsData = z.output<typeof inquiryDetailsSchema>;
+
+/** Empty string from a form field → null, otherwise a number (NaN fails validation). */
+const formNumber = z.preprocess(
+	(v) => (v === '' || v == null ? null : Number(v)),
+	inquiryContactFields.groupSize
+);
+
+/**
+ * Public website inquiry form (regular form fields, works without JS).
+ * `website` is a honeypot and `startedAt` a time trap; both are checked in the action.
+ */
+export const publicInquirySchema = z
+	.object({
+		...inquiryContactFields,
+		groupSize: formNumber,
+		preferredContact: z.preprocess((v) => v || null, inquiryContactFields.preferredContact),
+		packageId: z.preprocess((v) => v || null, z.string().max(40).nullable()),
+		serviceId: z.preprocess((v) => v || null, z.string().max(40).nullable()),
+		sourceUrl: z.preprocess((v) => v || null, z.string().max(500).nullable())
+	})
+	.refine(needsContact, { message: 'Enter your email or a WhatsApp/phone number', path: ['email'] });
+
+export type PublicInquiryData = z.output<typeof publicInquirySchema>;

@@ -43,6 +43,24 @@ export function prefersReducedMotion() {
 	return typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
+// Pins and other position-dependent ScrollTriggers must be created after ScrollSmoother.
+// The public layout creates the smoother (or decides not to) and then marks it ready.
+let smootherReady!: Promise<void>;
+let resolveSmootherReady!: () => void;
+function resetSmootherPromise() {
+	smootherReady = new Promise((resolve) => (resolveSmootherReady = resolve));
+}
+resetSmootherPromise();
+
+/** Called by the layout once ScrollSmoother exists, or once it decided not to create one. */
+export function markSmootherReady() {
+	resolveSmootherReady();
+}
+/** Called when the layout that owns the smoother unmounts. */
+export function resetSmootherReady() {
+	resetSmootherPromise();
+}
+
 type ScopeValue = Element | string | null | undefined;
 /** A selector/element, or a getter so `bind:this` elements (undefined at call time) work. */
 type Scope = ScopeValue | (() => ScopeValue);
@@ -55,14 +73,23 @@ type Scope = ScopeValue | (() => ScopeValue);
  *
  *   let root = $state<HTMLElement>();
  *   useGsap(({ gsap, reducedMotion }) => { if (!reducedMotion) gsap.from('.title', { y: 20 }) }, () => root);
+ *
+ * Pass `{ afterSmoother: true }` for pins on public pages, so they're created after ScrollSmoother.
  */
-export function useGsap(setup: (deps: GsapModules) => (() => void) | void, scope?: Scope) {
+export function useGsap(
+	setup: (deps: GsapModules) => (() => void) | void,
+	scope?: Scope,
+	options: {
+		/** Wait for the public layout's ScrollSmoother first (needed for pins). Public pages only. */
+		afterSmoother?: boolean;
+	} = {}
+) {
 	onMount(() => {
 		let destroyed = false;
 		let ctx: gsap.Context | undefined;
 		let userCleanup: (() => void) | void;
 
-		loadGsap().then((modules) => {
+		Promise.all([loadGsap(), options.afterSmoother ? smootherReady : null]).then(([modules]) => {
 			if (destroyed) return;
 			const target = typeof scope === 'function' ? scope() : scope;
 			ctx = modules.gsap.context(() => {

@@ -506,6 +506,21 @@ The logo is a grey crowned crane with ribbons in the Uganda flag colours and a T
 - Animate only transform and opacity.
 - Never hide content in CSS waiting for JS: first-paint intros are CSS keyframes, and GSAP handles later interactions.
 
+**Public inquiries:** every public form posts to the `/contact` default action, which calls `submitPublicInquiry()` (`lib/server/services/public-inquiry.ts`). It handles:
+- spam traps: a hidden `website` honeypot and a 3s `startedAt` time trap, both answered with a fake success
+- a limit of 3 per email/phone per 10 minutes
+- linking only to published packages/services
+- an email to Settings `inquiryEmail` (falling back to `email`), plus a confirmation to the customer
+
+Email failures never fail the submission. Use `lib/components/public/inquiry-form.svelte` (it also works without JS).
+
+**Inside ScrollSmoother:**
+- CSS `position: sticky` and `fixed` don't work in `#smooth-content`. Pin with ScrollTrigger via `useGsap(..., scope, { afterSmoother: true })`.
+- Move fixed bars to `<body>` with the `portal` attachment.
+- Same-page `#hash` links are intercepted in `(public)/+layout.svelte` and scrolled smoothly.
+- Native `<dialog>` (top layer) is fine for overlays.
+- Pages with a fixed mobile booking bar return `bookingBar: true`, which moves the WhatsApp button up.
+
 **Currency:** `locals.currency` comes from the `currency` cookie, otherwise `x-vercel-ip-country` (UG → UGX, else USD). It's switched via POST `/currency`. Show prices with the public `PriceTag`, which falls back to the other currency if one is missing.
 
 ---
