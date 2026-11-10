@@ -3,10 +3,10 @@
 	import BlogCard from '#lib/components/public/blog-card.svelte';
 	import PlanCta from '#lib/components/public/home/plan-cta.svelte';
 	import PageHero from '#lib/components/public/page-hero.svelte';
+	import Pagination from '#lib/components/public/pagination.svelte';
 	import { reveal } from '#lib/components/public/reveal.js';
 	import { formatDate } from '#lib/format.js';
 	import { cn } from '#lib/utils.js';
-	import ArrowLeftIcon from '@lucide/svelte/icons/arrow-left';
 	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
 	import type { PageProps } from './$types';
 
@@ -106,36 +106,7 @@
 			{/if}
 		{/key}
 
-		{#if data.pageCount > 1}
-			<nav aria-label="Pagination" class="mt-16 flex items-center justify-center gap-2">
-				{#if data.page > 1}
-					<a href={pageHref(data.page - 1)} class="text-forest-800 hover:bg-forest-100 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold">
-						<ArrowLeftIcon class="size-4" /> Newer
-					</a>
-				{/if}
-				<ol class="flex items-center gap-1">
-					{#each Array.from({ length: data.pageCount }, (_, i) => i + 1) as n (n)}
-						<li>
-							<a
-								href={pageHref(n)}
-								aria-current={n === data.page ? 'page' : undefined}
-								class={cn(
-									'flex size-10 items-center justify-center rounded-full text-sm font-bold transition-colors',
-									n === data.page ? 'bg-forest-800 text-cream' : 'text-forest-800 hover:bg-forest-100'
-								)}
-							>
-								{n}
-							</a>
-						</li>
-					{/each}
-				</ol>
-				{#if data.page < data.pageCount}
-					<a href={pageHref(data.page + 1)} class="text-forest-800 hover:bg-forest-100 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold">
-						Older <ArrowRightIcon class="size-4" />
-					</a>
-				{/if}
-			</nav>
-		{/if}
+		<Pagination page={data.page} pageCount={data.pageCount} href={pageHref} />
 	{:else}
 		<div class="mx-auto max-w-lg py-10 text-center">
 			<h2 class="font-heading text-forest-900 text-2xl font-bold">Stories are on their way</h2>

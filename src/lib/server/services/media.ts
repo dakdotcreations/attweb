@@ -140,3 +140,39 @@ export async function deleteMedia(id: string) {
 	const results = await Promise.allSettled([deleteBlob(media.blobKey), deleteBlob(media.thumbBlobKey)]);
 	for (const r of results) if (r.status === 'rejected') console.error('Blob delete failed', r.reason);
 }
+
+// ---------------------------------------------------------------------------
+// Public Gallery page
+// ---------------------------------------------------------------------------
+
+export const GALLERY_PAGE_SIZE = 36;
+
+/** Categories that have at least one gallery photo, for the public filter. */
+export async function listPublicGalleryCategories() {
+	const rows = await db.media.findMany({
+		where: { showInGallery: true, galleryCategory: { not: null } },
+		distinct: ['galleryCategory'],
+		select: { galleryCategory: true },
+		orderBy: { galleryCategory: 'asc' }
+	});
+	return rows.map((r) => r.galleryCategory!).filter(Boolean);
+}
+
+/** Paginated photos flagged "Show on public Gallery page", newest first. */
+export async function listGalleryPhotos(params: { category?: string; page?: number } = {}) {
+	const where: Prisma.MediaWhereInput = {
+		showInGallery: true,
+		...(params.category ? { galleryCategory: params.category } : {})
+	};
+	const total = await db.media.count({ where });
+	const pageCount = Math.max(1, Math.ceil(total / GALLERY_PAGE_SIZE));
+	const page = Math.min(Math.max(1, params.page ?? 1), pageCount);
+	const photos = await db.media.findMany({
+		where,
+		orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+		skip: (page - 1) * GALLERY_PAGE_SIZE,
+		take: GALLERY_PAGE_SIZE,
+		select: { id: true, url: true, thumbUrl: true, alt: true, caption: true, width: true, height: true, galleryCategory: true }
+	});
+	return { photos, total, page, pageCount };
+}
