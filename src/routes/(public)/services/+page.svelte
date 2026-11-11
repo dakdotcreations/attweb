@@ -17,15 +17,15 @@
 />
 
 <PageHero
-	eyebrow="Our services"
 	title="Everything your journey needs"
+	image={data.allServices.find((s) => s.coverImage?.url)?.coverImage?.url ?? null}
 	intro="From gorilla permits and safaris to flights, visas and study abroad, one Kampala team takes care of it all."
 	breadcrumbs={[{ label: 'Services', href: '/services' }]}
 />
 
 <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
 	{#if data.allServices.length}
-		<ul class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3" {@attach reveal({ selector: ':scope > li', stagger: 0.08 })}>
+		<ul class="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3" {@attach reveal({ selector: ':scope > li', stagger: 0.08 })}>
 			{#each data.allServices as service (service.id)}
 				<li><ServiceCard {service} /></li>
 			{/each}

@@ -38,13 +38,12 @@
 />
 
 <PageHero
-	eyebrow="Blog"
 	{title}
 	intro="Practical advice from our Kampala team: permits, seasons, visas, what to pack and what to expect."
 	breadcrumbs={[{ label: 'Blog', href: '/blog' }]}
 >
 	{#if data.topics.length}
-		<nav aria-label="Filter by topic" class="mt-8 -mb-2 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none]">
+		<nav aria-label="Filter by topic" class="-mx-2 mt-8 flex max-w-full gap-1 overflow-x-auto [scrollbar-width:thin]">
 			{#each [{ slug: '', name: 'All articles' }, ...data.topics] as t (t.slug)}
 				{@const isActive = data.activeTopic === t.slug}
 				<a
@@ -52,8 +51,8 @@
 					data-sveltekit-reset="false"
 					aria-current={isActive ? 'page' : undefined}
 					class={cn(
-						'shrink-0 rounded-full px-4 py-2 text-sm font-bold whitespace-nowrap transition-colors',
-						isActive ? 'bg-gold-500 text-forest-950' : 'bg-cream/10 text-cream hover:bg-cream/20 ring-1 ring-white/20'
+						'shrink-0 px-2 py-2 text-sm font-semibold whitespace-nowrap underline-offset-[10px] transition-colors',
+						isActive ? 'text-paper decoration-gold-400 underline decoration-2' : 'text-paper/70 hover:text-paper'
 					)}
 				>
 					{t.name}
@@ -68,7 +67,7 @@
 		{#key `${data.activeTopic}-${data.page}`}
 			{#if featured}
 				<article class="group relative mb-16 grid items-center gap-8 lg:grid-cols-[1.3fr_1fr] lg:gap-12" {@attach reveal()}>
-					<div class="bg-forest-100 aspect-[16/10] overflow-hidden rounded-3xl">
+					<div class="bg-forest-100 aspect-[16/10] overflow-hidden rounded-md">
 						{#if featured.coverImage}
 							<img
 								src={featured.coverImage.url}
@@ -79,16 +78,14 @@
 						{/if}
 					</div>
 					<div>
-						<p class="text-gold-600 flex items-center gap-2 text-xs font-bold tracking-wider uppercase">
-							<span>Latest</span>
-							{#if featured.service}<span class="bg-gold-500 size-1 rounded-full"></span><span>{featured.service.name}</span>{/if}
-							<span class="bg-gold-500 size-1 rounded-full"></span>
-							<time datetime={featured.publishedAt ? new Date(featured.publishedAt).toISOString() : undefined}>{formatDate(featured.publishedAt)}</time>
-						</p>
-						<h2 class="font-heading text-forest-900 mt-3 text-3xl leading-tight font-bold text-balance sm:text-4xl">
+						<span class="bg-gold-500 block h-0.5 w-10" aria-hidden="true"></span>
+						<h2 class="font-display text-forest-950 mt-5 text-4xl leading-[0.95] font-semibold uppercase text-balance sm:text-5xl">
 							<a href="/blog/{featured.slug}" class="after:absolute after:inset-0 focus-visible:underline focus-visible:outline-none">{featured.title}</a>
 						</h2>
-						{#if featured.excerpt}<p class="text-ink/70 mt-4 line-clamp-4 text-lg">{featured.excerpt}</p>{/if}
+						<p class="text-ink/60 mt-3 text-sm">
+							Latest{#if featured.service} · {featured.service.name}{/if} · <time datetime={featured.publishedAt ? new Date(featured.publishedAt).toISOString() : undefined}>{formatDate(featured.publishedAt)}</time>
+						</p>
+						{#if featured.excerpt}<p class="text-ink/75 mt-4 line-clamp-4 text-lg leading-relaxed">{featured.excerpt}</p>{/if}
 						<span class="text-forest-800 mt-6 inline-flex items-center gap-2 text-sm font-bold">
 							Read article <ArrowRightIcon class="size-4 transition-transform group-hover:translate-x-1" />
 						</span>
@@ -108,9 +105,9 @@
 		<Pagination page={data.page} pageCount={data.pageCount} href={pageHref} />
 	{:else}
 		<div class="mx-auto max-w-lg py-10 text-center">
-			<h2 class="font-heading text-forest-900 text-2xl font-bold">Stories are on their way</h2>
+			<h2 class="font-display text-forest-950 text-3xl font-semibold uppercase">Stories are on their way</h2>
 			<p class="text-ink/65 mt-3">Our team is writing new guides. In the meantime, ask us anything about your trip.</p>
-			<a href="/contact" class="bg-forest-800 text-cream hover:bg-forest-700 mt-6 inline-flex rounded-full px-6 py-3 text-sm font-bold">Contact us</a>
+			<a href="/contact" class="bg-forest-800 text-paper hover:bg-forest-700 mt-6 inline-flex rounded-full px-6 py-3 text-sm font-bold">Contact us</a>
 		</div>
 	{/if}
 </section>

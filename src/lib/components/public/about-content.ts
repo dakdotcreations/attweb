@@ -98,3 +98,12 @@ export const AIRLINES = [
 	'Air Arabia',
 	'Air Tanzania'
 ] as const;
+
+/**
+ * "Issued by": the real people who plan trips and answer WhatsApp, shown on the About page.
+ * Add one entry per person (real names and photos only). Put photos in static/team/, e.g.
+ * { name: 'Sarah', role: 'Safari planner', photo: '/team/sarah.jpg', whatsapp: '+256700000000' }.
+ * The section stays hidden while this list is empty.
+ */
+export type TeamMember = { name: string; role: string; photo: string; whatsapp?: string };
+export const TEAM: TeamMember[] = [];

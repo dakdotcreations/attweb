@@ -18,7 +18,7 @@
 			<button
 				type="button"
 				class={cn(
-					'group bg-forest-100 focus-visible:ring-gold-500 relative overflow-hidden rounded-2xl focus-visible:ring-4 focus-visible:outline-none',
+					'group bg-forest-100 focus-visible:ring-gold-500 relative overflow-hidden rounded-md focus-visible:ring-4 focus-visible:outline-none',
 					i === 0 ? 'col-span-2 aspect-[4/3] sm:row-span-2 sm:aspect-auto' : 'aspect-square',
 					i >= 3 && 'hidden sm:block'
 				)}
@@ -33,7 +33,7 @@
 					class="size-full object-cover transition-transform duration-700 group-hover:scale-105"
 				/>
 				{#if i === preview.length - 1 && photos.length > preview.length}
-					<span class="bg-forest-950/60 text-cream absolute inset-0 flex items-center justify-center gap-2 text-sm font-bold">
+					<span class="bg-forest-950/60 text-paper absolute inset-0 flex items-center justify-center gap-2 text-sm font-bold">
 						<ImagesIcon class="size-5" /> +{photos.length - preview.length} photos
 					</span>
 				{/if}

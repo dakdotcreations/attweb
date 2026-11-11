@@ -1,27 +1,36 @@
-<!-- Compact heading band for inner pages (sits under the solid header). -->
+<!--
+	Inner-page hero: a dark band under the solid header, full-bleed photo behind when one is
+	given (dark scrim, like the homepage), with the page name in condensed caps.
+-->
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
 	let {
-		eyebrow,
 		title,
 		intro,
+		image = null,
 		breadcrumbs = [],
 		children
 	}: {
+		/** Accepted for older callers; not shown (labels above headings are off the system). */
 		eyebrow?: string;
 		title: string;
 		intro?: string;
+		image?: string | null;
 		breadcrumbs?: { label: string; href: string }[];
 		children?: Snippet;
 	} = $props();
 </script>
 
-<section class="bg-forest-900 text-cream relative isolate overflow-hidden">
-	<div class="bg-gold-500/15 pointer-events-none absolute -top-32 right-0 -z-10 size-[28rem] rounded-full blur-3xl"></div>
-	<div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+<section class="bg-forest-950 text-paper relative isolate overflow-hidden">
+	{#if image}
+		<img src={image} alt="" fetchpriority="high" class="absolute inset-0 -z-10 size-full object-cover" />
+		<div class="absolute inset-0 -z-10 bg-linear-to-r from-black/75 via-black/45 to-black/20"></div>
+		<div class="absolute inset-0 -z-10 bg-linear-to-t from-black/60 to-transparent"></div>
+	{/if}
+	<div class={['mx-auto max-w-7xl px-4 sm:px-6 lg:px-8', image ? 'pt-24 pb-14 sm:pt-32 sm:pb-16 lg:pt-40' : 'py-16 sm:py-20']}>
 		{#if breadcrumbs.length}
-			<nav aria-label="Breadcrumb" class="text-cream/60 mb-5 text-xs font-semibold">
+			<nav aria-label="Breadcrumb" class="text-paper/65 mb-8 text-xs font-semibold">
 				<ol class="flex flex-wrap items-center gap-2">
 					<li><a href="/" class="hover:text-gold-300">Home</a></li>
 					{#each breadcrumbs as crumb (crumb.href)}
@@ -31,10 +40,9 @@
 				</ol>
 			</nav>
 		{/if}
-		{#if eyebrow}<p class="text-gold-400 text-xs font-bold tracking-[0.3em] uppercase">{eyebrow}</p>{/if}
-		<h1 class="font-heading mt-3 max-w-3xl text-4xl leading-tight font-bold text-balance sm:text-5xl">{title}</h1>
-		{#if intro}<p class="text-cream/75 mt-5 max-w-2xl text-lg">{intro}</p>{/if}
+		<span class="bg-gold-400 block h-0.5 w-10" aria-hidden="true"></span>
+		<h1 class="font-display mt-5 max-w-4xl text-5xl leading-[0.95] font-semibold text-balance uppercase sm:text-7xl">{title}</h1>
+		{#if intro}<p class="text-paper/80 mt-5 max-w-2xl text-lg leading-relaxed">{intro}</p>{/if}
 		{@render children?.()}
 	</div>
-	<div class="gold-rule absolute inset-x-0 bottom-0"></div>
 </section>

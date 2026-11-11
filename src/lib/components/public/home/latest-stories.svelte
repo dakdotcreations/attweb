@@ -12,7 +12,7 @@
 </script>
 
 {#if posts.length}
-	<section class="bg-cream-200/60 py-20 sm:py-28" aria-labelledby="stories-title">
+	<section class="bg-paper-200 py-20 sm:py-28" aria-labelledby="stories-title">
 		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 			<SectionHeading id="stories-title" {eyebrow} {title} {intro} link={{ href: '/blog', label: 'All articles' }} />
 			<ul class="mt-12 grid gap-8 md:grid-cols-3" {@attach reveal({ selector: ':scope > li', stagger: 0.12 })}>

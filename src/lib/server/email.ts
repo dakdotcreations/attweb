@@ -91,7 +91,7 @@ export async function sendInquiryConfirmation(
 			`Hi ${first},`,
 			'',
 			`Thank you for contacting ${data.companyName}${about}. Your reference is #${data.number}.`,
-			'A member of our team will get back to you, usually within one working day.',
+			'A member of our team will get back to you with options and prices.',
 			data.whatsappUrl ? `Need us sooner? Chat with us on WhatsApp: ${data.whatsappUrl}` : '',
 			'',
 			'Your journey, our passion.',
@@ -101,7 +101,7 @@ export async function sendInquiryConfirmation(
 			<div style="font-family:system-ui,sans-serif;max-width:520px;margin:auto;padding:24px;color:#111827">
 				<p>Hi ${escapeHtml(first)},</p>
 				<p>Thank you for contacting ${escapeHtml(data.companyName)}${escapeHtml(about)}. Your reference is <strong>#${data.number}</strong>.</p>
-				<p>A member of our team will get back to you, usually within one working day.</p>
+				<p>A member of our team will get back to you with options and prices.</p>
 				${data.whatsappUrl ? `<p><a href="${escapeHtml(data.whatsappUrl)}" style="display:inline-block;background:#22c55e;color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none">Chat with us on WhatsApp</a></p>` : ''}
 				<p style="color:#0b4d2c;font-style:italic">Your journey, our passion.</p>
 				<p style="color:#6b7280;font-size:13px">${escapeHtml(data.companyName)}</p>

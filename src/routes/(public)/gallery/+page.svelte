@@ -1,18 +1,43 @@
+<!--
+	The gallery as Altura's stamp album: photos keep their own shape in justified rows (like
+	Google Photos), edge to edge on the forest album page, grouped by month under a postmark.
+	"Load more" extends the album in place (?page=n is cumulative, so links still work without JS).
+-->
 <script lang="ts">
-	import Seo from '#lib/components/public/seo.svelte';
-	import PlanCta from '#lib/components/public/home/plan-cta.svelte';
+	import { page } from '$app/state';
 	import Lightbox from '#lib/components/public/lightbox.svelte';
-	import PageHero from '#lib/components/public/page-hero.svelte';
-	import Pagination from '#lib/components/public/pagination.svelte';
-	import { reveal } from '#lib/components/public/reveal.js';
+	import Postmark from '#lib/components/public/postmark.svelte';
+	import Seo from '#lib/components/public/seo.svelte';
+	import WhatsAppButton from '#lib/components/public/whatsapp-button.svelte';
 	import { cn } from '#lib/utils.js';
-	import ExpandIcon from '@lucide/svelte/icons/expand';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 
 	let lightbox = $state<ReturnType<typeof Lightbox>>();
 	const title = $derived(data.activeCategory ? `${data.activeCategory} gallery` : 'Gallery');
+
+	const monthFormat = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+	const postmarkFormat = new Intl.DateTimeFormat('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+
+	/** Consecutive photos grouped by upload month; `start` is each group's index into data.photos. */
+	const months = $derived.by(() => {
+		const groups: { key: string; label: string; stamp: string; start: number; photos: typeof data.photos }[] = [];
+		data.photos.forEach((photo, i) => {
+			const date = new Date(photo.createdAt);
+			const key = `${date.getUTCFullYear()}-${date.getUTCMonth()}`;
+			let group = groups.at(-1);
+			if (group?.key !== key) {
+				group = { key, label: monthFormat.format(date), stamp: postmarkFormat.format(date).toUpperCase(), start: i, photos: [] };
+				groups.push(group);
+			}
+			group.photos.push(photo);
+		});
+		return groups;
+	});
+
+	/** Width ÷ height, so each tile keeps the photo's real shape (4:3 when unknown). */
+	const ratio = (p: { width: number | null; height: number | null }) => (p.width && p.height ? p.width / p.height : 4 / 3);
 
 	function href(params: { category?: string; page?: number }) {
 		const qs = new URLSearchParams();
@@ -21,93 +46,113 @@
 		const s = qs.toString();
 		return s ? `/gallery?${s}` : '/gallery';
 	}
-	const pageHref = (n: number) => href({ category: data.activeCategory, page: n });
 </script>
 
 <Seo
 	site={data.site}
-	title="{title}{data.page > 1 ? ` (page ${data.page})` : ''} | {data.site.companyName}"
+	title="{title} | {data.site.companyName}"
 	description="Photos from {data.site.companyName} journeys: gorillas, wildlife safaris, beach holidays and travellers on the road with us."
-	path={pageHref(data.page)}
+	path={href({ category: data.activeCategory })}
 	image={data.photos[0]?.url}
 />
 
-<PageHero
-	eyebrow="Gallery"
-	title={data.activeCategory ? data.activeCategory : 'Moments from the road'}
-	intro="Gorillas in the mist, lions on the plains, and our travellers out exploring. A glimpse of what's waiting for you."
-	breadcrumbs={[{ label: 'Gallery', href: '/gallery' }]}
->
-	{#if data.categories.length}
-		<nav aria-label="Filter by category" class="mt-8 -mb-2 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none]">
-			{#each ['', ...data.categories] as c (c)}
-				{@const isActive = data.activeCategory === c}
-				<a
-					href={href({ category: c })}
-					data-sveltekit-reset="false"
-					aria-current={isActive ? 'page' : undefined}
-					class={cn(
-						'shrink-0 rounded-full px-4 py-2 text-sm font-bold whitespace-nowrap transition-colors',
-						isActive ? 'bg-gold-500 text-forest-950' : 'bg-cream/10 text-cream hover:bg-cream/20 ring-1 ring-white/20'
-					)}
-				>
-					{c || 'All photos'}
-				</a>
-			{/each}
-		</nav>
-	{/if}
-</PageHero>
-
-<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-	{#if data.photos.length}
-		{#key `${data.activeCategory}-${data.page}`}
-			<!-- Uniform tiles: every photo is cropped to the same 4:3 frame; the lightbox shows it uncropped. -->
-			<ul class="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3" {@attach reveal({ selector: ':scope > li', stagger: 0.04, start: 'top 95%' })}>
-				{#each data.photos as photo, i (photo.id)}
-					<li>
-						<button
-							type="button"
-							class="group bg-forest-100 focus-visible:ring-gold-500 relative block aspect-4/3 w-full overflow-hidden rounded-2xl focus-visible:ring-4 focus-visible:outline-none"
-							onclick={() => lightbox?.open(i)}
-							aria-label="Open photo {i + 1} of {data.photos.length}{photo.alt ? `: ${photo.alt}` : ''}"
-						>
-							<img
-								src={photo.thumbUrl}
-								srcset="{photo.thumbUrl} 480w, {photo.url} {photo.width}w"
-								sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-								alt={photo.alt}
-								loading={i < 8 ? 'eager' : 'lazy'}
-								decoding="async"
-								class="size-full object-cover transition-transform duration-700 group-hover:scale-105"
-							/>
-							<span
-								class="from-forest-950/80 text-cream pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-linear-to-t to-transparent p-3 pt-10 text-left text-xs font-semibold opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-							>
-								<span class="line-clamp-2">{photo.caption || photo.alt || photo.galleryCategory || ''}</span>
-								<ExpandIcon class="size-4 shrink-0" />
-							</span>
-						</button>
-					</li>
+<div class="bg-forest-950 text-paper min-h-[70svh]">
+	<header class="mx-auto flex max-w-7xl flex-wrap items-end justify-between gap-x-10 gap-y-6 px-4 pt-14 pb-8 sm:px-6 lg:px-8 lg:pt-20">
+		<div>
+			<h1 class="font-display text-5xl leading-[0.95] font-semibold uppercase sm:text-6xl">{data.activeCategory || 'Gallery'}</h1>
+			<p class="text-paper/70 mt-3 max-w-xl">
+				Photos from our journeys and our travellers, newest first.
+				{#if data.total}<span class="text-paper/50 tabular-nums">{data.total} {data.total === 1 ? 'photo' : 'photos'}.</span>{/if}
+			</p>
+		</div>
+		{#if data.categories.length}
+			<nav aria-label="Filter by category" class="-mx-1 flex max-w-full gap-1 overflow-x-auto [scrollbar-width:thin]">
+				{#each ['', ...data.categories] as c (c)}
+					{@const isActive = data.activeCategory === c}
+					<a
+						href={href({ category: c })}
+						aria-current={isActive ? 'page' : undefined}
+						class={cn(
+							'shrink-0 px-2 py-2 text-sm font-semibold whitespace-nowrap underline-offset-[10px] transition-colors',
+							isActive ? 'text-paper decoration-gold-400 underline decoration-2' : 'text-paper/65 hover:text-paper'
+						)}
+					>
+						{c || 'All photos'}
+					</a>
 				{/each}
-			</ul>
-		{/key}
+			</nav>
+		{/if}
+	</header>
 
-		<Pagination page={data.page} pageCount={data.pageCount} href={pageHref} prevLabel="Previous" nextLabel="More photos" />
+	{#if data.photos.length}
+		<div class="px-0.5 pb-4 sm:px-1">
+			{#each months as month (month.key)}
+				<section aria-label={month.label} class="pt-6 first:pt-0">
+					<h2 class="flex items-center gap-3 px-3 pb-3 sm:px-5">
+						<Postmark place="ALTURA" line="KAMPALA" date={month.stamp} waves={false} class="text-gold-300/80 size-16 shrink-0" />
+						<span class="font-display text-xl font-semibold tracking-wide uppercase">{month.label}</span>
+					</h2>
+					<!-- Justified rows: each tile grows by its aspect ratio, so every row shares one height. -->
+					<ul class="flex flex-wrap gap-[3px] [--row:7.5rem] sm:[--row:11rem] lg:[--row:15rem]">
+						{#each month.photos as photo, j (photo.id)}
+							{@const r = ratio(photo)}
+							{@const i = month.start + j}
+							<li style="flex: {r} 1 calc({r} * var(--row)); aspect-ratio: {r};" class="bg-forest-900 relative max-h-[60vh] min-w-0">
+								<button
+									type="button"
+									class="group focus-visible:outline-gold-400 block size-full overflow-hidden focus-visible:outline-3 focus-visible:-outline-offset-3"
+									onclick={() => lightbox?.open(i)}
+									aria-label="Open photo {i + 1} of {data.photos.length}{photo.caption || photo.alt ? `: ${photo.caption || photo.alt}` : ''}"
+								>
+									<img
+										src={photo.thumbUrl}
+										alt=""
+										width={photo.width ?? undefined}
+										height={photo.height ?? undefined}
+										loading={i < 12 ? 'eager' : 'lazy'}
+										decoding="async"
+										class="size-full object-cover transition-[filter] duration-300 group-hover:brightness-110"
+									/>
+								</button>
+							</li>
+						{/each}
+						<!-- Soaks up the last row's spare width so it isn't stretched huge. -->
+						<li aria-hidden="true" class="h-0 grow-[20]"></li>
+					</ul>
+				</section>
+			{/each}
+		</div>
+
+		<footer class="mx-auto flex max-w-7xl flex-col items-center gap-6 px-4 py-14 text-center sm:px-6 lg:px-8">
+			{#if data.page < data.pageCount}
+				<a
+					href={href({ category: data.activeCategory, page: data.page + 1 })}
+					data-sveltekit-noscroll
+					data-sveltekit-keepfocus
+					class="bg-paper text-forest-900 hover:bg-gold-300 focus-visible:ring-gold-400/60 rounded-full px-7 py-3.5 text-sm font-bold transition-colors focus-visible:ring-4 focus-visible:outline-none"
+				>
+					Load more photos
+					<span class="text-forest-900/60 font-semibold tabular-nums">({data.photos.length} of {data.total})</span>
+				</a>
+			{/if}
+			<p class="text-paper/70 max-w-md">Want to be in the next album? Tell us where you'd like to go.</p>
+			<div class="flex flex-wrap justify-center gap-3">
+				<a href="/contact" class="border-paper/40 hover:border-paper rounded-full border px-6 py-3 text-sm font-bold transition-colors">Plan my trip</a>
+				<WhatsAppButton number={data.site.whatsappNumber} size="md" />
+			</div>
+		</footer>
 
 		<Lightbox bind:this={lightbox} photos={data.photos} {title} />
 	{:else}
-		<div class="mx-auto max-w-lg py-10 text-center">
-			<h2 class="font-heading text-forest-900 text-2xl font-bold">Photos are on their way</h2>
-			<p class="text-ink/65 mt-3">We're picking our favourite shots from recent trips. In the meantime, browse our tours.</p>
-			<a href="/tours" class="bg-forest-800 text-cream hover:bg-forest-700 mt-6 inline-flex rounded-full px-6 py-3 text-sm font-bold">See our tours</a>
+		<div class="mx-auto max-w-lg px-4 py-20 text-center">
+			<Postmark place="ALTURA" line="KAMPALA" waves={false} class="text-gold-300/70 mx-auto size-20" />
+			<h2 class="font-display mt-6 text-2xl font-semibold uppercase">The album is empty for now</h2>
+			<p class="text-paper/70 mt-3">We're choosing our favourite shots from recent trips. In the meantime, browse our tours.</p>
+			<a href="/tours" class="bg-paper text-forest-900 hover:bg-gold-300 mt-6 inline-flex rounded-full px-6 py-3 text-sm font-bold">See our tours</a>
 		</div>
 	{/if}
-</section>
+</div>
 
-<PlanCta
-	whatsappNumber={data.site.whatsappNumber}
-	email={data.site.email}
-	address={data.site.address}
-	officeHours={data.site.officeHours}
-	image={data.photos[0]?.url ?? null}
-/>
+<svelte:head>
+	{#if page.url.searchParams.get('page')}<meta name="robots" content="noindex, follow" />{/if}
+</svelte:head>

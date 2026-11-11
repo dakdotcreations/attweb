@@ -1,10 +1,10 @@
+<!-- Section heading: gold dash, condensed-caps title, optional intro and a link on the right. -->
 <script lang="ts">
 	import { cn } from '#lib/utils.js';
 	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
 	import { reveal } from './reveal.js';
 
 	let {
-		eyebrow,
 		title,
 		intro,
 		link,
@@ -12,6 +12,7 @@
 		tone = 'dark',
 		id
 	}: {
+		/** Accepted for older callers; not shown (labels above headings are off the system). */
 		eyebrow?: string;
 		title: string;
 		intro?: string;
@@ -28,25 +29,19 @@
 	{@attach reveal({ selector: '[data-reveal]', stagger: 0.08 })}
 >
 	<div class={cn('max-w-2xl', align === 'center' && 'mx-auto')}>
-		{#if eyebrow}
-			<p data-reveal class="text-gold-600 flex items-center gap-3 text-xs font-bold tracking-[0.3em] uppercase {align === 'center' ? 'justify-center' : ''} {tone === 'light' ? 'text-gold-400' : ''}">
-				<span class="bg-gold-500 h-px w-8"></span>
-				{eyebrow}
-				{#if align === 'center'}<span class="bg-gold-500 h-px w-8"></span>{/if}
-			</p>
-		{/if}
+		<span data-reveal class={cn('block h-0.5 w-10', align === 'center' && 'mx-auto', tone === 'light' ? 'bg-gold-400' : 'bg-gold-500')} aria-hidden="true"></span>
 		<h2
 			{id}
 			data-reveal
 			class={cn(
-				'font-heading mt-4 text-3xl leading-tight font-bold text-balance sm:text-4xl lg:text-[2.75rem]',
-				tone === 'light' ? 'text-cream' : 'text-forest-900'
+				'font-display mt-5 text-4xl leading-[0.95] font-semibold text-balance uppercase sm:text-5xl lg:text-6xl',
+				tone === 'light' ? 'text-paper' : 'text-forest-950'
 			)}
 		>
 			{title}
 		</h2>
 		{#if intro}
-			<p data-reveal class={cn('mt-4 text-base sm:text-lg', tone === 'light' ? 'text-cream/75' : 'text-ink/70')}>{intro}</p>
+			<p data-reveal class={cn('mt-5 text-base leading-relaxed sm:text-lg', tone === 'light' ? 'text-paper/75' : 'text-ink/70')}>{intro}</p>
 		{/if}
 	</div>
 	{#if link}
@@ -54,12 +49,12 @@
 			data-reveal
 			href={link.href}
 			class={cn(
-				'group inline-flex shrink-0 items-center gap-2 text-sm font-bold',
-				tone === 'light' ? 'text-gold-400 hover:text-gold-300' : 'text-forest-800 hover:text-forest-600'
+				'inline-flex h-12 shrink-0 items-center gap-2 rounded-full border px-6 text-sm font-semibold transition-colors',
+				tone === 'light' ? 'border-paper/50 hover:bg-paper hover:text-forest-950' : 'border-forest-950/30 text-forest-950 hover:bg-forest-950 hover:text-paper'
 			)}
 		>
 			{link.label}
-			<ArrowRightIcon class="size-4 transition-transform group-hover:translate-x-1" />
+			<ArrowRightIcon class="size-4" />
 		</a>
 	{/if}
 </div>

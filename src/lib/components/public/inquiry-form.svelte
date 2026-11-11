@@ -7,7 +7,7 @@
 	import { page } from '$app/state';
 	import { CONTACT_CHANNELS, channelLabels } from '#lib/inquiries.js';
 	import { cn } from '#lib/utils.js';
-	import CheckIcon from '@lucide/svelte/icons/check';
+	import Postmark from './postmark.svelte';
 	import LoaderIcon from '@lucide/svelte/icons/loader-circle';
 	import SendIcon from '@lucide/svelte/icons/send';
 	import WhatsAppButton from './whatsapp-button.svelte';
@@ -45,6 +45,8 @@
 	let success = $state<{ number: number | null } | null>(initialSuccess);
 	let message = $state<string | null>(null);
 	let submitting = $state(false);
+	/** Date on the RECEIVED postmark, e.g. "11 NOV 26" (fits inside the inner ring). */
+	const receivedOn = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).format(new Date()).toUpperCase();
 	// svelte-ignore state_referenced_locally
 	let values = $state<Values>({ preferredContact: 'WHATSAPP', ...initial });
 
@@ -77,7 +79,7 @@
 			aria-invalid={errors[name] ? true : undefined}
 			aria-describedby={errors[name] ? id(`${name}-error`) : undefined}
 			class={cn(
-				'text-ink placeholder:text-ink/40 w-full rounded-xl border bg-white px-4 py-3 text-base transition-colors outline-none focus:ring-4',
+				'text-ink placeholder:text-ink/40 w-full rounded-md border bg-white px-4 py-3 text-base transition-colors outline-none focus:ring-4',
 				errors[name] ? 'border-crane-red focus:ring-crane-red/15' : 'focus:border-forest-700 focus:ring-forest-700/15 border-forest-900/15'
 			)}
 		/>
@@ -86,14 +88,19 @@
 {/snippet}
 
 {#if success}
-	<div class="rounded-3xl bg-white p-8 text-center shadow-sm ring-1 ring-black/5 sm:p-10" role="status">
-		<span class="bg-forest-800 text-gold-400 mx-auto flex size-16 items-center justify-center rounded-full">
-			<CheckIcon class="size-8" />
-		</span>
-		<h3 class="font-heading text-forest-900 mt-6 text-2xl font-bold">Thank you, we've got it!</h3>
+	<div class="rounded-md bg-white p-8 text-center ring-1 ring-forest-950/10 sm:p-10" role="status">
+		<!-- The inquiry is cancelled like a letter: RECEIVED, Kampala, today's date. -->
+		<Postmark
+			place="RECEIVED"
+			line="KAMPALA"
+			date={receivedOn}
+			label="Received in Kampala on {receivedOn}"
+			class="received-stamp text-forest-800 mx-auto w-64 -rotate-6"
+		/>
+		<h3 class="font-display text-forest-950 mt-6 text-3xl font-semibold uppercase">Thank you, we've got it</h3>
 		<p class="text-ink/70 mx-auto mt-3 max-w-md">
 			{#if success.number}Your reference is <strong class="text-forest-900">#{success.number}</strong>.{/if}
-			A member of our team will get back to you, usually within one working day.
+			A member of our team will get back to you with options and prices.
 		</p>
 		<div class="mt-6 flex flex-wrap justify-center gap-3">
 			<WhatsAppButton
@@ -118,7 +125,7 @@
 		method="POST"
 		action="/contact"
 		novalidate
-		class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 sm:p-8"
+		class="rounded-md bg-white p-6 ring-1 ring-forest-950/10 sm:p-8"
 		use:enhance={() => {
 			submitting = true;
 			message = null;
@@ -137,7 +144,7 @@
 		}}
 	>
 		{#if about}
-			<p class="bg-forest-100 text-forest-900 mb-6 rounded-xl px-4 py-3 text-sm">
+			<p class="bg-forest-100 text-forest-900 mb-6 rounded-md px-4 py-3 text-sm">
 				Inquiring about <strong>{about}</strong>
 			</p>
 		{/if}
@@ -157,6 +164,7 @@
 			</div>
 			{@render input('phone', 'WhatsApp / phone', { type: 'tel', autocomplete: 'tel', placeholder: '+256 700 000000', max: 40, inputmode: 'tel' })}
 			{@render input('email', 'Email', { type: 'email', autocomplete: 'email', max: 200, inputmode: 'email' })}
+			<p class="text-ink/60 -mt-2 text-sm sm:col-span-2">Give us a WhatsApp number or an email. One is enough.</p>
 
 			{#if services.length}
 				<div class="sm:col-span-2">
@@ -165,7 +173,7 @@
 						id={id('serviceId')}
 						name="serviceId"
 						bind:value={values.serviceId}
-						class="text-ink focus:border-forest-700 focus:ring-forest-700/15 border-forest-900/15 w-full rounded-xl border bg-white px-4 py-3 text-base outline-none focus:ring-4"
+						class="text-ink focus:border-forest-700 focus:ring-forest-700/15 border-forest-900/15 w-full rounded-md border bg-white px-4 py-3 text-base outline-none focus:ring-4"
 					>
 						<option value="">Something else / not sure yet</option>
 						{#each services as s (s.id)}<option value={s.id}>{s.name}</option>{/each}
@@ -187,7 +195,7 @@
 							class={cn(
 								'cursor-pointer rounded-full border px-4 py-2 text-sm font-semibold transition-colors has-focus-visible:ring-4 has-focus-visible:ring-forest-700/20',
 								values.preferredContact === channel
-									? 'bg-forest-800 border-forest-800 text-cream'
+									? 'bg-forest-800 border-forest-800 text-paper'
 									: 'border-forest-900/15 text-forest-900 hover:border-forest-700 bg-white'
 							)}
 						>
@@ -213,7 +221,7 @@
 					aria-invalid={errors.message ? true : undefined}
 					aria-describedby={errors.message ? id('message-error') : undefined}
 					class={cn(
-						'text-ink placeholder:text-ink/40 w-full rounded-xl border bg-white px-4 py-3 text-base outline-none focus:ring-4',
+						'text-ink placeholder:text-ink/40 w-full rounded-md border bg-white px-4 py-3 text-base outline-none focus:ring-4',
 						errors.message ? 'border-crane-red focus:ring-crane-red/15' : 'focus:border-forest-700 focus:ring-forest-700/15 border-forest-900/15'
 					)}
 				></textarea>
@@ -229,11 +237,30 @@
 			<button
 				type="submit"
 				disabled={submitting}
-				class="bg-forest-800 text-cream hover:bg-forest-700 focus-visible:ring-forest-700/30 inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold transition-colors focus-visible:ring-4 focus-visible:outline-none disabled:opacity-60"
+				class="bg-forest-800 text-paper hover:bg-forest-700 focus-visible:ring-forest-700/30 inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold transition-colors focus-visible:ring-4 focus-visible:outline-none disabled:opacity-60"
 			>
 				{#if submitting}<LoaderIcon class="size-4 animate-spin" />Sending…{:else}<SendIcon class="size-4" />Send inquiry{/if}
 			</button>
-			<p class="text-ink/55 text-xs">By sending this you agree we may contact you about your trip.</p>
+			<p class="text-ink/55 text-xs">No payment needed. By sending this, you agree we may contact you about your inquiry.</p>
 		</div>
 	</form>
 {/if}
+
+<style>
+	/* The RECEIVED cancel lands like a hand stamp (scale only; the rotate utility is separate). */
+	@media (prefers-reduced-motion: no-preference) {
+		:global(.received-stamp) {
+			animation: received-land 0.55s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+		}
+	}
+	@keyframes received-land {
+		from {
+			opacity: 0;
+			scale: 1.35;
+		}
+		to {
+			opacity: 1;
+			scale: 1;
+		}
+	}
+</style>

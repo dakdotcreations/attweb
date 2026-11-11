@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-11T18:00:00Z",
+  "title": "Design System: Altura Tours & Travel",
+  "extensions": {
+    "colorMeta": {
+      "forest-950": { "role": "primary", "displayName": "Forest Ground (deep)", "canonical": "#062b19", "tonalRamp": ["#062b19", "#0b3d24", "#0b4d2c", "#145f38", "#1f7547", "#5f9a77", "#a9cbb5", "#e3efe7"] },
+      "forest-900": { "role": "primary", "displayName": "Forest Ground", "canonical": "#0b3d24", "tonalRamp": ["#062b19", "#0b3d24", "#0b4d2c", "#145f38", "#1f7547", "#5f9a77", "#a9cbb5", "#e3efe7"] },
+      "forest-800": { "role": "primary", "displayName": "Card Forest", "canonical": "#0b4d2c", "tonalRamp": ["#062b19", "#0b3d24", "#0b4d2c", "#145f38", "#1f7547", "#5f9a77", "#a9cbb5", "#e3efe7"] },
+      "forest-700": { "role": "primary", "displayName": "Forest Text", "canonical": "#145f38", "tonalRamp": ["#062b19", "#0b3d24", "#0b4d2c", "#145f38", "#1f7547", "#5f9a77", "#a9cbb5", "#e3efe7"] },
+      "forest-600": { "role": "primary", "displayName": "Forest Hover", "canonical": "#1f7547" },
+      "forest-100": { "role": "primary", "displayName": "Forest Mist", "canonical": "#e3efe7" },
+      "gold-600": { "role": "secondary", "displayName": "Deep Gold", "canonical": "#a8841f", "tonalRamp": ["#5c4710", "#806418", "#a8841f", "#c9a23a", "#ddbb5c", "#ead18a", "#f2e2b4", "#f7edd0"] },
+      "gold-500": { "role": "secondary", "displayName": "Rule Gold", "canonical": "#c9a23a", "tonalRamp": ["#5c4710", "#806418", "#a8841f", "#c9a23a", "#ddbb5c", "#ead18a", "#f2e2b4", "#f7edd0"] },
+      "gold-400": { "role": "secondary", "displayName": "Dash Gold", "canonical": "#ddbb5c" },
+      "gold-300": { "role": "secondary", "displayName": "Link Gold", "canonical": "#ead18a" },
+      "gold-100": { "role": "secondary", "displayName": "Gold Wash", "canonical": "#f7edd0" },
+      "paper": { "role": "neutral", "displayName": "Paper", "canonical": "#fbfbf8", "tonalRamp": ["#2a2b27", "#4a4b45", "#6d6e66", "#93948b", "#b9bab1", "#dadbd3", "#eceee6", "#fbfbf8"] },
+      "engrave": { "role": "neutral", "displayName": "Engraving Ink", "canonical": "#1e2a22", "tonalRamp": ["#121a15", "#1e2a22", "#34433a", "#4d5d53", "#6c7b71", "#919d95", "#bcc4be", "#e6eae7"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#1f2937" },
+      "cream": { "role": "neutral", "displayName": "Cream (header and menu only)", "canonical": "#fbf7ea" },
+      "crane-red": { "role": "tertiary", "displayName": "Crane Red", "canonical": "#c8102e" },
+      "whatsapp": { "role": "tertiary", "displayName": "WhatsApp Green", "canonical": "#22c55e" },
+      "whatsapp-dark": { "role": "tertiary", "displayName": "WhatsApp Green (hover)", "canonical": "#16a34a" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The current service name in the hero only. Uppercase." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings in the left column, uppercase; up to 4.5rem for the closing ask." },
+      "title": { "displayName": "Title", "purpose": "Card titles on the photo, uppercase; scales by card size." },
+      "numeral": { "displayName": "Numeral", "purpose": "Stub prices and the hero slide number, tabular." },
+      "lead": { "displayName": "Lead", "purpose": "Section intros and the hero summary." },
+      "body": { "displayName": "Body", "purpose": "Running copy; 0.875rem for meta." },
+      "label": { "displayName": "Label", "purpose": "Ticket stub duration and currency line. Not for eyebrows above headings." },
+      "button": { "displayName": "Button", "purpose": "Button and onward-link labels." },
+      "wordmark": { "displayName": "Wordmark", "purpose": "The logo's Cinzel voice; footer column heads and tagline only." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "slide-interval", "value": "6500ms", "purpose": "Hero autoplay interval; the gold progress line fills linearly over it." },
+      { "name": "slide-handover", "value": "clip-path inset(card rect round 6px) -> inset(0 round 0), 950ms cubic-bezier(0.7, 0, 0.2, 1)", "purpose": "The chosen queue card grows into the full-bleed background. Back steps crossfade 700ms ease-out. Instant under reduced motion." },
+      { "name": "queue-flip", "value": "animate:flip 700ms; enter fade 500ms (300ms delay); leave fade 250ms", "purpose": "The queue sliding along on each step." },
+      { "name": "hero-drift", "value": "scale 1.08 -> 1, 14s ease-out", "purpose": "Slow settling zoom on the current hero photo. Off under reduced motion." },
+      { "name": "copy-swap", "value": "fade 700ms, 150ms delay", "purpose": "Hero name and summary changing with the slide." },
+      { "name": "photo-drift", "value": "transform 1.2s ease-out; scale 1.05", "purpose": "Photo card image on hover." },
+      { "name": "reveal", "value": "GSAP from y 36px, opacity 0, 1s power3.out, stagger 0.06-0.1, once at top 85%", "purpose": "Section fade-up. Content stays visible until GSAP loads." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "\"Plan my trip\": paper pill on forest, gold-300 on hover.",
+      "html": "<div class=\"ds-ground\"><a href=\"#\" class=\"ds-btn-primary\">Plan my trip <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a></div>",
+      "css": ".ds-ground { background: var(--color-forest-900, #0b3d24); padding: 32px; } .ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--color-paper, #fbfbf8); color: var(--color-forest-900, #0b3d24); font-family: 'Montserrat Variable', sans-serif; font-size: 0.875rem; font-weight: 700; padding: 14px 28px; border-radius: 9999px; text-decoration: none; transition: background-color 150ms; } .ds-btn-primary:hover { background: var(--color-gold-300, #ead18a); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 4px rgb(221 187 92 / 0.7); }"
+    },
+    {
+      "name": "Outline Pill",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "\"Explore {service}\" / \"All journeys\": 48px outline pill on forest or photo; fills with paper on hover.",
+      "html": "<div class=\"ds-ground-o\"><a href=\"#\" class=\"ds-btn-outline\">All journeys <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a></div>",
+      "css": ".ds-ground-o { background: var(--color-forest-900, #0b3d24); padding: 32px; } .ds-btn-outline { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 24px; color: var(--color-paper, #fbfbf8); border: 1px solid rgb(251 251 248 / 0.5); border-radius: 9999px; font-family: 'Montserrat Variable', sans-serif; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: background-color 150ms, color 150ms; } .ds-btn-outline:hover { background: var(--color-paper, #fbfbf8); color: var(--color-forest-950, #062b19); } .ds-btn-outline:focus-visible { outline: none; box-shadow: 0 0 0 4px rgb(221 187 92 / 0.6); }"
+    },
+    {
+      "name": "WhatsApp Button",
+      "kind": "button",
+      "refersTo": "button-whatsapp",
+      "description": "WhatsApp actions only; pill with the WhatsApp mark, beside the primary on closing asks.",
+      "html": "<a href=\"#\" class=\"ds-btn-wa\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.1.1.7-.1 1.3Z\"/></svg>WhatsApp us</a>",
+      "css": ".ds-btn-wa { display: inline-flex; align-items: center; gap: 8px; background: var(--color-whatsapp, #22c55e); color: #fff; font-family: 'Montserrat Variable', sans-serif; font-size: 0.875rem; font-weight: 600; padding: 10px 20px; border-radius: 9999px; text-decoration: none; transition: background-color 150ms; } .ds-btn-wa:hover { background: var(--color-whatsapp-dark, #16a34a); } .ds-btn-wa:focus-visible { outline: none; box-shadow: 0 0 0 4px rgb(34 197 94 / 0.5); }"
+    },
+    {
+      "name": "Round Icon Buttons",
+      "kind": "button",
+      "refersTo": "icon-button-ring",
+      "description": "Hero controls: solid WhatsApp circle, ringed prev/next circles, borderless pause.",
+      "html": "<div class=\"ds-ground-i\"><a href=\"#\" class=\"ds-ib ds-ib-wa\" aria-label=\"WhatsApp\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z\"/></svg></a><button class=\"ds-ib ds-ib-ring\" aria-label=\"Previous\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m15 18-6-6 6-6\"/></svg></button><button class=\"ds-ib ds-ib-ring\" aria-label=\"Next\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"/></svg></button><button class=\"ds-ib ds-ib-ghost\" aria-label=\"Pause\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"6\" y=\"4\" width=\"4\" height=\"16\" rx=\"1\"/><rect x=\"14\" y=\"4\" width=\"4\" height=\"16\" rx=\"1\"/></svg></button></div>",
+      "css": ".ds-ground-i { display: flex; gap: 12px; align-items: center; background: var(--color-forest-950, #062b19); padding: 32px; } .ds-ib { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 9999px; border: 0; background: transparent; color: var(--color-paper, #fbfbf8); cursor: pointer; transition: background-color 150ms, color 150ms; } .ds-ib:focus-visible { outline: none; box-shadow: 0 0 0 4px rgb(221 187 92 / 0.6); } .ds-ib-wa { background: var(--color-whatsapp, #22c55e); color: #fff; } .ds-ib-wa:hover { background: var(--color-whatsapp-dark, #16a34a); } .ds-ib-ring { border: 1px solid rgb(251 251 248 / 0.4); } .ds-ib-ring:hover { background: rgb(251 251 248 / 0.1); } .ds-ib-ghost { color: rgb(251 251 248 / 0.7); } .ds-ib-ghost:hover { color: var(--color-paper, #fbfbf8); }"
+    },
+    {
+      "name": "Journey Photo Card",
+      "kind": "card",
+      "refersTo": "photo-card",
+      "description": "The photo is the card: gold dash, Oswald title and meta on the scrimmed photo; a perforated paper ticket stub with duration and \"from\" price.",
+      "html": "<div class=\"ds-album\"><article class=\"ds-card\"><div class=\"ds-card-pic\"><div class=\"ds-card-scrim\"></div><div class=\"ds-card-copy\"><span class=\"ds-dash\"></span><h3 class=\"ds-card-title\"><a href=\"#\">3-Day Bwindi Gorilla Trekking Safari</a></h3><p class=\"ds-card-meta\">Bwindi Impenetrable National Park</p></div></div><div class=\"ds-stub\"><p class=\"ds-stub-l\"><span class=\"ds-stub-issue\">3 days</span><span class=\"ds-stub-label\">Per person, sharing</span></p><p class=\"ds-stub-r\"><span class=\"ds-stub-cur\">FROM USD</span><span class=\"ds-stub-amt\">1,850</span></p></div></article></div>",
+      "css": ".ds-album { background: var(--color-forest-900, #0b3d24); padding: 32px; } .ds-card { position: relative; max-width: 320px; display: flex; flex-direction: column; overflow: hidden; border-radius: 0.7rem; outline: 2px solid transparent; outline-offset: 3px; transition: outline-color 150ms; } .ds-card:focus-within { outline-color: var(--color-gold-400, #ddbb5c); } .ds-card-pic { position: relative; aspect-ratio: 4/5; background: linear-gradient(160deg, #3d6b4c, #0b4d2c); } .ds-card-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgb(0 0 0 / 0.8), rgb(0 0 0 / 0.15), transparent); } .ds-card-copy { position: absolute; inset: auto 0 0 0; padding: 20px; color: var(--color-paper, #fbfbf8); } .ds-dash { display: block; width: 24px; height: 2px; background: var(--color-gold-400, #ddbb5c); } .ds-card-title { margin: 12px 0 0; font: 600 1.875rem/0.95 'Oswald Variable', 'Arial Narrow', sans-serif; text-transform: uppercase; text-wrap: balance; } .ds-card-title a { color: inherit; text-decoration: none; } .ds-card-title a::after { content: ''; position: absolute; inset: 0; } .ds-card-title a:focus-visible { outline: none; } .ds-card-meta { margin: 8px 0 0; font: 400 0.875rem 'Montserrat Variable', sans-serif; color: rgb(251 251 248 / 0.8); } .ds-stub { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding: 16px 20px 12px; background: var(--color-paper, #fbfbf8); color: var(--color-engrave, #1e2a22); -webkit-mask: radial-gradient(circle 3.5px at 50% 0, #0000 97%, #000) 0 0 / 13px 100% repeat-x; mask: radial-gradient(circle 3.5px at 50% 0, #0000 97%, #000) 0 0 / 13px 100% repeat-x; } .ds-stub-l { margin: 0; font: 400 0.75rem/1.375 'Montserrat Variable', sans-serif; } .ds-stub-issue { display: block; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-forest-800, #0b4d2c); } .ds-stub-label { display: block; color: rgb(30 42 34 / 0.65); } .ds-stub-r { margin: 0; text-align: right; line-height: 1; } .ds-stub-cur { display: block; font: 700 0.75rem 'Montserrat Variable', sans-serif; letter-spacing: 0.16em; color: var(--color-forest-700, #145f38); } .ds-stub-amt { display: block; margin-top: 4px; font: 600 1.875rem/1 'Oswald Variable', 'Arial Narrow', sans-serif; font-variant-numeric: tabular-nums; color: var(--color-forest-900, #0b3d24); }"
+    },
+    {
+      "name": "Hero Queue Card and Progress",
+      "kind": "custom",
+      "refersTo": "service-slider",
+      "description": "Signature: portrait queue cards with a perforated left edge running off the edge, over a gold progress line and big slide number.",
+      "html": "<div class=\"ds-hero\"><ol class=\"ds-queue\"><li><button class=\"ds-q\"><span class=\"ds-q-copy\"><span class=\"ds-q-dash\"></span><span class=\"ds-q-name\">Gorilla Trekking</span></span></button></li><li><button class=\"ds-q\"><span class=\"ds-q-copy\"><span class=\"ds-q-dash\"></span><span class=\"ds-q-name\">Guided Wildlife Tours</span></span></button></li><li><button class=\"ds-q\"><span class=\"ds-q-copy\"><span class=\"ds-q-dash\"></span><span class=\"ds-q-name\">Medical Tourism</span></span></button></li></ol><div class=\"ds-prog\"><div class=\"ds-track\"><span class=\"ds-fill\"></span></div><p class=\"ds-num\">01</p></div></div>",
+      "css": ".ds-hero { background: linear-gradient(to right, rgb(0 0 0 / 0.7), rgb(0 0 0 / 0.1)), #2f4a36; color: var(--color-paper, #fbfbf8); padding: 32px 0 32px 32px; overflow: hidden; } .ds-queue { display: flex; gap: 20px; margin: 0; padding: 0; list-style: none; } .ds-queue li { width: 160px; flex-shrink: 0; } .ds-q { position: relative; display: block; width: 100%; aspect-ratio: 5/8; border: 0; border-radius: 0.7rem; overflow: hidden; cursor: pointer; text-align: left; color: inherit; background: linear-gradient(to top, rgb(0 0 0 / 0.8), rgb(0 0 0 / 0.1) 50%, transparent), linear-gradient(160deg, #4f7a5c, #0b4d2c); -webkit-mask: radial-gradient(circle 3.5px at 0 50%, #0000 97%, #000) 0 0 / 100% 13px repeat-y; mask: radial-gradient(circle 3.5px at 0 50%, #0000 97%, #000) 0 0 / 100% 13px repeat-y; } .ds-q:focus-visible { -webkit-mask: none; mask: none; outline: 2px solid var(--color-gold-400, #ddbb5c); outline-offset: 2px; } .ds-q-copy { position: absolute; inset: auto 16px 16px 16px; } .ds-q-dash { display: block; width: 20px; height: 1px; margin-bottom: 8px; background: var(--color-gold-400, #ddbb5c); } .ds-q-name { display: block; font: 600 1.25rem/1 'Oswald Variable', 'Arial Narrow', sans-serif; text-transform: uppercase; } .ds-prog { display: flex; align-items: center; gap: 16px; margin-top: 24px; padding-right: 32px; } .ds-track { position: relative; flex: 1; height: 1px; background: rgb(251 251 248 / 0.25); } .ds-fill { position: absolute; inset: 0 40% 0 0; background: var(--color-gold-400, #ddbb5c); } .ds-num { margin: 0; font: 600 3rem/1 'Oswald Variable', 'Arial Narrow', sans-serif; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Postmark",
+      "kind": "custom",
+      "refersTo": "postmark",
+      "description": "Provenance cancel in currentColor: place arched on top, line below, date across the centre, optional cancel waves.",
+      "html": "<div class=\"ds-pm-wrap\"><svg class=\"ds-pm\" viewBox=\"0 0 260 120\" fill=\"none\" stroke=\"currentColor\" aria-hidden=\"true\"><defs><path id=\"ds-pm-top\" d=\"M 20 60 A 40 40 0 0 1 100 60\"/><path id=\"ds-pm-bot\" d=\"M 16 60 A 44 44 0 0 0 104 60\"/></defs><circle cx=\"60\" cy=\"60\" r=\"56\" stroke-width=\"2.5\"/><circle cx=\"60\" cy=\"60\" r=\"34\" stroke-width=\"1.5\"/><g stroke=\"none\" fill=\"currentColor\" font-family=\"Montserrat Variable, sans-serif\" font-weight=\"700\" letter-spacing=\"2.5\"><text font-size=\"11.5\" text-anchor=\"middle\"><textPath href=\"#ds-pm-top\" startOffset=\"50%\">GERMANY</textPath></text><text font-size=\"9.5\" text-anchor=\"middle\" dominant-baseline=\"hanging\"><textPath href=\"#ds-pm-bot\" startOffset=\"50%\">ALTURA</textPath></text><text x=\"60\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" letter-spacing=\"1\">NOV 2026</text></g><g stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M 122 36 q 17 -9 34 0 t 34 0 t 34 0 t 34 0\"/><path d=\"M 122 52 q 17 -9 34 0 t 34 0 t 34 0 t 34 0\"/><path d=\"M 122 68 q 17 -9 34 0 t 34 0 t 34 0 t 34 0\"/><path d=\"M 122 84 q 17 -9 34 0 t 34 0 t 34 0 t 34 0\"/></g></svg></div>",
+      "css": ".ds-pm-wrap { background: var(--color-forest-950, #062b19); padding: 32px; } .ds-pm { width: 200px; overflow: visible; color: rgb(234 209 138 / 0.6); transform: rotate(6deg); }"
+    },
+    {
+      "name": "Header Navigation (over hero)",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Transparent over the hero: pill links, active in gold-300, light currency pill toggle and a small WhatsApp pill.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" class=\"ds-nav-a is-active\">Tours</a><a href=\"#\" class=\"ds-nav-a\">Services</a><a href=\"#\" class=\"ds-nav-a\">Gallery</a><a href=\"#\" class=\"ds-nav-a\">Blog</a><span class=\"ds-cur\"><button class=\"ds-cur-b is-on\">USD</button><button class=\"ds-cur-b\">UGX</button></span></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 4px; background: linear-gradient(to right, rgb(0 0 0 / 0.6), rgb(0 0 0 / 0.3)), #2f4a36; color: var(--color-cream, #fbf7ea); padding: 20px 24px; font-family: 'Montserrat Variable', sans-serif; } .ds-nav-a { padding: 8px 12px; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; color: inherit; text-decoration: none; transition: color 150ms; } .ds-nav-a:hover, .ds-nav-a.is-active { color: var(--color-gold-300, #ead18a); } .ds-nav-a:focus-visible { outline: 2px solid var(--color-gold-400, #ddbb5c); outline-offset: 2px; } .ds-cur { display: inline-flex; margin-left: auto; padding: 2px; border-radius: 9999px; background: rgb(255 255 255 / 0.15); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25); } .ds-cur-b { border: 0; border-radius: 9999px; padding: 4px 10px; background: transparent; font: 600 0.75rem 'Montserrat Variable', sans-serif; color: rgb(251 247 234 / 0.8); cursor: pointer; } .ds-cur-b:hover { color: var(--color-cream, #fbf7ea); } .ds-cur-b.is-on { background: var(--color-cream, #fbf7ea); color: var(--color-forest-900, #0b3d24); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Full-Bleed Journeys",
+    "overview": "Uganda's journeys are shown as photography that fills the screen, with the place's name set huge in condensed capitals over it. The card is the photo itself: name, place and a short gold dash sit on the picture under a dark scrim. Forest green carries the brand between photographs, in sections that alternate forest-950 and forest-900. The stamp heritage of the earlier iteration survives only as one-sided details: a perforated left edge on the hero's queued cards, a perforated paper ticket stub along the bottom of tour cards, and circular postmarks for provenance.\n\nThe homepage opens on a full-bleed service slider that plays through every published service on its own: the current service's name and actions on the left, the services coming up queued on the right as portrait photo cards running off the screen edge, and below them round previous/next buttons, pause, a gold progress line and a big slide number. On each step the first queued card grows from its own rectangle into the background. Controls are pills and round icon buttons. Nothing casts a shadow. Everything is visible before JavaScript arrives; first-paint motion is CSS, later motion is transform and opacity, plus the clip-path handover.\n\nScope: this system covers the public website. The dashboard keeps the stock shadcn-svelte tokens (stone base, maia style, `--radius` 0.875rem) in the same stylesheet; do not mix the two. The older page heroes (tours, services, blog, contact, about) set in Cinzel with eyebrows, the PlanCta panel, the inquiry form's white rounded panel, white rounded content cards with soft shadows on detail pages, the gradient PriceTag, and the blog postcard are legacy awaiting migration, not part of the system. Confirmed visual rejections: boxed white cards, stacked badges, icon grids, price-led heroes, the booking-portal look and the clinical hospital look.",
+    "keyCharacteristics": [
+      "Full-bleed photographs under dark scrims; the photo is the card.",
+      "Oswald condensed uppercase for every name, heading and numeral; Montserrat for reading.",
+      "A short gold dash above every title.",
+      "Pill buttons and round icon buttons; one gold progress line.",
+      "White paper only on one side of a card (the ticket stub), never framing a photo.",
+      "Flat: no shadows. Gradients only as photo scrims and the 1px gold rule."
+    ],
+    "rules": [
+      { "name": "The Gold-On-Forest Rule", "body": "Gold sits on forest or on scrimmed photos only. On paper and cream, prices and active marks are forest text, with gold allowed only as a 2px underline.", "section": "colors" },
+      { "name": "The Single Duty Rule", "body": "WhatsApp green appears only on WhatsApp actions; crane red only as tiny accents and error text.", "section": "colors" },
+      { "name": "The Condensed Caps Rule", "body": "Anything that is a name (a service, a place, a journey, a section) or a big number is Oswald uppercase. Anything read as a sentence, and every control label, is Montserrat.", "section": "typography" },
+      { "name": "The Wordmark Stays Put Rule", "body": "Cinzel is the logo's voice. Outside the logo it appears only in the footer column heads and tagline; it is not a heading face for new surfaces.", "section": "typography" },
+      { "name": "The Scrim-Only Gradient Rule", "body": "Gradients exist to make type readable over photographs, plus the 1px gold rule. Never a gradient fill on a button, badge or surface.", "section": "elevation" },
+      { "name": "The No-Lift Rule", "body": "Nothing casts a shadow. A card stands forward because it is a photograph on forest.", "section": "elevation" },
+      { "name": "The One Paper Side Rule", "body": "White paper touches a card on one side only: the perforated ticket stub along the bottom of a tour card. Paper never frames a photo on all sides.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do let the photograph be the card: title, dash and meta on the photo under a bottom scrim.",
+      "Do set names, headings and big numbers in Oswald uppercase with tight leading (0.92 to 0.95), and mark every title with a short gold dash.",
+      "Do alternate forest-950 and forest-900 between sections.",
+      "Do use pills for worded buttons and circles for icon buttons; pair \"Plan my trip\" with WhatsApp on every closing ask.",
+      "Do keep white paper to one side of a card, the perforated ticket stub, carrying duration and the \"from\" price.",
+      "Do use the postmark for provenance (place and month).",
+      "Do keep photographs at their true aspect in justified rows with 3px gaps.",
+      "Do animate only transform, opacity and clip-path handovers; land first-paint motion with CSS; let any autoplay pause on hover, focus and hidden tabs, and offer a pause button."
+    ],
+    "donts": [
+      "Don't use shadows; depth is photography and tonal forest.",
+      "Don't use gradients except photo scrims and the 1px gold rule.",
+      "Don't frame a photo in white paper on all sides, or build boxed white cards.",
+      "Don't put eyebrow or kicker text above headings; the gold dash is the only mark above a title.",
+      "Don't set gold text on paper or cream.",
+      "Don't use WhatsApp green for anything but WhatsApp actions, or crane red beyond tiny accents and errors.",
+      "Don't lead a hero with a price, or add stacked badges, ratings, urgency labels or icon grids.",
+      "Don't use Cinzel as a heading face on new surfaces, or shadcn-svelte components and dashboard tokens on public pages."
+    ]
+  }
+}

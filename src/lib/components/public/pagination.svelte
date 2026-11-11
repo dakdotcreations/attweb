@@ -35,7 +35,7 @@
 						aria-current={n === page ? 'page' : undefined}
 						class={cn(
 							'flex size-10 items-center justify-center rounded-full text-sm font-bold transition-colors',
-							n === page ? 'bg-forest-800 text-cream' : 'text-forest-800 hover:bg-forest-100'
+							n === page ? 'bg-forest-800 text-paper' : 'text-forest-800 hover:bg-forest-100'
 						)}
 					>
 						{n}

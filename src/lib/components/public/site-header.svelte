@@ -61,6 +61,17 @@
 	const isActive = (href: string) =>
 		page.url.pathname === href || page.url.pathname.startsWith(`${href}/`);
 
+	// Gold text fails contrast on cream, so the solid header marks the active link
+	// with forest text and a gold underline; over a photo hero, light gold reads fine.
+	const navTone = (href: string) =>
+		solid
+			? isActive(href)
+				? 'text-forest-950 underline decoration-gold-500 decoration-2 underline-offset-8'
+				: 'hover:text-forest-600'
+			: isActive(href)
+				? 'text-gold-300'
+				: 'hover:text-gold-300';
+
 	function onKeydown(event: KeyboardEvent) {
 		if (event.key === 'Escape') {
 			servicesOpen = false;
@@ -74,7 +85,7 @@
 <header
 	class={cn(
 		'fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,color] duration-500',
-		solid ? 'bg-cream/95 text-forest-900 shadow-[0_1px_0_0_rgb(201_162_58_/_0.35)] backdrop-blur-md' : 'text-cream'
+		solid ? 'bg-paper/95 text-forest-900 shadow-[0_1px_0_0_rgb(201_162_58_/_0.35)] backdrop-blur-md' : 'text-paper'
 	)}
 	style="padding-top: env(safe-area-inset-top, 0px)"
 >
@@ -96,7 +107,7 @@
 							type="button"
 							class={cn(
 								'flex items-center gap-1 rounded-full px-3 py-2 text-sm font-semibold transition-colors',
-								isActive(item.href) ? 'text-gold-500' : 'hover:text-gold-500'
+								navTone(item.href)
 							)}
 							aria-expanded={servicesOpen}
 							aria-controls="services-menu"
@@ -107,7 +118,7 @@
 						</button>
 						{#if servicesOpen}
 							<div id="services-menu" class="absolute top-full left-1/2 w-72 -translate-x-1/2 pt-2">
-								<ul class="bg-cream text-forest-900 rounded-2xl p-2 shadow-2xl ring-1 shadow-black/15 ring-gold-500/30">
+								<ul class="bg-paper text-forest-900 rounded-md p-2 ring-1 ring-forest-950/10">
 									{#each services as service (service.id)}
 										<li>
 											<a
@@ -132,7 +143,7 @@
 						href={item.href}
 						class={cn(
 							'rounded-full px-3 py-2 text-sm font-semibold transition-colors',
-							isActive(item.href) ? 'text-gold-500' : 'hover:text-gold-500'
+							navTone(item.href)
 						)}
 						aria-current={isActive(item.href) ? 'page' : undefined}
 					>
@@ -161,14 +172,14 @@
 	{#if mobileOpen}
 		<div
 			id="mobile-menu"
-			class="bg-cream text-forest-900 fixed inset-x-0 bottom-0 overflow-y-auto px-6 pt-4 pb-10 lg:hidden"
+			class="bg-paper text-forest-900 fixed inset-x-0 bottom-0 overflow-y-auto px-6 pt-4 pb-10 lg:hidden"
 			style="top: calc(4.5rem + env(safe-area-inset-top, 0px))"
 		>
 			<nav aria-label="Mobile">
 				<ul class="divide-y divide-gold-500/20">
 					{#each MAIN_NAV as item (item.href)}
 						<li class="py-1">
-							<a href={item.href} class="font-heading block py-3 text-xl font-semibold tracking-wide">{item.label}</a>
+							<a href={item.href} class="font-display block py-3 text-xl font-semibold tracking-wide">{item.label}</a>
 							{#if item.children === 'services' && services.length}
 								<ul class="mb-3 grid gap-1 pl-3">
 									{#each services as service (service.id)}

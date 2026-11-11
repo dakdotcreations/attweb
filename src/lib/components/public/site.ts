@@ -7,7 +7,8 @@ export const BRAND = {
 } as const;
 
 /** Shown as written per the business (from their flyers). */
-export const TRUST_BADGES = ['Multiple award-winning tour operator', 'Member of Uganda Tourism Association'] as const;
+/** Only verifiable credentials belong here (see PRODUCT.md, Evidence on Hand). */
+export const TRUST_BADGES = ['Member of Uganda Tourism Association'] as const;
 
 export const MAIN_NAV = [
 	{ label: 'Tours', href: '/tours' },

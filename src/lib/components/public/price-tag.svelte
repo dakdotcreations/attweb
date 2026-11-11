@@ -1,6 +1,6 @@
 <!--
-	Gold "From" badge in the visitor's currency. If the package has no amount in that
-	currency, the other one is shown (the business sets both; there is no conversion).
+	"From" price in the visitor's currency. If the package has no amount in that currency, the
+	other one is shown (the business sets both; there is no conversion). Tone follows the ground.
 -->
 <script lang="ts">
 	import { formatMoney, type Currency } from '#lib/format.js';
@@ -10,11 +10,14 @@
 		price,
 		currency,
 		size = 'md',
+		tone = 'light',
 		class: className
 	}: {
 		price: { label: string; amountUGX: number | null; amountUSD: number | null };
 		currency: Currency;
 		size?: 'md' | 'lg';
+		/** light: on forest grounds; dark: on paper. */
+		tone?: 'light' | 'dark';
 		class?: string;
 	} = $props();
 
@@ -28,17 +31,11 @@
 </script>
 
 {#if shown}
-	<div
-		class={cn(
-			'inline-flex flex-col items-start rounded-2xl bg-linear-to-br from-gold-300 via-gold-500 to-gold-600 text-forest-950 shadow-lg shadow-black/20',
-			size === 'lg' ? 'px-5 py-3' : 'px-4 py-2',
-			className
-		)}
-	>
-		<span class="text-[0.65rem] font-bold tracking-[0.2em] uppercase opacity-80">From</span>
-		<span class={cn('font-extrabold leading-tight tabular-nums', size === 'lg' ? 'text-3xl' : 'text-xl')}>
+	<div class={cn('inline-flex flex-col items-start leading-none', className)}>
+		<span class={cn('text-xs font-bold tracking-[0.16em] uppercase', tone === 'light' ? 'text-gold-300' : 'text-forest-700')}>From</span>
+		<span class={cn('font-display mt-2 font-semibold tabular-nums', size === 'lg' ? 'text-5xl' : 'text-3xl', tone === 'light' ? 'text-paper' : 'text-forest-950')}>
 			{formatMoney(shown.amount, shown.currency)}
 		</span>
-		<span class="max-w-48 truncate text-[0.7rem] font-semibold opacity-80">{price.label}</span>
+		<span class={cn('mt-2 max-w-56 text-xs leading-snug', tone === 'light' ? 'text-paper/65' : 'text-ink/60')}>{price.label}</span>
 	</div>
 {/if}

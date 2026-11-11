@@ -71,16 +71,20 @@
 		history.replaceState(history.state, '', url.hash);
 	}
 
-	afterNavigate(async ({ to, type }) => {
+	afterNavigate(async ({ from, to, type }) => {
 		await tick();
 		const hash = to?.url.hash;
 		const target = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
 		if (smoother) {
 			if (type !== 'enter') applyEffects();
 			if (target) smoother.scrollTo(target, type !== 'enter', `top ${HEADER_OFFSET}px`);
-			// SvelteKit has already set the native scroll (top, or restored on back/forward):
-			// snap the smoothed content to it instead of animating there.
-			else smoother.scrollTop(type === 'popstate' ? window.scrollY : 0);
+			// Back/forward restores the native scroll, and a same-page navigation (the gallery's
+			// "Load more", a filter) keeps it; anything else starts at the top. ScrollSmoother keeps
+			// the old window scroll on a new page, so it can't be trusted for new pages.
+			else {
+				const samePage = from?.url.pathname === to?.url.pathname;
+				smoother.scrollTop(type === 'popstate' || samePage ? window.scrollY : 0);
+			}
 		}
 		// New page content changes heights: recalculate every ScrollTrigger.
 		requestAnimationFrame(() => refresh?.());
@@ -93,7 +97,7 @@
 <SiteHeader services={data.services} currency={data.currency} whatsappNumber={data.site.whatsappNumber} {overHero} />
 <WhatsappFab number={data.site.whatsappNumber} />
 
-<div id="smooth-wrapper" bind:this={wrapper} class="bg-cream text-ink">
+<div id="smooth-wrapper" bind:this={wrapper} class="bg-paper text-ink">
 	<div id="smooth-content" bind:this={content}>
 		<main class={cn(!overHero && 'pt-18')}>
 			{@render children()}

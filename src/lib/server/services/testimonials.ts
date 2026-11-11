@@ -49,6 +49,7 @@ export function listPublishedTestimonials(take = 6) {
 			location: true,
 			quote: true,
 			rating: true,
+			createdAt: true,
 			photo: { select: { thumbUrl: true, alt: true } },
 			package: { select: { title: true, slug: true, status: true } },
 			service: { select: { name: true, slug: true, status: true } }

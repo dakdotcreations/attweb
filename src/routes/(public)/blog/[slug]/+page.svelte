@@ -69,7 +69,7 @@
 		class={cn('relative mx-auto w-full max-w-4xl px-4 pb-14 sm:px-6 lg:px-8', post.coverImage ? 'pt-32' : 'pt-16')}
 		{@attach reveal({ selector: '[data-reveal]', stagger: 0.08, start: 'top 95%' })}
 	>
-		<nav data-reveal aria-label="Breadcrumb" class="text-cream/70 text-xs font-semibold">
+		<nav data-reveal aria-label="Breadcrumb" class="text-paper/70 text-xs font-semibold">
 			<ol class="flex flex-wrap items-center gap-2">
 				<li><a href="/" class="hover:text-gold-300">Home</a></li>
 				<li aria-hidden="true">/</li>
@@ -80,10 +80,10 @@
 				{/if}
 			</ol>
 		</nav>
-		<h1 data-reveal class="font-heading text-cream mt-6 text-4xl leading-[1.1] font-bold text-balance sm:text-5xl">{post.title}</h1>
-		{#if post.excerpt}<p data-reveal class="text-cream/80 mt-5 max-w-2xl text-lg">{post.excerpt}</p>{/if}
-		<p data-reveal class="text-cream/70 mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-semibold">
-			{#if post.author?.name}<span class="text-cream">By {post.author.name}</span><span class="bg-gold-500 size-1 rounded-full"></span>{/if}
+		<h1 data-reveal class="font-display text-paper mt-6 text-4xl leading-[0.95] font-semibold uppercase text-balance sm:text-5xl">{post.title}</h1>
+		{#if post.excerpt}<p data-reveal class="text-paper/80 mt-5 max-w-2xl text-lg">{post.excerpt}</p>{/if}
+		<p data-reveal class="text-paper/70 mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-semibold">
+			{#if post.author?.name}<span class="text-paper">By {post.author.name}</span><span class="bg-gold-500 size-1 rounded-full"></span>{/if}
 			<time datetime={published}>{formatDate(post.publishedAt)}</time>
 			<span class="bg-gold-500 size-1 rounded-full"></span>
 			<span class="inline-flex items-center gap-1.5"><ClockIcon class="size-4" /> {post.readingMinutes} min read</span>
@@ -95,30 +95,30 @@
 <article class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:py-20">
 	{#if post.content}
 		<!-- Sanitized on save (lib/server/sanitize.ts). -->
-		<div class="prose prose-lg prose-stone prose-a:text-forest-700 prose-headings:font-heading prose-headings:text-forest-900 prose-img:rounded-2xl max-w-none">
+		<div class="prose prose-lg prose-stone prose-a:text-forest-700 prose-headings:font-display prose-headings:uppercase prose-headings:font-semibold prose-headings:text-forest-900 prose-img:rounded-md max-w-none">
 			{@html post.content}
 		</div>
 	{/if}
 
-	<aside class="bg-forest-900 text-cream relative isolate mt-16 overflow-hidden rounded-3xl p-8 sm:p-10" aria-labelledby="post-cta-title" {@attach reveal()}>
+	<aside class="bg-forest-900 text-paper relative isolate mt-16 overflow-hidden rounded-md p-8 sm:p-10" aria-labelledby="post-cta-title" {@attach reveal()}>
 		<div class="bg-gold-500/20 pointer-events-none absolute -top-24 -right-24 -z-10 size-72 rounded-full blur-3xl"></div>
-		<p class="text-gold-400 text-xs font-bold tracking-[0.3em] uppercase">Planning a trip?</p>
-		<h2 id="post-cta-title" class="font-heading mt-3 text-2xl font-bold text-balance sm:text-3xl">
-			{post.service ? `Let us arrange your ${post.service.name.toLowerCase()}` : 'Let our team plan it for you'}
+		<span class="bg-gold-500 block h-0.5 w-10" aria-hidden="true"></span>
+		<h2 id="post-cta-title" class="font-display mt-3 text-2xl font-semibold uppercase text-balance sm:text-3xl">
+			{post.service ? `Talk to us about ${post.service.name}` : 'Let our team plan it for you'}
 		</h2>
-		<p class="text-cream/75 mt-3">
-			{post.service?.summary || 'Tell us your dates, group and budget, and we will reply with options and prices, usually within one working day.'}
+		<p class="text-paper/75 mt-3">
+			{post.service?.summary || 'Tell us your dates, group and budget, and we will reply with options and prices.'}
 		</p>
 		<div class="mt-7 flex flex-wrap gap-3">
 			<WhatsAppButton number={data.site.whatsappNumber} message={`Hi Altura, I just read "${post.title}" and I'd like some help planning.`} size="lg" />
 			<a
 				href={post.service ? `/contact?service=${post.service.slug}` : '/contact'}
-				class="bg-cream text-forest-900 hover:bg-gold-300 inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold transition-colors"
+				class="bg-paper text-forest-900 hover:bg-gold-300 inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold transition-colors"
 			>
 				Send an inquiry <ArrowRightIcon class="size-4" />
 			</a>
 			{#if post.service}
-				<a href="/services/{post.service.slug}" class="text-cream hover:text-gold-300 inline-flex items-center gap-2 px-2 py-3.5 text-sm font-bold">
+				<a href="/services/{post.service.slug}" class="text-paper hover:text-gold-300 inline-flex items-center gap-2 px-2 py-3.5 text-sm font-bold">
 					About {post.service.name} <ArrowRightIcon class="size-4" />
 				</a>
 			{/if}
@@ -130,4 +130,4 @@
 	</a>
 </article>
 
-<LatestStories posts={data.related} eyebrow="Keep reading" title="More travel guides" intro="" />
+<LatestStories posts={data.related} title="More travel guides" intro="" />

@@ -158,8 +158,12 @@ export async function listPublicGalleryCategories() {
 	return rows.map((r) => r.galleryCategory!).filter(Boolean);
 }
 
-/** Paginated photos flagged "Show on public Gallery page", newest first. */
-export async function listGalleryPhotos(params: { category?: string; page?: number } = {}) {
+/**
+ * Photos flagged "Show on public Gallery page", newest first.
+ * `cumulative` returns every photo up to and including `page` (the public gallery's "Load more"),
+ * so a shared ?page=3 link still shows the whole album so far.
+ */
+export async function listGalleryPhotos(params: { category?: string; page?: number; cumulative?: boolean } = {}) {
 	const where: Prisma.MediaWhereInput = {
 		showInGallery: true,
 		...(params.category ? { galleryCategory: params.category } : {})
@@ -170,9 +174,19 @@ export async function listGalleryPhotos(params: { category?: string; page?: numb
 	const photos = await db.media.findMany({
 		where,
 		orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
-		skip: (page - 1) * GALLERY_PAGE_SIZE,
-		take: GALLERY_PAGE_SIZE,
-		select: { id: true, url: true, thumbUrl: true, alt: true, caption: true, width: true, height: true, galleryCategory: true }
+		skip: params.cumulative ? 0 : (page - 1) * GALLERY_PAGE_SIZE,
+		take: params.cumulative ? page * GALLERY_PAGE_SIZE : GALLERY_PAGE_SIZE,
+		select: {
+			id: true,
+			url: true,
+			thumbUrl: true,
+			alt: true,
+			caption: true,
+			width: true,
+			height: true,
+			galleryCategory: true,
+			createdAt: true
+		}
 	});
 	return { photos, total, page, pageCount };
 }

@@ -27,15 +27,14 @@
 	description="Plan your safari or trip with {site.companyName}. Message us on WhatsApp, email, or visit our office on Kampala Road."
 />
 
-<PageHero
-	eyebrow="Contact"
+<PageHero
 	title="Let's plan your journey"
 	intro="Tell us what you have in mind and we'll put together options for you. Prefer to chat? We're on WhatsApp."
 />
 
 <section class="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.5fr_1fr] lg:px-8 lg:py-24">
 	<div {@attach reveal()}>
-		<h2 class="font-heading text-forest-900 mb-6 text-2xl font-bold">Send us an inquiry</h2>
+		<h2 class="font-display text-forest-950 mb-6 text-2xl font-semibold uppercase">Send us an inquiry</h2>
 		<InquiryForm
 			packageId={data.preselectPackage?.id ?? null}
 			about={data.preselectPackage?.title ?? null}
@@ -54,7 +53,7 @@
 				href={whatsapp}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="bg-whatsapp hover:bg-whatsapp-dark group flex items-center gap-4 rounded-3xl p-6 text-white transition-colors"
+				class="bg-whatsapp hover:bg-whatsapp-dark group flex items-center gap-4 rounded-md p-6 text-white transition-colors"
 			>
 				<span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-white/20">
 					<BrandIcon name="whatsapp" class="size-7" />
@@ -66,8 +65,8 @@
 			</a>
 		{/if}
 
-		<div class="bg-forest-900 text-cream/85 rounded-3xl p-7">
-			<h2 class="font-heading text-cream text-lg font-bold">Visit or call us</h2>
+		<div class="bg-forest-900 text-paper/85 rounded-md p-7">
+			<h2 class="font-display text-paper text-lg font-semibold uppercase">Visit or call us</h2>
 			<ul class="mt-5 space-y-4 text-sm">
 				{#if site.address}
 					<li class="flex gap-3">
@@ -101,7 +100,7 @@
 		</div>
 
 		<p class="text-ink/60 px-2 text-sm">
-			We reply to most messages within one working day. For urgent travel matters, WhatsApp is quickest.
+			For urgent travel matters, WhatsApp is quickest.
 		</p>
 	</aside>
 </section>

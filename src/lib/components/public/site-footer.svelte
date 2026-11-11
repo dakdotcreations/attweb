@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { whatsappLink } from '#lib/inquiries.js';
-	import AwardIcon from '@lucide/svelte/icons/award';
 	import LinkIcon from '@lucide/svelte/icons/link';
 	import MailIcon from '@lucide/svelte/icons/mail';
 	import MapPinIcon from '@lucide/svelte/icons/map-pin';
@@ -41,8 +40,9 @@
 			</a>
 			<p class="font-heading text-gold-400 mt-4 text-sm tracking-[0.18em] uppercase">{site.tagline || BRAND.tagline}</p>
 			<ul class="mt-6 space-y-3 text-sm">
-				<li class="flex items-center gap-2"><AwardIcon class="text-gold-400 size-4 shrink-0" />{TRUST_BADGES[0]}</li>
-				<li class="flex items-center gap-2"><ShieldCheckIcon class="text-gold-400 size-4 shrink-0" />{TRUST_BADGES[1]}</li>
+				{#each TRUST_BADGES as badge (badge)}
+					<li class="flex items-center gap-2"><ShieldCheckIcon class="text-gold-400 size-4 shrink-0" />{badge}</li>
+				{/each}
 			</ul>
 		</div>
 

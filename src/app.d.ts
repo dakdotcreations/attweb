@@ -13,7 +13,10 @@ declare global {
 			currency: Currency;
 		}
 		// interface PageData {}
-		// interface PageState {}
+		interface PageState {
+			/** Open lightbox photo (shallow routing), so Back closes it. */
+			photo?: string;
+		}
 		// interface Platform {}
 	}
 }

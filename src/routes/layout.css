@@ -3,6 +3,7 @@
 @import "shadcn-svelte/tailwind.css";
 @import "@fontsource-variable/montserrat";
 @import "@fontsource-variable/cinzel";
+@import "@fontsource-variable/oswald";
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
@@ -79,6 +80,8 @@
 @theme inline {
 	--font-sans: 'Montserrat Variable', ui-sans-serif, system-ui, sans-serif;
 	--font-heading: 'Cinzel Variable', 'Times New Roman', serif;
+	/* Public site display face: tall condensed caps for hero titles, section and card headings. */
+	--font-display: 'Oswald Variable', 'Arial Narrow', sans-serif;
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -142,18 +145,54 @@
 	--color-crane-red: #c8102e;
 	--color-whatsapp: #22c55e;
 	--color-whatsapp-dark: #16a34a;
+	/* Engraved Stamps world: gummed stamp paper and engraving ink. */
+	--color-paper: #fbfbf8;
+	--color-paper-200: #eceee6;
+	--color-engrave: #1e2a22;
+}
+
+/*
+ * Perforated stamp edge. The element's own background is the stamp paper; the mask
+ * punches evenly spaced holes along every edge (`round` keeps the spacing whole on any size),
+ * so whatever sits behind shows through. Set --perf to change the hole radius.
+ * Masks clip outlines, so focus rings for stamps must be drawn inside the edge.
+ */
+@utility perforated {
+	--perf: 5px;
+	padding: calc(2.4 * var(--perf));
+	-webkit-mask:
+		radial-gradient(var(--perf), #0000 97%, #000) round calc(-1.5 * var(--perf)) calc(-1.5 * var(--perf)) / calc(3 * var(--perf)) calc(3 * var(--perf)),
+		linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--perf)) calc(100% - 3 * var(--perf));
+	mask:
+		radial-gradient(var(--perf), #0000 97%, #000) round calc(-1.5 * var(--perf)) calc(-1.5 * var(--perf)) / calc(3 * var(--perf)) calc(3 * var(--perf)),
+		linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--perf)) calc(100% - 3 * var(--perf));
+}
+
+/*
+ * One-sided perforations: the stamp edge kept as a single detail rather than a white frame.
+ * Semicircle holes run down the left edge (photo cards) or across the top edge (a card's
+ * ticket stub), showing whatever sits behind.
+ */
+@utility perforated-left {
+	-webkit-mask: radial-gradient(circle 3.5px at 0 50%, #0000 97%, #000) 0 0 / 100% 13px repeat-y;
+	mask: radial-gradient(circle 3.5px at 0 50%, #0000 97%, #000) 0 0 / 100% 13px repeat-y;
+}
+@utility perforated-top {
+	-webkit-mask: radial-gradient(circle 3.5px at 50% 0, #0000 97%, #000) 0 0 / 13px 100% repeat-x;
+	mask: radial-gradient(circle 3.5px at 50% 0, #0000 97%, #000) 0 0 / 13px 100% repeat-x;
+}
+
+/* Text selection and the caret carry the palette, not the browser default blue. */
+@layer base {
+	::selection {
+		background: var(--color-gold-300);
+		color: var(--color-forest-950);
+	}
 }
 
 @utility gold-rule {
 	height: 1px;
 	background: linear-gradient(90deg, transparent, var(--color-gold-500) 20%, var(--color-gold-300) 50%, var(--color-gold-500) 80%, transparent);
-}
-
-@utility gold-text {
-	background: linear-gradient(180deg, var(--color-gold-300), var(--color-gold-500) 55%, var(--color-gold-600));
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: transparent;
 }
 
 @utility gold-border {

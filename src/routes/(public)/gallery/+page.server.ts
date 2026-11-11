@@ -11,6 +11,6 @@ export const load: PageServerLoad = async ({ url }) => {
 	return {
 		categories,
 		activeCategory: category ?? '',
-		...(await listGalleryPhotos({ category, page }))
+		...(await listGalleryPhotos({ category, page, cumulative: true }))
 	};
 };
