@@ -62,10 +62,10 @@
 		{#if photos.length}
 			<div class="lg:col-span-6" {@attach reveal({ y: 24 })}>
 				<a href="/gallery" class="group focus-visible:outline-gold-400 block focus-visible:outline-2 focus-visible:outline-offset-4" aria-label="Open the photo gallery">
-					<ul class="flex flex-wrap gap-[3px] [--row:11rem] sm:[--row:15rem] lg:[--row:19rem]">
+					<ul class="grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-0.5 sm:gap-1">
 						{#each photos as photo (photo.id)}
 							{@const r = ratio(photo)}
-							<li style="flex: {r} 1 calc({r} * var(--row)); aspect-ratio: {r};" class="bg-forest-900 min-w-0 overflow-hidden">
+							<li style="aspect-ratio: {r};" class="bg-forest-900 min-w-0 overflow-hidden">
 								<img src={photo.thumbUrl} alt={photo.alt} loading="lazy" decoding="async" class="size-full object-cover" />
 							</li>
 						{/each}
