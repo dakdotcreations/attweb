@@ -1,6 +1,7 @@
 import BlogIcon from '@lucide/svelte/icons/newspaper';
 import DashboardIcon from '@lucide/svelte/icons/layout-dashboard';
 import InboxIcon from '@lucide/svelte/icons/inbox';
+import InstitutionsIcon from '@lucide/svelte/icons/graduation-cap';
 import MediaIcon from '@lucide/svelte/icons/images';
 import PackagesIcon from '@lucide/svelte/icons/map';
 import ServicesIcon from '@lucide/svelte/icons/briefcase-business';
@@ -37,6 +38,7 @@ export const NAV_GROUPS: NavGroup[] = [
 			{ title: 'Tour Packages', href: '/dashboard/packages', icon: PackagesIcon },
 			{ title: 'Blog', href: '/dashboard/blog', icon: BlogIcon },
 			{ title: 'Testimonials', href: '/dashboard/testimonials', icon: TestimonialsIcon },
+			{ title: 'Partner Institutions', href: '/dashboard/institutions', icon: InstitutionsIcon },
 			{ title: 'Media', href: '/dashboard/media', icon: MediaIcon }
 		]
 	},

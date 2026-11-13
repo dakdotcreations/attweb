@@ -1,4 +1,4 @@
-import { INQUIRY_STATUSES, type InquirySource, type InquiryStatus } from '#lib/inquiries.js';
+import { INQUIRY_STATUSES, type InquiryKind, type InquirySource, type InquiryStatus } from '#lib/inquiries.js';
 import type { InquiryDetailsData } from '#lib/schemas/inquiries.js';
 import { db } from '../db.js';
 import type { Prisma } from '../generated/prisma/client.js';
@@ -8,6 +8,8 @@ export const INQUIRY_PAGE_SIZE = 25;
 export type InquiryListParams = {
 	status?: InquiryStatus;
 	source?: InquirySource;
+	kind?: InquiryKind;
+	institutionId?: string;
 	serviceId?: string;
 	q?: string;
 	page?: number;
@@ -18,6 +20,8 @@ function listWhere(params: Omit<InquiryListParams, 'status' | 'page'>): Prisma.I
 	const numberMatch = q?.match(/^#?(\d{1,9})$/);
 	return {
 		...(params.source ? { source: params.source } : {}),
+		...(params.kind ? { kind: params.kind } : {}),
+		...(params.institutionId ? { institutions: { some: { institutionId: params.institutionId } } } : {}),
 		...(params.serviceId
 			? { OR: [{ serviceId: params.serviceId }, { package: { services: { some: { serviceId: params.serviceId } } } }] }
 			: {}),
@@ -63,6 +67,7 @@ export async function listInquiries(params: InquiryListParams) {
 				groupSize: true,
 				status: true,
 				source: true,
+				kind: true,
 				createdAt: true,
 				package: { select: { title: true } },
 				service: { select: { name: true } }
@@ -106,6 +111,7 @@ export function getInquiry(id: string) {
 			package: { select: { id: true, title: true, slug: true } },
 			service: { select: { id: true, name: true, slug: true } },
 			createdBy: { select: { name: true, email: true } },
+			institutions: { orderBy: { rank: 'asc' } },
 			notes: {
 				orderBy: { createdAt: 'desc' },
 				include: { author: { select: { name: true, email: true } } }
@@ -128,13 +134,29 @@ async function withInterest(data: InquiryDetailsData) {
 	return data;
 }
 
-/** Used by the dashboard (staff-logged leads) and, in Phase 6, the public inquiry form. */
+export type InquiryInstitutionChoice = { institutionId: string; name: string; country: string };
+
+/** Used by the dashboard (staff-logged leads) and the public forms (lib/server/services/public-inquiry.ts). */
 export async function createInquiry(
-	data: InquiryDetailsData & { sourceUrl?: string | null },
+	data: InquiryDetailsData & {
+		sourceUrl?: string | null;
+		kind?: InquiryKind;
+		/** Kind-specific answers (see lib/schemas/inquiry-details.ts) */
+		details?: Prisma.InputJsonValue;
+		/** Study abroad choices, in rank order */
+		institutions?: InquiryInstitutionChoice[];
+	},
 	createdById: string | null
 ) {
+	const { institutions, ...fields } = data;
 	return db.inquiry.create({
-		data: { ...(await withInterest(data)), createdById },
+		data: {
+			...(await withInterest(fields)),
+			createdById,
+			...(institutions?.length
+				? { institutions: { create: institutions.map((choice, i) => ({ ...choice, rank: i + 1 })) } }
+				: {})
+		},
 		select: { id: true, number: true }
 	});
 }

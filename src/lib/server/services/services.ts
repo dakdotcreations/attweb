@@ -65,6 +65,7 @@ export async function getPublicService(slug: string) {
 			slug: true,
 			summary: true,
 			content: true,
+			formType: true,
 			seoTitle: true,
 			seoDescription: true,
 			coverImage: { select: { url: true, alt: true } },

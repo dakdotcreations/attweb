@@ -1,3 +1,4 @@
+import { SERVICE_FORM_TYPES } from '#lib/inquiries.js';
 import { slugSchema } from '#lib/slug.js';
 import { z } from 'zod';
 import {
@@ -18,6 +19,7 @@ export const serviceSchema = z.object({
 	coverImageId: mediaIdSchema,
 	status: publishStatusSchema,
 	sortOrder: sortOrderSchema,
+	formType: z.enum(SERVICE_FORM_TYPES),
 	...seoSchema
 });
 

@@ -2,6 +2,8 @@
 	import Seo from '#lib/components/public/seo.svelte';
 	import BrandIcon from '#lib/components/public/brand-icon.svelte';
 	import InquiryForm from '#lib/components/public/inquiry-form.svelte';
+	import FlightRequestForm from '#lib/components/public/request-forms/flight-request-form.svelte';
+	import StudyRequestForm from '#lib/components/public/request-forms/study-request-form.svelte';
 	import PageHero from '#lib/components/public/page-hero.svelte';
 	import { reveal } from '#lib/components/public/reveal.js';
 	import { whatsappLink } from '#lib/inquiries.js';
@@ -15,6 +17,8 @@
 	let { data, form }: PageProps = $props();
 
 	const site = $derived(data.site);
+	/** A flight/study request that failed validation without JS is re-shown in its own form. */
+	const failed = $derived(form && 'kind' in form ? form : null);
 	const whatsapp = $derived(whatsappLink(site.whatsappNumber, "Hi Altura, I'd like to plan a trip."));
 	const mapsUrl = $derived(
 		site.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${site.address}`)}` : null
@@ -27,13 +31,27 @@
 	description="Plan your safari or trip with {site.companyName}. Message us on WhatsApp, email, or visit our office on Kampala Road."
 />
 
-<PageHero
+<PageHero
+
 	title="Let's plan your journey"
 	intro="Tell us what you have in mind and we'll put together options for you. Prefer to chat? We're on WhatsApp."
 />
 
 <section class="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.5fr_1fr] lg:px-8 lg:py-24">
 	<div {@attach reveal()}>
+		{#if failed?.kind === 'FLIGHT'}
+			<h2 class="font-display text-forest-950 mb-6 text-2xl font-semibold uppercase">Your flight request</h2>
+			<FlightRequestForm serviceId={failed.values.serviceId || null} whatsappNumber={site.whatsappNumber} initial={failed.values} initialErrors={failed.errors} />
+		{:else if failed?.kind === 'STUDY_ABROAD'}
+			<h2 class="font-display text-forest-950 mb-6 text-2xl font-semibold uppercase">Your study abroad request</h2>
+			<StudyRequestForm
+				institutions={failed.institutions}
+				serviceId={failed.values.serviceId || null}
+				whatsappNumber={site.whatsappNumber}
+				initial={failed.values}
+				initialErrors={failed.errors}
+			/>
+		{:else}
 		<h2 class="font-display text-forest-950 mb-6 text-2xl font-semibold uppercase">Send us an inquiry</h2>
 		<InquiryForm
 			packageId={data.preselectPackage?.id ?? null}
@@ -45,6 +63,7 @@
 			initialErrors={form && 'errors' in form ? form.errors : {}}
 			initialSuccess={form && 'success' in form ? { number: form.number ?? null } : null}
 		/>
+		{/if}
 	</div>
 
 	<aside class="space-y-6" {@attach reveal({ selector: ':scope > *', stagger: 0.1, delay: 0.1 })}>

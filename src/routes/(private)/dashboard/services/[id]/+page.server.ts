@@ -1,16 +1,19 @@
 import { serviceSchema } from '#lib/schemas/services.js';
 import { formFailure, isNotFound, isUniqueViolation, parseJsonPayload } from '#lib/server/forms.js';
 import { requireUser } from '#lib/server/guards.js';
+import { countPublishedInstitutions } from '#lib/server/services/institutions.js';
 import { deleteService, getService, saveService } from '#lib/server/services/services.js';
 import { error, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
 	requireUser();
-	if (params.id === 'new') return { service: null };
-	const service = await getService(params.id);
-	if (!service) error(404, 'Service not found');
-	return { service };
+	const [service, publishedInstitutions] = await Promise.all([
+		params.id === 'new' ? null : getService(params.id),
+		countPublishedInstitutions()
+	]);
+	if (params.id !== 'new' && !service) error(404, 'Service not found');
+	return { service, publishedInstitutions };
 };
 
 export const actions: Actions = {

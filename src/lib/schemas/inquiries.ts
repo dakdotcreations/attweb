@@ -1,11 +1,11 @@
 import { CONTACT_CHANNELS, INQUIRY_SOURCES, INQUIRY_STATUSES } from '#lib/inquiries.js';
 import { z } from 'zod';
-import { nullableText, requiredText } from './common.js';
+import { nullableText, optionalText, requiredText } from './common.js';
 
 export const inquiryStatusSchema = z.enum(INQUIRY_STATUSES);
 
 /** "YYYY-MM-DD" from a date input; empty → null. Stored as a date-only value at UTC midnight. */
-const dateOnly = z
+export const dateOnly = z
 	.string()
 	.trim()
 	.transform((v) => v || null)
@@ -45,6 +45,8 @@ const needsContactMessage = { message: 'Enter an email or a phone number', path:
 export const inquiryDetailsSchema = z
 	.object({
 		...inquiryContactFields,
+		// Optional here: flight/study requests often arrive without notes and must stay editable.
+		message: optionalText(5000, 'Message'),
 		interest: nullableText(200, 'Interest'),
 		packageId: z.string().min(1).nullable(),
 		serviceId: z.string().min(1).nullable(),
@@ -71,19 +73,28 @@ const formNumber = z.preprocess(
 	inquiryContactFields.groupSize
 );
 
+const publicInquiryFields = {
+	...inquiryContactFields,
+	groupSize: formNumber,
+	preferredContact: z.preprocess((v) => v || null, inquiryContactFields.preferredContact),
+	packageId: z.preprocess((v) => v || null, z.string().max(40).nullable()),
+	serviceId: z.preprocess((v) => v || null, z.string().max(40).nullable()),
+	sourceUrl: z.preprocess((v) => v || null, z.string().max(500).nullable())
+};
+const publicNeedsContact = { message: 'Enter your email or a WhatsApp/phone number', path: ['email'] };
+
 /**
  * Public website inquiry form (regular form fields, works without JS).
  * `website` is a honeypot and `startedAt` a time trap; both are checked in the action.
  */
-export const publicInquirySchema = z
-	.object({
-		...inquiryContactFields,
-		groupSize: formNumber,
-		preferredContact: z.preprocess((v) => v || null, inquiryContactFields.preferredContact),
-		packageId: z.preprocess((v) => v || null, z.string().max(40).nullable()),
-		serviceId: z.preprocess((v) => v || null, z.string().max(40).nullable()),
-		sourceUrl: z.preprocess((v) => v || null, z.string().max(500).nullable())
-	})
-	.refine(needsContact, { message: 'Enter your email or a WhatsApp/phone number', path: ['email'] });
+export const publicInquirySchema = z.object(publicInquiryFields).refine(needsContact, publicNeedsContact);
+
+/**
+ * Contact block of the flight and study abroad request forms: the structured answers carry
+ * the request, so the message is optional extra notes.
+ */
+export const publicRequestContactSchema = z
+	.object({ ...publicInquiryFields, message: optionalText(5000, 'Message') })
+	.refine(needsContact, publicNeedsContact);
 
 export type PublicInquiryData = z.output<typeof publicInquirySchema>;

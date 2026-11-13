@@ -29,6 +29,10 @@ type InquiryEmailData = {
 	groupSize: number | null;
 	preferredContact: string | null;
 	message: string;
+	/** "Flight request" / "Study abroad request"; null for general inquiries */
+	kindLabel?: string | null;
+	/** Structured answers from the flight / study abroad forms */
+	details?: { label: string; value: string }[];
 };
 
 const row = (label: string, value: string | number | null | undefined) =>
@@ -39,13 +43,14 @@ const row = (label: string, value: string | number | null | undefined) =>
 /** Tells the team about a new website inquiry. Reply-To is the customer, so replying just works. */
 export async function sendInquiryNotification(to: string, inquiry: InquiryEmailData, dashboardUrl: string) {
 	const travel = inquiry.travelDate ? inquiry.travelDate.toISOString().slice(0, 10) : null;
+	const details = inquiry.details ?? [];
 	await transporter.sendMail({
 		from: SMTP_FROM,
 		to,
 		replyTo: inquiry.email ?? undefined,
-		subject: `New inquiry #${inquiry.number}: ${inquiry.name}${inquiry.interest ? ` – ${inquiry.interest}` : ''}`,
+		subject: `New ${inquiry.kindLabel?.toLowerCase() ?? 'inquiry'} #${inquiry.number}: ${inquiry.name}${inquiry.interest ? ` – ${inquiry.interest}` : ''}`,
 		text: [
-			`New website inquiry #${inquiry.number}`,
+			`New website ${inquiry.kindLabel?.toLowerCase() ?? 'inquiry'} #${inquiry.number}`,
 			'',
 			`Name: ${inquiry.name}`,
 			inquiry.email && `Email: ${inquiry.email}`,
@@ -55,6 +60,7 @@ export async function sendInquiryNotification(to: string, inquiry: InquiryEmailD
 			travel && `Travel date: ${travel}`,
 			inquiry.groupSize && `Group size: ${inquiry.groupSize}`,
 			inquiry.preferredContact && `Prefers: ${inquiry.preferredContact}`,
+			...(details.length ? ['', ...details.map((d) => `${d.label}: ${d.value}`)] : []),
 			'',
 			inquiry.message,
 			'',
@@ -64,13 +70,14 @@ export async function sendInquiryNotification(to: string, inquiry: InquiryEmailD
 			.join('\n'),
 		html: `
 			<div style="font-family:system-ui,sans-serif;max-width:560px;margin:auto;padding:24px;color:#111827">
-				<h2 style="margin:0 0 16px;color:#0b4d2c">New inquiry #${inquiry.number}</h2>
+				<h2 style="margin:0 0 16px;color:#0b4d2c">New ${escapeHtml(inquiry.kindLabel?.toLowerCase() ?? 'inquiry')} #${inquiry.number}</h2>
 				<table style="font-size:14px;border-collapse:collapse">
 					${row('Name', inquiry.name)}${row('Email', inquiry.email)}${row('Phone / WhatsApp', inquiry.phone)}
 					${row('Country', inquiry.country)}${row('Interested in', inquiry.interest)}${row('Travel date', travel)}
 					${row('Group size', inquiry.groupSize)}${row('Prefers', inquiry.preferredContact)}
 				</table>
-				<p style="white-space:pre-line;background:#f9fafb;border-radius:8px;padding:12px;font-size:14px">${escapeHtml(inquiry.message)}</p>
+				${details.length ? `<h3 style="margin:20px 0 8px;font-size:15px;color:#0b4d2c">${escapeHtml(inquiry.kindLabel ?? 'Details')}</h3><table style="font-size:14px;border-collapse:collapse">${details.map((d) => row(d.label, d.value)).join('')}</table>` : ''}
+				${inquiry.message ? `<p style="white-space:pre-line;background:#f9fafb;border-radius:8px;padding:12px;font-size:14px">${escapeHtml(inquiry.message)}</p>` : ''}
 				<p><a href="${escapeHtml(dashboardUrl)}" style="display:inline-block;background:#0b4d2c;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none">Open in dashboard</a></p>
 			</div>`
 	});

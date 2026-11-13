@@ -7,5 +7,5 @@
 
 <!-- Re-create the form when switching records (e.g. after "new" redirects to the saved id). -->
 {#key data.service?.id ?? 'new'}
-	<ServiceForm service={data.service} />
+	<ServiceForm service={data.service} publishedInstitutions={data.publishedInstitutions} />
 {/key}

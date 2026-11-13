@@ -7,8 +7,11 @@
 	import { Button } from '#lib/components/ui/button/index.js';
 	import * as Card from '#lib/components/ui/card/index.js';
 	import { formatDateOnly, formatDateTime } from '#lib/format.js';
-	import { channelLabels, sourceLabels, whatsappLink } from '#lib/inquiries.js';
+	import { channelLabels, kindLabels, sourceLabels, whatsappLink } from '#lib/inquiries.js';
+	import { formatDetails } from '#lib/schemas/inquiry-details.js';
 	import ArrowLeftIcon from '@lucide/svelte/icons/arrow-left';
+	import GraduationCapIcon from '@lucide/svelte/icons/graduation-cap';
+	import PlaneIcon from '@lucide/svelte/icons/plane';
 	import MailIcon from '@lucide/svelte/icons/mail';
 	import MessageCircleIcon from '@lucide/svelte/icons/message-circle';
 	import PencilIcon from '@lucide/svelte/icons/pencil';
@@ -28,6 +31,7 @@
 			: ''
 	);
 	const whatsapp = $derived(inquiry ? whatsappLink(inquiry.phone, greeting) : null);
+	const detailRows = $derived(inquiry ? formatDetails(inquiry.kind, inquiry.details) : []);
 	const mailto = $derived(
 		inquiry?.email
 			? `mailto:${inquiry.email}?subject=${encodeURIComponent(`Re: your inquiry #${inquiry.number}${about ? ` – ${about}` : ''}`)}&body=${encodeURIComponent(`${greeting}\n\n`)}`
@@ -136,11 +140,59 @@
 							{/if}
 						</dl>
 						<div>
-							<p class="text-muted-foreground mb-1 text-sm">Message</p>
-							<p class="bg-muted/50 rounded-lg p-3 text-sm whitespace-pre-line">{inquiry.message}</p>
+							<p class="text-muted-foreground mb-1 text-sm">{inquiry.kind === 'GENERAL' ? 'Message' : 'Notes from the customer'}</p>
+							{#if inquiry.message}
+								<p class="bg-muted/50 rounded-lg p-3 text-sm whitespace-pre-line">{inquiry.message}</p>
+							{:else}
+								<p class="text-muted-foreground text-sm">None</p>
+							{/if}
 						</div>
 					</Card.Content>
 				</Card.Root>
+
+				{#if inquiry.kind !== 'GENERAL' && (detailRows.length || inquiry.institutions.length)}
+					<Card.Root>
+						<Card.Header>
+							<Card.Title class="flex items-center gap-2">
+								{#if inquiry.kind === 'FLIGHT'}<PlaneIcon class="size-4" />{:else}<GraduationCapIcon class="size-4" />{/if}
+								{kindLabels[inquiry.kind]}
+							</Card.Title>
+							{#if inquiry.kind === 'FLIGHT'}
+								<Card.Description>Quote options, then book once the customer confirms.</Card.Description>
+							{/if}
+						</Card.Header>
+						<Card.Content class="space-y-5">
+							{#if inquiry.institutions.length}
+								<div>
+									<p class="text-muted-foreground mb-2 text-sm">Institutions, in order of preference</p>
+									<ol class="space-y-2">
+										{#each inquiry.institutions as choice (choice.rank)}
+											<li class="flex items-center gap-3 text-sm">
+												<span class="bg-primary text-primary-foreground flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold">{choice.rank}</span>
+												<span>
+													{#if choice.institutionId}
+														<a href="/dashboard/institutions/{choice.institutionId}" class="font-medium underline-offset-4 hover:underline">{choice.name}</a>
+													{:else}
+														<span class="font-medium">{choice.name}</span>
+														<span class="text-muted-foreground text-xs">(no longer listed)</span>
+													{/if}
+													<span class="text-muted-foreground">· {choice.country}</span>
+												</span>
+											</li>
+										{/each}
+									</ol>
+								</div>
+							{/if}
+							{#if detailRows.length}
+								<dl class="grid gap-3 text-sm sm:grid-cols-2">
+									{#each detailRows as row, i (i)}
+										<div><dt class="text-muted-foreground">{row.label}</dt><dd>{row.value}</dd></div>
+									{/each}
+								</dl>
+							{/if}
+						</Card.Content>
+					</Card.Root>
+				{/if}
 
 				<p class="text-muted-foreground text-xs">
 					Received {formatDateTime(inquiry.createdAt)} via {sourceLabels[inquiry.source]}

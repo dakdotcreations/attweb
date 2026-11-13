@@ -2,6 +2,8 @@
 	import Seo from '#lib/components/public/seo.svelte';
 	import LatestStories from '#lib/components/public/home/latest-stories.svelte';
 	import InquiryForm from '#lib/components/public/inquiry-form.svelte';
+	import FlightRequestForm from '#lib/components/public/request-forms/flight-request-form.svelte';
+	import StudyRequestForm from '#lib/components/public/request-forms/study-request-form.svelte';
 	import PackageCard from '#lib/components/public/package-card.svelte';
 	import { reveal } from '#lib/components/public/reveal.js';
 	import ServiceCard from '#lib/components/public/service-card.svelte';
@@ -15,6 +17,31 @@
 	const service = $derived(data.service);
 	const metaTitle = $derived(service.seoTitle || `${service.name} | ${data.site.companyName}`);
 	const metaDescription = $derived(service.seoDescription || service.summary);
+
+	// The service decides which request form it shows (Service.formType, set in the dashboard).
+	// Study abroad falls back to the general form until partner institutions are published.
+	const form = $derived(
+		service.formType === 'STUDY_ABROAD' && !data.institutions.length ? 'GENERAL' : service.formType
+	);
+	const copy = $derived(
+		form === 'FLIGHT'
+			? {
+					cta: 'Request a flight quote',
+					title: 'Request a flight quote',
+					intro: "Tell us where and when you're flying. Our ticketing team compares fares across airlines and replies with options, usually the same working day. No payment is needed to ask."
+				}
+			: form === 'STUDY_ABROAD'
+				? {
+						cta: 'Start your application',
+						title: 'Start your study abroad request',
+						intro: "Pick the partner institutions you're interested in and tell us what you'd like to study. An advisor will guide you through admission, visas and travel. No payment is needed to ask."
+					}
+				: {
+						cta: `Ask about ${service.name}`,
+						title: `Ask us about ${service.name}`,
+						intro: "Tell us a little about what you need. We'll reply with options and prices. No payment is needed to ask."
+					}
+	);
 </script>
 
 <Seo
@@ -50,7 +77,7 @@
 		{#if service.summary}<p data-reveal class="text-paper/80 mt-5 max-w-2xl text-lg">{service.summary}</p>{/if}
 		<div data-reveal class="mt-8 flex flex-wrap gap-3">
 			<a href="#inquire" class="bg-paper text-forest-900 hover:bg-gold-300 inline-flex h-12 items-center gap-2 rounded-full px-6 text-sm font-bold transition-colors">
-				Ask about {service.name} <ArrowRightIcon class="size-4" />
+				{copy.cta} <ArrowRightIcon class="size-4" />
 			</a>
 			<WhatsAppButton number={data.site.whatsappNumber} message={`Hi Altura, I'd like to know more about ${service.name}.`} size="lg" />
 		</div>
@@ -99,12 +126,16 @@
 <div class="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:px-8 lg:py-28">
 	<div {@attach reveal()}>
 		<span class="bg-gold-400 block h-0.5 w-10" aria-hidden="true"></span>
-		<h2 id="svc-inquire-title" class="font-display text-paper mt-5 text-4xl leading-[0.95] font-semibold uppercase sm:text-5xl">Ask us about {service.name}</h2>
-		<p class="text-paper/75 mt-5 text-lg leading-relaxed">
-			Tell us a little about what you need. We'll reply with options and prices. No payment is needed to ask.
-		</p>
+		<h2 id="svc-inquire-title" class="font-display text-paper mt-5 text-4xl leading-[0.95] font-semibold uppercase sm:text-5xl">{copy.title}</h2>
+		<p class="text-paper/75 mt-5 text-lg leading-relaxed">{copy.intro}</p>
 	</div>
-	<InquiryForm serviceId={service.id} about={service.name} whatsappNumber={data.site.whatsappNumber} />
+	{#if form === 'FLIGHT'}
+		<FlightRequestForm serviceId={service.id} whatsappNumber={data.site.whatsappNumber} />
+	{:else if form === 'STUDY_ABROAD'}
+		<StudyRequestForm institutions={data.institutions} serviceId={service.id} whatsappNumber={data.site.whatsappNumber} />
+	{:else}
+		<InquiryForm serviceId={service.id} about={service.name} whatsappNumber={data.site.whatsappNumber} />
+	{/if}
 </div>
 </section>
 

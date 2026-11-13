@@ -7,8 +7,10 @@
 	import * as Select from '#lib/components/ui/select/index.js';
 	import * as Table from '#lib/components/ui/table/index.js';
 	import { formatDateOnly, formatRelative } from '#lib/format.js';
-	import { INQUIRY_SOURCES, INQUIRY_STATUSES, sourceLabels, statusMeta } from '#lib/inquiries.js';
+	import { INQUIRY_KINDS, INQUIRY_SOURCES, INQUIRY_STATUSES, kindLabels, sourceLabels, statusMeta } from '#lib/inquiries.js';
 	import { cn } from '#lib/utils.js';
+	import GraduationCapIcon from '@lucide/svelte/icons/graduation-cap';
+	import PlaneIcon from '@lucide/svelte/icons/plane';
 	import PlusIcon from '@lucide/svelte/icons/plus';
 	import type { PageProps } from './$types';
 
@@ -17,10 +19,14 @@
 	let q = $state('');
 	let serviceId = $state('');
 	let source = $state('');
+	let kind = $state('');
+	let institutionId = $state('');
 	$effect.pre(() => {
 		q = data.filters.q;
 		serviceId = data.filters.serviceId;
 		source = data.filters.source;
+		kind = data.filters.kind;
+		institutionId = data.filters.institutionId;
 	});
 
 	function href(overrides: Record<string, string | number> = {}) {
@@ -28,6 +34,8 @@
 			q: q.trim(),
 			service: serviceId,
 			source,
+			kind,
+			institution: institutionId,
 			status: data.filters.status,
 			...overrides
 		};
@@ -47,6 +55,11 @@
 	]);
 	const serviceLabel = $derived(data.services.find((s) => s.id === serviceId)?.name ?? 'All services');
 	const sourceLabel = $derived(source ? sourceLabels[source as keyof typeof sourceLabels] : 'All sources');
+	const kindLabel = $derived(kind ? kindLabels[kind as keyof typeof kindLabels] : 'All request types');
+	const institutionLabel = $derived(data.institutions.find((i) => i.id === institutionId)?.name ?? 'All institutions');
+	const hasFilters = $derived(
+		!!(data.filters.q || data.filters.serviceId || data.filters.source || data.filters.kind || data.filters.institutionId)
+	);
 </script>
 
 <PageHeader title="Inquiries" description="Leads from the website and those logged by the team.">
@@ -101,11 +114,27 @@
 			{#each INQUIRY_SOURCES as s (s)}<Select.Item value={s} label={sourceLabels[s]} />{/each}
 		</Select.Content>
 	</Select.Root>
+	<Select.Root type="single" bind:value={kind} onValueChange={apply}>
+		<Select.Trigger class="w-48">{kindLabel}</Select.Trigger>
+		<Select.Content>
+			<Select.Item value="" label="All request types" />
+			{#each INQUIRY_KINDS as k (k)}<Select.Item value={k} label={kindLabels[k]} />{/each}
+		</Select.Content>
+	</Select.Root>
+	{#if data.institutions.length && (kind === 'STUDY_ABROAD' || institutionId)}
+		<Select.Root type="single" bind:value={institutionId} onValueChange={apply}>
+			<Select.Trigger class="w-56">{institutionLabel}</Select.Trigger>
+			<Select.Content>
+				<Select.Item value="" label="All institutions" />
+				{#each data.institutions as i (i.id)}<Select.Item value={i.id} label={`${i.name} (${i.country})`} />{/each}
+			</Select.Content>
+		</Select.Root>
+	{/if}
 </div>
 
 {#if data.items.length === 0}
 	<div class="text-muted-foreground rounded-xl border border-dashed py-16 text-center text-sm">
-		{#if data.allCount === 0 && !data.filters.q && !data.filters.serviceId && !data.filters.source}
+		{#if data.allCount === 0 && !hasFilters}
 			No inquiries yet. Website inquiries will appear here, and you can log WhatsApp or phone leads with
 			<span class="text-foreground font-medium">Log inquiry</span>.
 		{:else}
@@ -136,6 +165,11 @@
 							</div>
 						</Table.Cell>
 						<Table.Cell class="max-w-64 truncate font-normal">
+							{#if inquiry.kind === 'FLIGHT'}
+								<PlaneIcon class="text-muted-foreground mr-1 inline size-3.5 align-[-2px]" aria-label={kindLabels.FLIGHT} />
+							{:else if inquiry.kind === 'STUDY_ABROAD'}
+								<GraduationCapIcon class="text-muted-foreground mr-1 inline size-3.5 align-[-2px]" aria-label={kindLabels.STUDY_ABROAD} />
+							{/if}
 							{inquiry.package?.title ?? inquiry.interest ?? inquiry.service?.name ?? '—'}
 						</Table.Cell>
 						<Table.Cell class="text-muted-foreground text-sm font-normal whitespace-nowrap">

@@ -115,14 +115,15 @@ model Media {
   uploadedBy      User?   @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
 
   // Where the image is used. Deleting media clears covers (SetNull) and removes it from galleries (Cascade).
-  serviceCovers  Service[]             @relation("ServiceCover")
-  packageCovers  TourPackage[]         @relation("PackageCover")
-  packageGallery PackageGalleryImage[]
-  blogCovers     BlogPost[]            @relation("BlogCover")
-  testimonials   Testimonial[]         @relation("TestimonialPhoto")
-  siteOgImage    SiteSettings[]        @relation("SiteOgImage")
-  createdAt      DateTime              @default(now())
-  updatedAt      DateTime              @updatedAt
+  serviceCovers    Service[]             @relation("ServiceCover")
+  packageCovers    TourPackage[]         @relation("PackageCover")
+  packageGallery   PackageGalleryImage[]
+  blogCovers       BlogPost[]            @relation("BlogCover")
+  testimonials     Testimonial[]         @relation("TestimonialPhoto")
+  siteOgImage      SiteSettings[]        @relation("SiteOgImage")
+  institutionLogos PartnerInstitution[]  @relation("InstitutionLogo")
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
 
   @@index([showInGallery, createdAt])
   @@index([createdAt])
@@ -136,6 +137,13 @@ model Media {
 enum PublishStatus {
   DRAFT
   PUBLISHED
+}
+
+/// Which public request form a service page shows.
+enum ServiceFormType {
+  GENERAL
+  FLIGHT
+  STUDY_ABROAD
 }
 
 /// A business line (Wildlife Tours, Gorilla Trekking, Medical Tourism, ...).
@@ -152,6 +160,8 @@ model Service {
   coverImage     Media?           @relation("ServiceCover", fields: [coverImageId], references: [id], onDelete: SetNull)
   status         PublishStatus    @default(DRAFT)
   sortOrder      Int              @default(0)
+  /// Public request form shown on the service page (flight request, study abroad, or the general inquiry form)
+  formType       ServiceFormType  @default(GENERAL)
   seoTitle       String?
   seoDescription String?
   packages       PackageService[]
@@ -380,15 +390,22 @@ enum ContactChannel {
   PHONE
 }
 
+/// Which public form an inquiry came from; decides the shape of `Inquiry.details`.
+enum InquiryKind {
+  GENERAL
+  FLIGHT
+  STUDY_ABROAD
+}
+
 enum Currency {
   UGX
   USD
 }
 
 model Inquiry {
-  id               String          @id @default(cuid())
+  id               String               @id @default(cuid())
   /// Human-friendly reference shown as #1001
-  number           Int             @unique @default(autoincrement())
+  number           Int                  @unique @default(autoincrement())
   name             String
   email            String?
   phone            String?
@@ -397,25 +414,30 @@ model Inquiry {
   /// Snapshot of what they asked about, kept even if the package/service is deleted
   interest         String?
   packageId        String?
-  package          TourPackage?    @relation(fields: [packageId], references: [id], onDelete: SetNull)
+  package          TourPackage?         @relation(fields: [packageId], references: [id], onDelete: SetNull)
   serviceId        String?
-  service          Service?        @relation(fields: [serviceId], references: [id], onDelete: SetNull)
-  travelDate       DateTime?       @db.Date
+  service          Service?             @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  travelDate       DateTime?            @db.Date
   groupSize        Int?
   preferredContact ContactChannel?
   /// Currency the visitor was viewing prices in
   currency         Currency?
-  status           InquiryStatus   @default(NEW)
-  source           InquirySource   @default(WEBSITE)
+  status           InquiryStatus        @default(NEW)
+  source           InquirySource        @default(WEBSITE)
   /// Page the website form was submitted from
   sourceUrl        String?
   createdById      String?
-  createdBy        User?           @relation("InquiryCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  createdBy        User?                @relation("InquiryCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  kind             InquiryKind          @default(GENERAL)
+  /// Kind-specific answers (flight route/passengers, study level/course), validated per kind in lib/schemas/inquiry-details.ts
+  details          Json?
+  institutions     InquiryInstitution[]
   notes            InquiryNote[]
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
 
   @@index([status, createdAt])
+  @@index([kind, createdAt])
   @@index([createdAt])
   @@index([serviceId])
   @@index([packageId])
@@ -442,4 +464,39 @@ model InquiryNote {
 
   @@index([inquiryId, createdAt])
   @@map("inquiry_note")
+}
+
+// ----------------------------------------------------------------------------
+// Study abroad: partner institutions students can choose on the request form.
+// ----------------------------------------------------------------------------
+
+model PartnerInstitution {
+  id        String               @id @default(cuid())
+  name      String
+  country   String
+  logoId    String?
+  logo      Media?               @relation("InstitutionLogo", fields: [logoId], references: [id], onDelete: SetNull)
+  status    PublishStatus        @default(DRAFT)
+  sortOrder Int                  @default(0)
+  inquiries InquiryInstitution[]
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  @@index([status, country, sortOrder])
+  @@map("partner_institution")
+}
+
+/// A student's ranked institution choice (1-3). Name and country are snapshots so history survives deletes.
+model InquiryInstitution {
+  inquiryId     String
+  inquiry       Inquiry             @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
+  institutionId String?
+  institution   PartnerInstitution? @relation(fields: [institutionId], references: [id], onDelete: SetNull)
+  name          String
+  country       String
+  rank          Int
+
+  @@id([inquiryId, rank])
+  @@index([institutionId])
+  @@map("inquiry_institution")
 }

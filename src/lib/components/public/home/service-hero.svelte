@@ -174,8 +174,8 @@
 				/>
 			{/if}
 		{/each}
-		<div class="absolute inset-0 z-[2] bg-linear-to-r from-black/70 via-black/35 to-black/10"></div>
-		<div class="absolute inset-0 z-[2] bg-linear-to-t from-black/60 via-transparent to-black/40"></div>
+		<div class="absolute inset-0 z-[2] bg-linear-to-r from-black/50 via-black/20 to-black/10"></div>
+		<div class="absolute inset-0 z-[2] bg-linear-to-t from-black/40 via-transparent to-black/40"></div>
 		<!-- Phones: the copy sits low over the photo, so weight the scrim to the bottom. -->
 		<div class="absolute inset-x-0 bottom-0 z-[2] h-4/5 bg-linear-to-t from-black/90 via-black/60 to-transparent lg:hidden"></div>
 	</div>
