@@ -10,6 +10,9 @@
 	import { Textarea } from '#lib/components/ui/textarea/index.js';
 	import { formatBytes, type MediaItem } from '#lib/media.js';
 	import ExternalLinkIcon from '@lucide/svelte/icons/external-link';
+	import AccessibilityIcon from '@lucide/svelte/icons/accessibility';
+	import CaptionsIcon from '@lucide/svelte/icons/captions';
+	import TagIcon from '@lucide/svelte/icons/tag';
 
 	let {
 		media = $bindable(),
@@ -84,12 +87,12 @@
 					<input type="hidden" name="id" value={media.id} />
 					<Field.Group>
 						<Field.Field>
-							<Field.Label for="alt">Alt text</Field.Label>
+							<Field.Label for="alt"><AccessibilityIcon />Alt text</Field.Label>
 							<Input id="alt" name="alt" value={media.alt} maxlength={300} placeholder="Describe the image" />
 							<Field.Description>Read by screen readers and search engines.</Field.Description>
 						</Field.Field>
 						<Field.Field>
-							<Field.Label for="caption">Caption</Field.Label>
+							<Field.Label for="caption"><CaptionsIcon />Caption</Field.Label>
 							<Textarea id="caption" name="caption" value={media.caption ?? ''} maxlength={500} rows={2} />
 						</Field.Field>
 						<Field.Field orientation="horizontal">
@@ -97,7 +100,7 @@
 							<Field.Label for="showInGallery" class="font-normal">Show on public Gallery page</Field.Label>
 						</Field.Field>
 						<Field.Field>
-							<Field.Label for="galleryCategory">Gallery category</Field.Label>
+							<Field.Label for="galleryCategory"><TagIcon />Gallery category</Field.Label>
 							<Input
 								id="galleryCategory"
 								name="galleryCategory"

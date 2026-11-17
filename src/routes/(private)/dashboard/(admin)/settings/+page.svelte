@@ -9,6 +9,17 @@
 	import { Textarea } from '#lib/components/ui/textarea/index.js';
 	import type { SettingsInput } from '#lib/schemas/settings.js';
 	import type { PageProps } from './$types';
+	import BellIcon from '@lucide/svelte/icons/bell';
+	import BuildingIcon from '@lucide/svelte/icons/building';
+	import ClockIcon from '@lucide/svelte/icons/clock';
+	import ImageIcon from '@lucide/svelte/icons/image';
+	import LinkIcon from '@lucide/svelte/icons/link';
+	import MailIcon from '@lucide/svelte/icons/mail';
+	import MapPinIcon from '@lucide/svelte/icons/map-pin';
+	import MessageCircleIcon from '@lucide/svelte/icons/message-circle';
+	import PhoneIcon from '@lucide/svelte/icons/phone';
+	import QuoteIcon from '@lucide/svelte/icons/quote';
+	import type { Component } from 'svelte';
 
 	let { data }: PageProps = $props();
 
@@ -51,9 +62,9 @@
 	];
 </script>
 
-{#snippet text(key: TextKey, label: string, opts: { type?: string; placeholder?: string; description?: string; max?: number } = {})}
+{#snippet text(key: TextKey, label: string, Icon: Component, opts: { type?: string; placeholder?: string; description?: string; max?: number } = {})}
 	<Field.Field data-invalid={errors[key] ? true : undefined}>
-		<Field.Label for={key}>{label}</Field.Label>
+		<Field.Label for={key}><Icon />{label}</Field.Label>
 		<Input
 			id={key}
 			type={opts.type ?? 'text'}
@@ -80,8 +91,8 @@
 			<Card.Header><Card.Title>Business</Card.Title></Card.Header>
 			<Card.Content>
 				<Field.Group>
-					{@render text('companyName', 'Company name', { max: 120 })}
-					{@render text('tagline', 'Tagline', { max: 160, placeholder: 'e.g. Unforgettable journeys across Uganda' })}
+					{@render text('companyName', 'Company name', BuildingIcon, { max: 120 })}
+					{@render text('tagline', 'Tagline', QuoteIcon, { max: 160, placeholder: 'e.g. Unforgettable journeys across Uganda' })}
 				</Field.Group>
 			</Card.Content>
 		</Card.Root>
@@ -94,24 +105,24 @@
 			<Card.Content>
 				<Field.Group>
 					<div class="grid gap-4 sm:grid-cols-2">
-						{@render text('whatsappNumber', 'WhatsApp number', {
+						{@render text('whatsappNumber', 'WhatsApp number', MessageCircleIcon, {
 							type: 'tel',
 							placeholder: '+256 700 000000',
 							description: 'Used for the WhatsApp buttons on the website.'
 						})}
-						{@render text('phone', 'Phone', { type: 'tel', max: 40 })}
-						{@render text('email', 'Public email', { type: 'email', placeholder: 'info@…' })}
-						{@render text('inquiryEmail', 'Inquiry notifications email', {
+						{@render text('phone', 'Phone', PhoneIcon, { type: 'tel', max: 40 })}
+						{@render text('email', 'Public email', MailIcon, { type: 'email', placeholder: 'info@…' })}
+						{@render text('inquiryEmail', 'Inquiry notifications email', BellIcon, {
 							type: 'email',
 							description: 'Where new website inquiries are sent. Defaults to the public email.'
 						})}
 					</div>
 					<Field.Field data-invalid={errors.address ? true : undefined}>
-						<Field.Label for="address">Office address</Field.Label>
+						<Field.Label for="address"><MapPinIcon />Office address</Field.Label>
 						<Textarea id="address" bind:value={values.address} maxlength={300} rows={2} />
 						{#if errors.address}<Field.Error>{errors.address}</Field.Error>{/if}
 					</Field.Field>
-					{@render text('officeHours', 'Office hours', { max: 200, placeholder: 'Mon–Sat, 8:00–18:00 EAT' })}
+					{@render text('officeHours', 'Office hours', ClockIcon, { max: 200, placeholder: 'Mon–Sat, 8:00–18:00 EAT' })}
 				</Field.Group>
 			</Card.Content>
 		</Card.Root>
@@ -121,7 +132,7 @@
 			<Card.Content>
 				<div class="grid gap-4 sm:grid-cols-2">
 					{#each socials as social (social.key)}
-						{@render text(social.key, social.label, { type: 'url', placeholder: social.placeholder })}
+						{@render text(social.key, social.label, LinkIcon, { type: 'url', placeholder: social.placeholder })}
 					{/each}
 				</div>
 			</Card.Content>
@@ -135,7 +146,7 @@
 			<Card.Content class="space-y-6">
 				<SeoFields bind:title={values.seoTitle} bind:description={values.seoDescription} fallbackTitle={values.companyName} {errors} />
 				<Field.Field>
-					<Field.Label>Sharing image</Field.Label>
+					<Field.Label><ImageIcon />Sharing image</Field.Label>
 					<ImageField bind:value={values.ogImage} label="Sharing image" />
 					<Field.Description>Shown when links are shared on WhatsApp, Facebook, etc. Landscape works best.</Field.Description>
 				</Field.Field>

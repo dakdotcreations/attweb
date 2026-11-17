@@ -16,6 +16,9 @@
 	import type { MediaRef } from '#lib/media.js';
 	import type { BlogPostInput } from '#lib/schemas/blog.js';
 	import type { PublishStatus } from '#lib/schemas/common.js';
+	import FileTextIcon from '@lucide/svelte/icons/file-text';
+	import TextAlignStartIcon from '@lucide/svelte/icons/text-align-start';
+	import TypeIcon from '@lucide/svelte/icons/type';
 
 	type Post = {
 		id: string;
@@ -66,19 +69,19 @@
 			<Card.Content>
 				<Field.Group>
 					<Field.Field data-invalid={errors.title ? true : undefined}>
-						<Field.Label for="title">Title</Field.Label>
+						<Field.Label for="title"><TypeIcon />Title</Field.Label>
 						<Input id="title" bind:value={values.title} maxlength={150} aria-invalid={errors.title ? true : undefined} />
 						{#if errors.title}<Field.Error>{errors.title}</Field.Error>{/if}
 					</Field.Field>
 					<SlugField bind:value={values.slug} source={values.title} prefix="/blog/" locked={!!post} error={errors.slug} />
 					<Field.Field data-invalid={errors.excerpt ? true : undefined}>
-						<Field.Label for="excerpt">Excerpt</Field.Label>
+						<Field.Label for="excerpt"><TextAlignStartIcon />Excerpt</Field.Label>
 						<Textarea id="excerpt" bind:value={values.excerpt} maxlength={300} rows={2} />
 						<Field.Description>Short teaser for the blog list and search results.</Field.Description>
 						{#if errors.excerpt}<Field.Error>{errors.excerpt}</Field.Error>{/if}
 					</Field.Field>
 					<Field.Field data-invalid={errors.content ? true : undefined}>
-						<Field.Label>Content</Field.Label>
+						<Field.Label><FileTextIcon />Content</Field.Label>
 						<RichTextEditor bind:value={values.content} invalid={!!errors.content} minHeight="28rem" />
 						{#if errors.content}<Field.Error>{errors.content}</Field.Error>{/if}
 					</Field.Field>

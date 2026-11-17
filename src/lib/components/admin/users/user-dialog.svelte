@@ -7,6 +7,9 @@
 	import { Input } from '#lib/components/ui/input/index.js';
 	import * as Select from '#lib/components/ui/select/index.js';
 	import { Switch } from '#lib/components/ui/switch/index.js';
+	import MailIcon from '@lucide/svelte/icons/mail';
+	import ShieldIcon from '@lucide/svelte/icons/shield';
+	import UserIcon from '@lucide/svelte/icons/user';
 
 	type Role = 'ADMIN' | 'EDITOR';
 	type User = { id: string; name: string; email: string; role: Role };
@@ -81,19 +84,19 @@
 			{#if user}<input type="hidden" name="id" value={user.id} />{/if}
 			<Field.Group>
 				<Field.Field data-invalid={errors.name ? true : undefined}>
-					<Field.Label for="user-name">Name</Field.Label>
+					<Field.Label for="user-name"><UserIcon />Name</Field.Label>
 					<Input id="user-name" name="name" value={user?.name ?? ''} maxlength={100} required />
 					{#if errors.name}<Field.Error>{errors.name}</Field.Error>{/if}
 				</Field.Field>
 				{#if !user}
 					<Field.Field data-invalid={errors.email ? true : undefined}>
-						<Field.Label for="user-email">Email</Field.Label>
+						<Field.Label for="user-email"><MailIcon />Email</Field.Label>
 						<Input id="user-email" name="email" type="email" autocomplete="off" required />
 						{#if errors.email}<Field.Error>{errors.email}</Field.Error>{/if}
 					</Field.Field>
 				{/if}
 				<Field.Field data-invalid={errors.role ? true : undefined}>
-					<Field.Label for="user-role">Role</Field.Label>
+					<Field.Label for="user-role"><ShieldIcon />Role</Field.Label>
 					<Select.Root type="single" name="role" bind:value={role} disabled={isSelf}>
 						<Select.Trigger id="user-role" class="w-full">{roles[role].label}</Select.Trigger>
 						<Select.Content>

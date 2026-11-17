@@ -7,6 +7,7 @@
 	import * as Field from '#lib/components/ui/field/index.js';
 	import { Input } from '#lib/components/ui/input/index.js';
 	import { slugify } from '#lib/slug.js';
+	import LinkIcon from '@lucide/svelte/icons/link';
 
 	let {
 		value = $bindable(''),
@@ -25,7 +26,7 @@
 </script>
 
 <Field.Field data-invalid={error ? true : undefined}>
-	<Field.Label for="slug">URL</Field.Label>
+	<Field.Label for="slug"><LinkIcon />URL</Field.Label>
 	<div class="flex items-center gap-2">
 		<span class="text-muted-foreground shrink-0 text-sm">{prefix}</span>
 		<Input

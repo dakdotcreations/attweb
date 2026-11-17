@@ -16,6 +16,9 @@
 	import type { MediaRef } from '#lib/media.js';
 	import type { PublishStatus } from '#lib/schemas/common.js';
 	import type { ServiceInput } from '#lib/schemas/services.js';
+	import BriefcaseIcon from '@lucide/svelte/icons/briefcase';
+	import FileTextIcon from '@lucide/svelte/icons/file-text';
+	import TextAlignStartIcon from '@lucide/svelte/icons/text-align-start';
 
 	type Service = {
 		id: string;
@@ -72,19 +75,19 @@
 			<Card.Content>
 				<Field.Group>
 					<Field.Field data-invalid={errors.name ? true : undefined}>
-						<Field.Label for="name">Name</Field.Label>
+						<Field.Label for="name"><BriefcaseIcon />Name</Field.Label>
 						<Input id="name" bind:value={values.name} maxlength={120} aria-invalid={errors.name ? true : undefined} />
 						{#if errors.name}<Field.Error>{errors.name}</Field.Error>{/if}
 					</Field.Field>
 					<SlugField bind:value={values.slug} source={values.name} prefix="/services/" locked={!!service} error={errors.slug} />
 					<Field.Field data-invalid={errors.summary ? true : undefined}>
-						<Field.Label for="summary">Summary</Field.Label>
+						<Field.Label for="summary"><TextAlignStartIcon />Summary</Field.Label>
 						<Textarea id="summary" bind:value={values.summary} maxlength={300} rows={2} />
 						<Field.Description>One or two sentences for cards and search results.</Field.Description>
 						{#if errors.summary}<Field.Error>{errors.summary}</Field.Error>{/if}
 					</Field.Field>
 					<Field.Field data-invalid={errors.content ? true : undefined}>
-						<Field.Label>Page content</Field.Label>
+						<Field.Label><FileTextIcon />Page content</Field.Label>
 						<RichTextEditor bind:value={values.content} invalid={!!errors.content} />
 						{#if errors.content}<Field.Error>{errors.content}</Field.Error>{/if}
 					</Field.Field>

@@ -11,6 +11,8 @@
 	import type { MediaRef } from '#lib/media.js';
 	import type { PublishStatus } from '#lib/schemas/common.js';
 	import type { InstitutionInput } from '#lib/schemas/institutions.js';
+	import GlobeIcon from '@lucide/svelte/icons/globe';
+	import GraduationCapIcon from '@lucide/svelte/icons/graduation-cap';
 
 	type Institution = {
 		id: string;
@@ -61,12 +63,12 @@
 			<Card.Content>
 				<Field.Group>
 					<Field.Field data-invalid={errors.name ? true : undefined}>
-						<Field.Label for="name">Name</Field.Label>
+						<Field.Label for="name"><GraduationCapIcon />Name</Field.Label>
 						<Input id="name" bind:value={values.name} maxlength={150} placeholder="e.g. University of Leeds" aria-invalid={errors.name ? true : undefined} />
 						{#if errors.name}<Field.Error>{errors.name}</Field.Error>{/if}
 					</Field.Field>
 					<Field.Field data-invalid={errors.country ? true : undefined}>
-						<Field.Label for="country">Country</Field.Label>
+						<Field.Label for="country"><GlobeIcon />Country</Field.Label>
 						<Input
 							id="country"
 							bind:value={values.country}

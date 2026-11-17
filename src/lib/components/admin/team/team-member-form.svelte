@@ -10,6 +10,9 @@
 	import type { MediaRef } from '#lib/media.js';
 	import type { PublishStatus } from '#lib/schemas/common.js';
 	import type { TeamMemberInput } from '#lib/schemas/team.js';
+	import BadgeCheckIcon from '@lucide/svelte/icons/badge-check';
+	import MessageCircleIcon from '@lucide/svelte/icons/message-circle';
+	import UserIcon from '@lucide/svelte/icons/user';
 
 	type Member = {
 		id: string;
@@ -55,17 +58,17 @@
 			<Card.Content>
 				<Field.Group>
 					<Field.Field data-invalid={errors.name ? true : undefined}>
-						<Field.Label for="name">Name</Field.Label>
+						<Field.Label for="name"><UserIcon />Name</Field.Label>
 						<Input id="name" bind:value={values.name} maxlength={80} aria-invalid={errors.name ? true : undefined} />
 						{#if errors.name}<Field.Error>{errors.name}</Field.Error>{/if}
 					</Field.Field>
 					<Field.Field data-invalid={errors.role ? true : undefined}>
-						<Field.Label for="role">Role</Field.Label>
+						<Field.Label for="role"><BadgeCheckIcon />Role</Field.Label>
 						<Input id="role" bind:value={values.role} maxlength={80} placeholder="e.g. Safari planner, or Visas & Study Abroad" aria-invalid={errors.role ? true : undefined} />
 						{#if errors.role}<Field.Error>{errors.role}</Field.Error>{/if}
 					</Field.Field>
 					<Field.Field data-invalid={errors.whatsapp ? true : undefined}>
-						<Field.Label for="whatsapp">WhatsApp number (optional)</Field.Label>
+						<Field.Label for="whatsapp"><MessageCircleIcon />WhatsApp number (optional)</Field.Label>
 						<Input id="whatsapp" type="tel" bind:value={values.whatsapp} maxlength={30} placeholder="+256 700 000000" aria-invalid={errors.whatsapp ? true : undefined} />
 						<Field.Description>Used for the "Message on WhatsApp" link. Leave empty to use the company number from Settings.</Field.Description>
 						{#if errors.whatsapp}<Field.Error>{errors.whatsapp}</Field.Error>{/if}

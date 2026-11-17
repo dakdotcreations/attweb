@@ -5,6 +5,7 @@
 	import * as Field from '#lib/components/ui/field/index.js';
 	import { Input } from '#lib/components/ui/input/index.js';
 	import type { PageProps } from './$types';
+	import MailIcon from '@lucide/svelte/icons/mail';
 
 	let { data, form }: PageProps = $props();
 	let submitting = $state(false);
@@ -33,7 +34,7 @@
 			<input type="hidden" name="redirectTo" value={data.redirectTo} />
 			<Field.Group>
 				<Field.Field data-invalid={form?.error ? true : undefined}>
-					<Field.Label for="email">Email</Field.Label>
+					<Field.Label for="email"><MailIcon />Email</Field.Label>
 					<Input
 						id="email"
 						name="email"

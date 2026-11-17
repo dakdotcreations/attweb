@@ -5,6 +5,8 @@
 	import * as Select from '#lib/components/ui/select/index.js';
 	import type { PublishStatus } from '#lib/schemas/common.js';
 	import type { Snippet } from 'svelte';
+	import ArrowUpDownIcon from '@lucide/svelte/icons/arrow-up-down';
+	import EyeIcon from '@lucide/svelte/icons/eye';
 
 	let {
 		status = $bindable('DRAFT'),
@@ -29,7 +31,7 @@
 	<Card.Content>
 		<Field.Group>
 			<Field.Field>
-				<Field.Label for="status">Status</Field.Label>
+				<Field.Label for="status"><EyeIcon />Status</Field.Label>
 				<Select.Root type="single" bind:value={status}>
 					<Select.Trigger id="status" class="w-full">{labels[status]}</Select.Trigger>
 					<Select.Content>
@@ -40,7 +42,7 @@
 			</Field.Field>
 			{#if showSortOrder}
 				<Field.Field data-invalid={errors.sortOrder ? true : undefined}>
-					<Field.Label for="sortOrder">Display order</Field.Label>
+					<Field.Label for="sortOrder"><ArrowUpDownIcon />Display order</Field.Label>
 					<Input id="sortOrder" type="number" min={0} max={9999} step={1} bind:value={sortOrder} />
 					<Field.Description>Lower numbers appear first.</Field.Description>
 					{#if errors.sortOrder}<Field.Error>{errors.sortOrder}</Field.Error>{/if}

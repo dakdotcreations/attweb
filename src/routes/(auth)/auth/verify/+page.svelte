@@ -5,6 +5,7 @@
 	import * as Field from '#lib/components/ui/field/index.js';
 	import * as InputOTP from '#lib/components/ui/input-otp/index.js';
 	import type { PageProps } from './$types';
+	import KeyRoundIcon from '@lucide/svelte/icons/key-round';
 
 	let { data, form }: PageProps = $props();
 	let otp = $state('');
@@ -38,7 +39,7 @@
 			<input type="hidden" name="redirectTo" value={data.redirectTo} />
 			<Field.Group>
 				<Field.Field data-invalid={form?.error ? true : undefined}>
-					<Field.Label for="otp">Sign-in code</Field.Label>
+					<Field.Label for="otp"><KeyRoundIcon />Sign-in code</Field.Label>
 					<InputOTP.Root
 						id="otp"
 						name="otp"

@@ -13,6 +13,12 @@
 	import type { MediaRef } from '#lib/media.js';
 	import type { PublishStatus } from '#lib/schemas/common.js';
 	import type { TestimonialInput } from '#lib/schemas/testimonials.js';
+	import BriefcaseIcon from '@lucide/svelte/icons/briefcase';
+	import MapPinIcon from '@lucide/svelte/icons/map-pin';
+	import PackageIcon from '@lucide/svelte/icons/package';
+	import QuoteIcon from '@lucide/svelte/icons/quote';
+	import StarIcon from '@lucide/svelte/icons/star';
+	import UserIcon from '@lucide/svelte/icons/user';
 
 	type Testimonial = {
 		id: string;
@@ -84,23 +90,23 @@
 				<Field.Group>
 					<div class="grid gap-4 sm:grid-cols-2">
 						<Field.Field data-invalid={errors.name ? true : undefined}>
-							<Field.Label for="name">Customer name</Field.Label>
+							<Field.Label for="name"><UserIcon />Customer name</Field.Label>
 							<Input id="name" bind:value={values.name} maxlength={120} aria-invalid={errors.name ? true : undefined} />
 							{#if errors.name}<Field.Error>{errors.name}</Field.Error>{/if}
 						</Field.Field>
 						<Field.Field data-invalid={errors.location ? true : undefined}>
-							<Field.Label for="location">From</Field.Label>
+							<Field.Label for="location"><MapPinIcon />From</Field.Label>
 							<Input id="location" bind:value={values.location} maxlength={120} placeholder="e.g. Germany" />
 							{#if errors.location}<Field.Error>{errors.location}</Field.Error>{/if}
 						</Field.Field>
 					</div>
 					<Field.Field data-invalid={errors.quote ? true : undefined}>
-						<Field.Label for="quote">Quote</Field.Label>
+						<Field.Label for="quote"><QuoteIcon />Quote</Field.Label>
 						<Textarea id="quote" bind:value={values.quote} maxlength={2000} rows={6} aria-invalid={errors.quote ? true : undefined} />
 						{#if errors.quote}<Field.Error>{errors.quote}</Field.Error>{/if}
 					</Field.Field>
 					<Field.Field>
-						<Field.Label for="rating">Rating</Field.Label>
+						<Field.Label for="rating"><StarIcon />Rating</Field.Label>
 						<Select.Root type="single" bind:value={values.rating}>
 							<Select.Trigger id="rating" class="w-48">{ratingLabel}</Select.Trigger>
 							<Select.Content>
@@ -123,7 +129,7 @@
 			<Card.Content>
 				<div class="grid gap-4 sm:grid-cols-2">
 					<Field.Field>
-						<Field.Label>Service</Field.Label>
+						<Field.Label><BriefcaseIcon />Service</Field.Label>
 						<Select.Root type="single" bind:value={values.serviceId}>
 							<Select.Trigger class="w-full">{serviceLabel}</Select.Trigger>
 							<Select.Content>
@@ -133,7 +139,7 @@
 						</Select.Root>
 					</Field.Field>
 					<Field.Field>
-						<Field.Label>Tour package</Field.Label>
+						<Field.Label><PackageIcon />Tour package</Field.Label>
 						<Select.Root type="single" bind:value={values.packageId}>
 							<Select.Trigger class="w-full">{packageLabel}</Select.Trigger>
 							<Select.Content>

@@ -8,6 +8,7 @@
 	import { Input } from '#lib/components/ui/input/index.js';
 	import type { AirlineInput } from '#lib/schemas/airlines.js';
 	import type { PublishStatus } from '#lib/schemas/common.js';
+	import PlaneIcon from '@lucide/svelte/icons/plane';
 
 	type Airline = { id: string; name: string; status: PublishStatus; sortOrder: number };
 
@@ -39,7 +40,7 @@
 			<Card.Content>
 				<Field.Group>
 					<Field.Field data-invalid={errors.name ? true : undefined}>
-						<Field.Label for="name">Name</Field.Label>
+						<Field.Label for="name"><PlaneIcon />Name</Field.Label>
 						<Input id="name" bind:value={values.name} maxlength={80} placeholder="e.g. Uganda Airlines" aria-invalid={errors.name ? true : undefined} />
 						<Field.Description>Shown exactly like this on the flight form and the About page.</Field.Description>
 						{#if errors.name}<Field.Error>{errors.name}</Field.Error>{/if}

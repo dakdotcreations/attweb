@@ -27,7 +27,7 @@
 	<span class="flex flex-col leading-none">
 		<span
 			class={cn(
-				'font-heading text-[1.6em] font-bold tracking-[0.06em]',
+				'font-wordmark text-[1.6em] font-bold tracking-[0.06em]',
 				tone === 'light' ? 'text-cream' : 'text-forest-800'
 			)}
 		>

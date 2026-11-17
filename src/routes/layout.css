@@ -79,7 +79,10 @@
 
 @theme inline {
 	--font-sans: 'Montserrat Variable', ui-sans-serif, system-ui, sans-serif;
-	--font-heading: 'Cinzel Variable', 'Times New Roman', serif;
+	/* Headings in shadcn components (dashboard, auth): card, dialog and sheet titles. */
+	--font-heading: 'Montserrat Variable', ui-sans-serif, system-ui, sans-serif;
+	/* The logo's Trajan-style wordmark; also the public footer column heads and tagline. */
+	--font-wordmark: 'Cinzel Variable', 'Times New Roman', serif;
 	/* Public site display face: tall condensed caps for hero titles, section and card headings. */
 	--font-display: 'Oswald Variable', 'Arial Narrow', sans-serif;
 	--color-sidebar-ring: var(--sidebar-ring);

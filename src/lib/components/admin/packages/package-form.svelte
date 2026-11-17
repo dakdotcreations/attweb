@@ -20,6 +20,12 @@
 	import type { PublishStatus } from '#lib/schemas/common.js';
 	import type { PackageInput, PackagePriceInput } from '#lib/schemas/packages.js';
 	import PriceTiersField from './price-tiers-field.svelte';
+	import FileTextIcon from '@lucide/svelte/icons/file-text';
+	import MapPinIcon from '@lucide/svelte/icons/map-pin';
+	import MoonIcon from '@lucide/svelte/icons/moon';
+	import SunIcon from '@lucide/svelte/icons/sun';
+	import TextAlignStartIcon from '@lucide/svelte/icons/text-align-start';
+	import TypeIcon from '@lucide/svelte/icons/type';
 
 	type Pkg = {
 		id: string;
@@ -113,36 +119,36 @@
 			<Card.Content>
 				<Field.Group>
 					<Field.Field data-invalid={errors.title ? true : undefined}>
-						<Field.Label for="title">Title</Field.Label>
+						<Field.Label for="title"><TypeIcon />Title</Field.Label>
 						<Input id="title" bind:value={values.title} maxlength={150} aria-invalid={errors.title ? true : undefined} />
 						{#if errors.title}<Field.Error>{errors.title}</Field.Error>{/if}
 					</Field.Field>
 					<SlugField bind:value={values.slug} source={values.title} prefix="/tours/" locked={!!pkg} error={errors.slug} />
 					<Field.Field data-invalid={errors.summary ? true : undefined}>
-						<Field.Label for="summary">Summary</Field.Label>
+						<Field.Label for="summary"><TextAlignStartIcon />Summary</Field.Label>
 						<Textarea id="summary" bind:value={values.summary} maxlength={300} rows={2} />
 						<Field.Description>Shown on package cards and in search results.</Field.Description>
 						{#if errors.summary}<Field.Error>{errors.summary}</Field.Error>{/if}
 					</Field.Field>
 					<div class="grid gap-4 sm:grid-cols-3">
 						<Field.Field data-invalid={errors.durationDays ? true : undefined}>
-							<Field.Label for="durationDays">Days</Field.Label>
+							<Field.Label for="durationDays"><SunIcon />Days</Field.Label>
 							<Input id="durationDays" type="number" min={1} max={365} bind:value={values.durationDays} />
 							{#if errors.durationDays}<Field.Error>{errors.durationDays}</Field.Error>{/if}
 						</Field.Field>
 						<Field.Field data-invalid={errors.durationNights ? true : undefined}>
-							<Field.Label for="durationNights">Nights</Field.Label>
+							<Field.Label for="durationNights"><MoonIcon />Nights</Field.Label>
 							<Input id="durationNights" type="number" min={0} max={365} bind:value={values.durationNights} placeholder="Optional" />
 							{#if errors.durationNights}<Field.Error>{errors.durationNights}</Field.Error>{/if}
 						</Field.Field>
 						<Field.Field data-invalid={errors.location ? true : undefined}>
-							<Field.Label for="location">Location</Field.Label>
+							<Field.Label for="location"><MapPinIcon />Location</Field.Label>
 							<Input id="location" bind:value={values.location} maxlength={120} placeholder="e.g. Bwindi" />
 							{#if errors.location}<Field.Error>{errors.location}</Field.Error>{/if}
 						</Field.Field>
 					</div>
 					<Field.Field data-invalid={errors.description ? true : undefined}>
-						<Field.Label>Overview</Field.Label>
+						<Field.Label><FileTextIcon />Overview</Field.Label>
 						<RichTextEditor bind:value={values.description} invalid={!!errors.description} />
 						<Field.Description>Describe the experience. Keep it to an overview, not a day-by-day itinerary.</Field.Description>
 						{#if errors.description}<Field.Error>{errors.description}</Field.Error>{/if}

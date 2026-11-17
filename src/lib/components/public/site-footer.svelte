@@ -38,7 +38,7 @@
 			<a href="/" class="inline-flex h-16 items-center text-lg" aria-label="Altura Tours & Travel, home">
 				<Logo tone="light" />
 			</a>
-			<p class="font-heading text-gold-400 mt-4 text-sm tracking-[0.18em] uppercase">{site.tagline || BRAND.tagline}</p>
+			<p class="font-wordmark text-gold-400 mt-4 text-sm tracking-[0.18em] uppercase">{site.tagline || BRAND.tagline}</p>
 			<ul class="mt-6 space-y-3 text-sm">
 				{#each TRUST_BADGES as badge (badge)}
 					<li class="flex items-center gap-2"><ShieldCheckIcon class="text-gold-400 size-4 shrink-0" />{badge}</li>
@@ -47,7 +47,7 @@
 		</div>
 
 		<nav aria-label="Footer">
-			<h2 class="font-heading text-cream mb-4 text-sm font-semibold tracking-[0.2em] uppercase">Explore</h2>
+			<h2 class="font-wordmark text-cream mb-4 text-sm font-semibold tracking-[0.2em] uppercase">Explore</h2>
 			<ul class="space-y-2 text-sm">
 				{#each MAIN_NAV as item (item.href)}
 					<li><a href={item.href} class="hover:text-gold-400 transition-colors">{item.label}</a></li>
@@ -56,7 +56,7 @@
 		</nav>
 
 		<div>
-			<h2 class="font-heading text-cream mb-4 text-sm font-semibold tracking-[0.2em] uppercase">Services</h2>
+			<h2 class="font-wordmark text-cream mb-4 text-sm font-semibold tracking-[0.2em] uppercase">Services</h2>
 			<ul class="space-y-2 text-sm">
 				{#each services as service (service.id)}
 					<li><a href="/services/{service.slug}" class="hover:text-gold-400 transition-colors">{service.name}</a></li>
@@ -67,7 +67,7 @@
 		</div>
 
 		<div>
-			<h2 class="font-heading text-cream mb-4 text-sm font-semibold tracking-[0.2em] uppercase">Visit or call us</h2>
+			<h2 class="font-wordmark text-cream mb-4 text-sm font-semibold tracking-[0.2em] uppercase">Visit or call us</h2>
 			<ul class="space-y-3 text-sm">
 				{#if site.address}
 					<li class="flex gap-2"><MapPinIcon class="text-gold-400 mt-0.5 size-4 shrink-0" /><span class="whitespace-pre-line">{site.address}</span></li>
