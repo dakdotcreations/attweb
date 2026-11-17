@@ -2,7 +2,11 @@
 
 > Audience: Ugandan students, school leavers and working professionals. Tone: educational and reassuring, focused on applications. Prices mainly in UGX.
 >
-> **Note on the package form:** "Duration" is required. For these programmes, use the **typical processing time** (e.g. 60 days) and say so in the description, or use the length of the departure-support period.
+> **Destinations follow the Partner Institutions list** (`/dashboard/institutions`). The copy below is written for any country, and only the "Where you can study" section and the package **Location** fields name countries. Today there is one published partner, **University of Leeds (United Kingdom)**, so the United Kingdom is the only country named. When you publish an institution in a new country, add that country to those places (a short paragraph per country, same pattern as the UK one).
+>
+> **Note on the package form:** "Duration" is required. For these programmes, use the **typical processing time** (e.g. 90 days) and say so in the description.
+>
+> **Request form:** set this service's form to "Study abroad form". Students then pick up to three partner institutions, ranked, on the service page.
 
 ---
 
@@ -13,10 +17,10 @@
 **Sort order:** 8
 
 **Summary:**
-Study in Malaysia and beyond: diploma, degree, Masters and PhD programmes. We help with course selection, university admission, the student visa, flights and arrival, all from Kampala.
+Study at our partner universities abroad: foundation, bachelor's, Master's and PhD programmes. We help with course selection, admission, the student visa, flights and arrival, all from Kampala.
 
-**SEO title:** Study Abroad from Uganda: Study in Malaysia | Altura Tours & Travel
-**SEO description:** Study in Malaysia from Uganda: diplomas, degrees, Masters and PhD. Admission, student visa, flights and arrival support. Book a free consultation.
+**SEO title:** Study Abroad from Uganda: Partner Universities | Altura Tours & Travel
+**SEO description:** Study abroad from Uganda at our partner universities: foundation, degrees, Master's and PhD. Admission, student visa, flights and arrival support. Free consultation.
 
 ### Content
 
@@ -24,21 +28,25 @@ Study in Malaysia and beyond: diploma, degree, Masters and PhD programmes. We he
 
 A degree from abroad can open doors for the rest of your life. Getting there, though, involves choosing the right course, getting admitted, securing a student visa, arranging flights and settling in a new country, and it can feel overwhelming. Altura's study abroad team walks with you through every step.
 
-## Study in Malaysia: global education, brighter future
+## Where you can study
 
-Our main destination is **Malaysia**, one of Asia's fastest-growing education hubs and a popular choice for African students. Here's why:
+We work with **partner institutions** so that our students apply to universities we know and trust. You can choose up to three of them, in order of preference, on our study abroad request form.
 
-- **Easy admission:** clear entry requirements and multiple intakes each year
-- **Fast visa process:** the student pass is handled through the university and Education Malaysia Global Services (EMGS)
-- **Affordable education:** tuition and living costs are much lower than in the UK, Australia or the USA
-- **English programmes:** most courses are taught entirely in English
-- **A wide range of programmes:** business, IT, engineering, medicine and health sciences, hospitality and more
-- **International branch campuses**, where some UK and Australian universities offer their degrees in Malaysia
-- **Safe, modern and multicultural**, with a growing African student community
+**United Kingdom.** Home to some of the world's best-known universities, including our partner the **University of Leeds**, a member of the UK's Russell Group of research universities. UK degrees are recognised worldwide, bachelor's degrees usually take three years and many Master's degrees take just one year, which keeps the total cost of study down.
+
+We add new partner universities and countries regularly. If the country you have in mind isn't listed yet, ask us anyway.
+
+## Why study with a partner institution?
+
+- **Recognised qualifications** from accredited universities
+- **Clear entry requirements**, so you know early whether you qualify
+- **Direct contact** with the university's admissions and international teams
+- **Programmes taught in English**
+- **A wide range of fields:** business, IT, engineering, medicine and health sciences, law, the arts and more
 
 ## Our programmes
 
-- **Foundation and diploma** programmes for O-level and A-level leavers
+- **Foundation** programmes for school leavers who need a pathway into a degree
 - **Bachelor's degrees**
 - **Master's degrees**, including MBA and specialised Masters
 - **PhD and research degrees**
@@ -46,12 +54,12 @@ Our main destination is **Malaysia**, one of Asia's fastest-growing education hu
 ## How we help
 
 1. **Free consultation:** we talk through your results, interests, budget and career goals.
-2. **Course and university selection:** we shortlist options that match your profile.
+2. **Course and university selection:** we shortlist programmes at our partner institutions that match your profile.
 3. **Application:** we prepare and submit your application and supporting documents.
-4. **Offer letter:** we help you accept your offer and pay fees securely to the university.
-5. **Student visa:** we guide you through the EMGS student pass process and medical screening.
+4. **Offer letter:** we help you meet any conditions, accept your offer and pay fees securely to the university.
+5. **Student visa:** we guide you through the student visa process for your destination, including financial evidence, medical tests and biometrics.
 6. **Pre-departure:** flights with student baggage allowance, accommodation guidance and a briefing.
-7. **Arrival:** airport pick-up arrangements and a welcome orientation.
+7. **Arrival:** airport pick-up arrangements and a welcome check-in.
 
 ## Who it's for
 
@@ -64,17 +72,17 @@ Our main destination is **Malaysia**, one of Asia's fastest-growing education hu
 
 ---
 
-## PACKAGE 1: Study in Malaysia: Diploma & Degree
+## PACKAGE 1: Undergraduate Study Abroad
 
-**Title:** Study in Malaysia: Foundation, Diploma & Bachelor's Degree Package
-**Slug:** `study-in-malaysia-diploma-degree`
-**Location:** Kuala Lumpur, Malaysia
-**Duration:** 60 days (typical admission-to-arrival timeline)
+**Title:** Study Abroad: Foundation & Bachelor's Degree Package
+**Slug:** `study-abroad-foundation-bachelors`
+**Location:** Partner universities abroad (United Kingdom)
+**Duration:** 90 days (typical admission-to-arrival timeline)
 **Featured:** Yes
 **Services:** Study Abroad Programmes
 
 **Summary:**
-For Senior Four and Senior Six leavers: complete support to study a foundation, diploma or bachelor's degree in Malaysia, from course selection and admission to the student visa, flight and airport pick-up.
+For Senior Four and Senior Six leavers: complete support to study a foundation or bachelor's degree at one of our partner universities abroad, from course selection and admission to the student visa, flight and arrival.
 
 **Prices** `[confirm: Altura service fee only. Tuition is paid directly to the university]`
 
@@ -84,66 +92,68 @@ For Senior Four and Senior Six leavers: complete support to study a foundation, 
 | Full package: admission, visa, flight booking and arrival support (excl. ticket cost) | 3,500,000 | | |
 | Application deposit (for course search and application) | 500,000 | | |
 
-**SEO title:** Study a Diploma or Degree in Malaysia from Uganda | Altura
-**SEO description:** Admission, student visa, flights and arrival support for foundation, diploma and bachelor's programmes in Malaysia. Free consultation in Kampala.
+**SEO title:** Study a Bachelor's Degree Abroad from Uganda | Altura
+**SEO description:** Admission, student visa, flights and arrival support for foundation and bachelor's programmes at our partner universities abroad. Free consultation in Kampala.
 
 ### Description
 
-Finished Senior Four or Senior Six and ready for the next step? Malaysia offers internationally recognised qualifications, English-taught courses and **far lower costs** than many other study destinations, with intakes several times a year.
+Finished Senior Four or Senior Six and ready for the next step? Our partner universities offer internationally recognised degrees taught in English, and we guide you from your first question to your first day on campus.
 
 This package gives you complete, step-by-step support from our Kampala office:
 
-**1. Consultation and course matching.** We look at your UCE or UACE results, interests and budget, and shortlist suitable **foundation, diploma or bachelor's** programmes at reputable Malaysian universities and colleges. Popular fields include business, IT and computer science, engineering, hospitality, and health and allied sciences.
+**1. Consultation and course matching.** We look at your UCE or UACE results, interests and budget, and shortlist suitable **foundation or bachelor's** programmes at our partner institutions. Popular fields include business, IT and computer science, engineering, law, and health and allied sciences.
 
-**2. Admission.** We prepare and submit your applications and certified documents, follow up with the university and help you understand your **offer letter**.
+**2. Pathway advice.** Some universities accept strong UACE results directly into a bachelor's degree. Others ask for a **foundation year** first. We check the exact requirements for each course so there are no surprises.
 
-**3. Student visa (student pass).** Malaysian student visas are processed through **Education Malaysia Global Services (EMGS)**. We guide you through every document, the medical screening and the payment steps until your **eVAL (visa approval letter)** is issued.
+**3. Admission.** We prepare and submit your applications and certified documents, follow up with the university and help you understand your **offer letter** and any conditions, such as an English test.
 
-**4. Flights and pre-departure.** We book your flight with the best available student baggage allowance and give you a pre-departure briefing on what to pack, money, accommodation and student life.
+**4. Student visa.** Each country has its own process. For the United Kingdom, for example, the university issues a **CAS (Confirmation of Acceptance for Studies)**, and you then apply for the Student visa with proof of funds, a tuberculosis test certificate and the healthcare surcharge. We guide you through every document and appointment until your visa is issued.
 
-**5. Arrival.** We arrange **airport pick-up in Kuala Lumpur** with the university and check in once you've settled.
+**5. Flights and pre-departure.** We book your flight with the best available student baggage allowance and give you a pre-departure briefing on what to pack, money, accommodation and student life.
+
+**6. Arrival.** We coordinate airport pick-up with the university's arrival service where available and check in once you've settled.
 
 Parents are welcome at every consultation.
 
 ### Highlights
-- Course and university matching based on your results and budget
-- Foundation, diploma and degree options
-- English-taught programmes with multiple yearly intakes
-- Step-by-step EMGS student visa guidance
+- Course matching at our partner universities, based on your results and budget
+- Foundation and bachelor's degree options
+- Programmes taught in English
+- Step-by-step student visa guidance for your destination
 - Pre-departure briefing for students and parents
-- Airport pick-up arranged in Kuala Lumpur
+- Airport arrival support
 
 ### Inclusions
 - Free initial consultation
 - Course and university shortlist
-- Application preparation and submission (up to 3 institutions)
+- Application preparation and submission (up to 3 partner institutions)
 - Offer letter guidance and acceptance support
-- Student visa (EMGS) application guidance
+- Student visa application guidance
 - Flight booking with student baggage allowance (ticket cost extra)
 - Pre-departure orientation
 - Airport pick-up coordination
 
 ### Exclusions
 - University application, tuition and registration fees (paid directly to the university)
-- EMGS visa processing and medical screening fees
+- Visa fees, healthcare surcharge and medical test fees
+- English proficiency test fees (e.g. IELTS), if required
 - Air ticket cost
 - Accommodation and living expenses
-- Medical insurance required by the university
 - Certification and translation of documents
 
 ---
 
-## PACKAGE 2: Study in Malaysia: Masters & PhD
+## PACKAGE 2: Postgraduate Study Abroad
 
-**Title:** Study in Malaysia: Master's & PhD Package
-**Slug:** `study-in-malaysia-masters-phd`
-**Location:** Kuala Lumpur, Malaysia
-**Duration:** 90 days (typical admission-to-arrival timeline)
+**Title:** Study Abroad: Master's & PhD Package
+**Slug:** `study-abroad-masters-phd`
+**Location:** Partner universities abroad (United Kingdom)
+**Duration:** 120 days (typical admission-to-arrival timeline)
 **Featured:** No
 **Services:** Study Abroad Programmes
 
 **Summary:**
-For graduates and working professionals: support to study a Master's degree, MBA or PhD in Malaysia, including programme and supervisor search, applications, the research proposal, student visa and arrival.
+For graduates and working professionals: support to study a Master's degree, MBA or PhD at one of our partner universities abroad, including programme and supervisor search, applications, the research proposal, student visa and arrival.
 
 **Prices** `[confirm: Altura service fee only]`
 
@@ -153,142 +163,144 @@ For graduates and working professionals: support to study a Master's degree, MBA
 | PhD: admission, research proposal guidance + visa support | 4,000,000 | | |
 | Application deposit | 500,000 | | |
 
-**SEO title:** Master's, MBA & PhD in Malaysia from Uganda | Altura Tours
-**SEO description:** Support for Ugandan graduates applying for a Master's, MBA or PhD in Malaysia: programme search, applications, student visa and arrival.
+**SEO title:** Master's, MBA & PhD Abroad from Uganda | Altura Tours
+**SEO description:** Support for Ugandan graduates applying for a Master's, MBA or PhD at our partner universities abroad: programme search, applications, student visa and arrival.
 
 ### Description
 
-Ready to advance your career? A **Master's degree, MBA or PhD** from a Malaysian university gives you a respected international qualification at a manageable cost. Many programmes are designed with working professionals in mind.
+Ready to advance your career? A **Master's degree, MBA or PhD** from a respected university abroad gives you an international qualification and network. In the United Kingdom, many taught Master's degrees take just **one year**, which keeps the time away from work and the total cost down.
 
 **Master's and MBA applicants**
-We help you compare **coursework, research and mixed-mode** programmes, check entry requirements (degree classification, work experience and English proficiency), and put together a strong application, including your CV, statement of purpose and references.
+We help you compare **taught and research** programmes at our partner institutions, check entry requirements (degree classification, work experience and English proficiency), and put together a strong application, including your CV, personal statement and references.
 
 **PhD applicants**
-Research degrees need more preparation. We help you identify universities and **potential supervisors** in your field, give guidance on structuring your **research proposal**, and coordinate communication with the faculty.
+Research degrees need more preparation. We help you identify **potential supervisors** in your field, give guidance on structuring your **research proposal**, point you to scholarship and funding options, and coordinate communication with the faculty.
 
 **For every postgraduate student**, we then:
 - Follow up on your application and **offer letter**
-- Guide you through the **EMGS student pass** process and medical screening
+- Guide you through the **student visa** process for your destination, including proof of funds and medical tests
 - Book your flights and brief you before departure
 - Advise on accommodation for postgraduates and families
-- Arrange airport pick-up in Kuala Lumpur
+- Coordinate airport arrival
 
-**Travelling with family?** We can advise on dependant passes for spouses and children where the university supports them.
+**Travelling with family?** Rules on bringing a spouse or children differ by country and level of study. We'll explain what applies to your programme before you apply.
 
 ### Highlights
-- Master's, MBA and PhD options across many fields
-- Coursework, research and mixed-mode programmes
+- Master's, MBA and PhD options at our partner universities
+- Taught and research programmes
 - Supervisor search and research proposal guidance for PhD applicants
-- Strong applications: CV, statement of purpose and references
-- EMGS student visa guidance
+- Strong applications: CV, personal statement and references
+- Student visa guidance for your destination
 - Advice for students travelling with family
 
 ### Inclusions
 - Free initial consultation
 - Programme and university shortlist
-- Application preparation and submission (up to 3 institutions)
-- Statement of purpose and CV review
+- Application preparation and submission (up to 3 partner institutions)
+- Personal statement and CV review
 - Research proposal guidance and supervisor outreach (PhD tier)
-- Student visa (EMGS) guidance
+- Student visa guidance
 - Flight booking (ticket cost extra)
 - Pre-departure orientation and airport pick-up coordination
 
 ### Exclusions
 - University application, tuition and bench fees
-- EMGS visa processing and medical screening fees
+- Visa fees, healthcare surcharge and medical test fees
+- English proficiency test fees (IELTS/TOEFL), if required
 - Air ticket cost
 - Accommodation and living expenses
 - Medical insurance
-- English proficiency test fees (IELTS/TOEFL), if required
 
 ---
 
 ## ARTICLE
 
-**Title:** Studying in Malaysia from Uganda: Costs, Requirements and How to Apply
-**Slug:** `study-in-malaysia-from-uganda-guide`
+**Title:** Studying Abroad from Uganda: Choosing a Country, Requirements and How to Apply
+**Slug:** `study-abroad-from-uganda-guide`
 **Related service:** Study Abroad Programmes
 
 **Excerpt:**
-Malaysia is one of the most popular study destinations for Ugandan students. Here's what it costs, what you need to apply, how the student visa works, and what life is like once you arrive.
+Thinking about studying abroad? Here's how to choose a country and university, what you need to apply, how student visas work, what it costs, and the mistakes to avoid.
 
-**SEO title:** Study in Malaysia from Uganda: Costs, Requirements & Visa | Altura
-**SEO description:** A complete guide for Ugandan students: why Malaysia, entry requirements, costs, the EMGS student visa process, intakes and student life.
+**SEO title:** Study Abroad from Uganda: Requirements, Visas & Costs | Altura
+**SEO description:** A complete guide for Ugandan students: choosing a country and university, entry requirements, documents, student visas, costs, intakes and common mistakes.
 
 ### Content
 
-For years, Ugandan students heading abroad mostly looked to the UK, the USA, India or Kenya. Today, more and more are choosing **Malaysia**. Here's why, and how to make it happen.
+Every year, more Ugandan students head abroad for a foundation course, a degree, a Master's or a PhD. The opportunities are real, but so are the costs and the paperwork. This guide walks you through the decisions in the right order.
 
-## Why study in Malaysia?
+## Step 1: Choose the course before the country
 
-- **Affordable:** tuition and living costs are significantly lower than in the UK, Australia or the USA.
-- **Taught in English:** almost all university programmes are taught in English.
-- **Recognised qualifications:** Malaysian public and private universities are accredited by the **Malaysian Qualifications Agency (MQA)**, and several international universities have branch campuses there.
-- **Flexible intakes:** many institutions accept students in several intakes a year (often January/February, May and September), so you don't have to wait a full year.
-- **Pathways:** foundation and diploma programmes lead into degrees, so school leavers have a clear route.
-- **Modern and safe:** Kuala Lumpur is a modern, well-connected city with a multicultural population and a growing African student community.
+Start with **what you want to study and why**. The right programme for your career matters more than the country's name. Then compare destinations on:
 
-## Entry requirements (general guide)
+| Question | Why it matters |
+|---|---|
+| **Is the university accredited and the degree recognised?** | Your qualification must count when you come home or apply for jobs. |
+| **How long is the programme?** | A one-year Master's costs less in living expenses than a two-year one. |
+| **What is the total cost?** | Tuition plus living costs, visa fees, insurance and flights. |
+| **What are the visa rules?** | Proof of funds, medical tests and work rights differ by country. |
+| **Is it taught in English?** | Saves you a language year. |
+
+**Example: the United Kingdom.** Our partner the **University of Leeds** is in the UK. Bachelor's degrees usually take three years, many taught Master's degrees take one year, and the main intake is in **September** (some courses also start in January).
+
+## Step 2: Check the entry requirements
 
 Requirements vary by university and course, but typically:
 
 | Level | Typical requirement |
 |---|---|
-| **Foundation** | UCE (O-level) with credits, including English and maths |
-| **Diploma** | UCE with credits; some courses require specific subjects |
-| **Bachelor's degree** | UACE (A-level) with two principal passes, or a foundation/diploma |
-| **Master's** | A recognised bachelor's degree (usually second class or above) |
-| **PhD** | A recognised master's degree and a research proposal |
+| **Foundation** | UCE (O-level) or UACE with good grades, including English and maths |
+| **Bachelor's degree** | UACE (A-level) with strong principal passes, or a completed foundation year |
+| **Master's** | A recognised bachelor's degree (usually second class upper or above) |
+| **PhD** | A recognised master's degree, a research proposal and a willing supervisor |
 
-**English proficiency:** many universities accept your Ugandan English results or an internal test, while others ask for IELTS or TOEFL, especially for postgraduate study.
+**English proficiency:** some universities accept your Ugandan English results, while others ask for **IELTS** or an equivalent test, especially for postgraduate study and for visa purposes.
 
-## What documents will you need?
+## Step 3: Prepare your documents
 
-- A **passport** valid for at least 18 months
+- A **passport** valid for the whole of your course where possible
 - **Academic certificates and transcripts** (UCE, UACE, degree), certified
 - **Passport photos** in the required size and background
-- A **CV and statement of purpose** (postgraduate)
-- **Recommendation letters** (postgraduate)
+- A **personal statement** (and for postgraduates, a CV)
+- **Recommendation letters**
 - A **research proposal** (PhD)
-- **Proof of funds**, if requested
+- **Proof of funds** for tuition and living costs
 
-## How the student visa works
+## Step 4: Apply and secure your offer
 
-Malaysia's student visa process is managed by **Education Malaysia Global Services (EMGS)**, and the university applies on your behalf:
+Apply to more than one university. You'll receive either an **unconditional offer** or a **conditional offer** (for example, "subject to IELTS 6.5" or "subject to final results"). Meet the conditions, accept your firm choice and pay any deposit **directly to the university**.
 
-1. You receive an **offer letter** and accept it.
-2. The university submits your **student pass application to EMGS**.
-3. You complete a **pre-arrival medical screening** at an approved clinic.
-4. EMGS issues an **eVAL (electronic visa approval letter)**.
-5. You fly to Malaysia, complete a **post-arrival medical check**, and your student pass is placed in your passport.
+## Step 5: Apply for your student visa
 
-From application to approval, allow **6–10 weeks**, so start early.
+Every country has its own student visa, but most follow a similar pattern:
 
-## How much does it cost?
+1. The university confirms your place in an official document. In the UK this is the **CAS (Confirmation of Acceptance for Studies)**.
+2. You show **proof of funds** for tuition and living costs, usually held for a set period.
+3. You complete any **medical requirements**. UK applicants from Uganda need a **tuberculosis test** from an approved clinic.
+4. You pay the visa fee and any **healthcare charge** (the UK's Immigration Health Surcharge).
+5. You give your **biometrics** at the visa application centre in Kampala.
 
-Costs vary by university and course, so treat these as broad ranges:
+Allow **six to twelve weeks** from offer to visa, so start early.
 
-- **Tuition:** diplomas and degrees at private universities often cost less per year than comparable programmes in the UK or Australia. Public universities can be cheaper still for postgraduate study.
-- **Living costs:** accommodation, food and transport in Kuala Lumpur are moderate. Many students share apartments near campus to save money.
-- **One-off costs:** EMGS visa fees, medical screening, insurance and your flight.
+## Step 6: Plan your costs
 
-Ask us for an **itemised estimate** for the specific courses you're considering.
+Costs vary by country, city, university and course. Plan for:
 
-## Life as a student in Malaysia
+- **Tuition** (the largest cost, usually paid per year)
+- **Living costs:** accommodation, food, transport and study materials
+- **One-off costs:** visa and healthcare fees, medical tests, insurance, flights and a deposit for accommodation
+- **A buffer** for the first months before you're settled
 
-- **Food** is a highlight: Malay, Chinese, Indian and international cuisine, all affordable.
-- **Getting around** is easy, with trains, buses and ride-hailing apps.
-- **Student visa holders** may be allowed limited part-time work during semester breaks, under strict conditions. Never rely on this to pay your fees.
-- **Weather** is warm and humid all year, with tropical rain showers.
-- **Community:** you'll find African student associations, churches and mosques in most university areas.
+Ask us for an **itemised estimate** for the courses you're considering, and look out for **scholarships** offered by the university or by funding bodies.
 
 ## Common mistakes to avoid
 
-1. **Choosing an unaccredited institution.** Always check MQA accreditation.
-2. **Applying late.** Visa processing takes weeks, so aim for an intake three to four months away.
+1. **Choosing an unaccredited institution.** Check that the university is recognised in its home country.
+2. **Applying late.** Popular courses fill up and visas take weeks, so start six to nine months before your intake.
 3. **Paying fees to the wrong account.** Pay tuition **directly to the university**, never to an individual.
-4. **Underestimating living costs.** Budget for at least the first few months before you arrive.
+4. **Weak proof of funds.** Visa refusals often come down to how and how long money was held. Follow the rules exactly.
+5. **Relying on part-time work to pay fees.** Work rights are limited and should never be part of the plan for tuition.
 
 ## Start your journey
 
-At Altura, **your education is our priority**. Our [Diploma & Degree](/tours/study-in-malaysia-diploma-degree) and [Master's & PhD](/tours/study-in-malaysia-masters-phd) packages cover everything from choosing a course to your arrival in Kuala Lumpur. Book a free consultation at our office on Kampala Road or send us a WhatsApp message.
+At Altura, **your education is our priority**. Our [Foundation & Bachelor's](/tours/study-abroad-foundation-bachelors) and [Master's & PhD](/tours/study-abroad-masters-phd) packages cover everything from choosing a course at one of our partner universities to your arrival on campus. Book a free consultation at our office on Kampala Road or send us a WhatsApp message.

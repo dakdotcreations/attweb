@@ -1,6 +1,10 @@
 # 9. School Tours
 
-> Audience: primary and secondary schools, colleges and universities in Uganda. Tone: institutional, safety-first, focused on education. Prices in UGX, per student.
+> Audience: upper primary (pupils aged 12 and above), secondary schools, colleges and universities in Uganda. Tone: institutional, safety-first, focused on education. Prices in UGX, per student.
+>
+> **Destinations:** school tours are not tied to one place. We run trips **within Uganda**, **across East Africa** and **internationally**. International educational and campus tours go to the countries in the **Partner Institutions** list (`/dashboard/institutions`) so students can visit a partner university. Today that is the **United Kingdom (University of Leeds)**. When a partner is published in a new country, add it to the "International" section and to Package 2's Location.
+>
+> **Age rule:** Ministry of Education and Sports guidance: **children below 12 years are not allowed on school tours.** Every service, package and article below states this. `[confirm: add the circular's reference number and date if you want to cite it on the site]`
 
 ---
 
@@ -11,18 +15,18 @@
 **Sort order:** 9
 
 **Summary:**
-Safe, well-organised educational trips for primary schools, secondary schools and universities: national parks, the source of the Nile, museums and heritage sites, with learning built into every stop.
+Safe, well-organised educational trips for upper primary (age 12+), secondary schools and universities, in Uganda, across East Africa and abroad, with learning built into every stop.
 
-**SEO title:** School Tours & Educational Trips in Uganda | Altura Tours & Travel
-**SEO description:** Educational school trips for primary, secondary and university students to national parks, Jinja, Entebbe and heritage sites. Safe, supervised and affordable.
+**SEO title:** School Tours & Educational Trips from Uganda | Altura Tours & Travel
+**SEO description:** Educational trips for schools and universities: national parks and heritage sites in Uganda, East African study tours and international campus tours. Safe and supervised.
 
 ### Content
 
 ## Learning that leaves the classroom
 
-Students remember what they see. A geography lesson on the River Nile takes on new meaning at its source in Jinja. Biology comes alive when a herd of elephants crosses the road in Murchison Falls. A history class feels different when you stand at the Kasubi Tombs.
+Students remember what they see. A geography lesson on the River Nile takes on new meaning at its source. Biology comes alive when a herd of elephants crosses the road. A careers talk feels different when you're standing on a university campus abroad.
 
-Altura organises **educational school tours** for primary schools, secondary schools, colleges and universities across Uganda. We plan trips that fit your curriculum, your budget and, above all, your duty of care to every student.
+Altura organises **educational school tours** for upper primary classes, secondary schools, colleges and universities. We plan trips that fit your curriculum, your budget and, above all, your duty of care to every student, whether the destination is an hour away or a flight away.
 
 ## Safety comes first
 
@@ -32,174 +36,195 @@ Altura organises **educational school tours** for primary schools, secondary sch
 - **Vetted accommodation** with separate rooms for boys, girls and staff
 - **First aid on board** and an emergency plan for every trip
 - **Clear communication with parents** before and during the trip
+- For trips abroad: **passports, visas, travel insurance and parental consent** handled with the school
 
-## Popular destinations
+## Age requirement: 12 years and above
 
+In line with **Ministry of Education and Sports guidance, children below 12 years of age are not allowed on school tours.** Every student on an Altura school tour must be **12 or older on the date of travel**. Schools confirm each student's age on the participant list, and we may ask for a copy of a birth certificate, school ID or passport. Students under 12 cannot travel, even with a parent's consent.
+
+## Where we go
+
+**Within Uganda**
 - **Entebbe:** the Uganda Wildlife Conservation Education Centre (UWEC), the Botanical Gardens and Lake Victoria
-- **Jinja:** the Source of the Nile, the Owen Falls / Nalubaale Dam area and the Itanda Falls
+- **Jinja:** the Source of the Nile and the Nalubaale Dam area
 - **Kampala:** the Uganda Museum, Parliament, the Kasubi Tombs, Namugongo Martyrs Shrine and the Ndere Cultural Centre
-- **Murchison Falls National Park:** savannah wildlife, the Nile and the falls
-- **Queen Elizabeth National Park:** the Equator, the Kazinga Channel, crater lakes and salt mining at Lake Katwe
-- **Lake Mburo National Park:** a short trip for wildlife and ecology lessons
-- **Regional tours:** Nairobi, Mombasa and Kigali for older students
+- **National parks:** Murchison Falls, Queen Elizabeth (the Equator, Kazinga Channel and Lake Katwe salt mines) and Lake Mburo
+
+**Across East Africa**
+- **Kenya:** Nairobi National Park, the Giraffe Centre and museums; Mombasa's Fort Jesus and coastal ecology
+- **Rwanda:** Kigali's Genocide Memorial, innovation hubs and a model of urban planning
+- **Tanzania:** Zanzibar's Stone Town and spice farms
+
+**International**
+- **United Kingdom:** university campus tours, including our partner the **University of Leeds**, plus museums, science centres and historic sites. Ideal for senior students thinking about studying abroad.
 
 ## What we look after
 
 - Transport, accommodation and meals
 - Entry fees and guided educational talks
+- Visas, flights and travel insurance for trips abroad
 - **Learning worksheets** linked to the curriculum, on request
 - Group photos and a trip report for the school
 - **Flexible payment schedules** to suit the school term
 
 ## Request a quotation
 
-Tell us your school, class level, number of students and preferred dates. We'll send a detailed quotation with a **price per student**, ready to share with your board and parents.
+Tell us your school, class level, number of students, preferred destination and dates. We'll send a detailed quotation with a **price per student**, ready to share with your board and parents.
 
 ---
 
-## PACKAGE 1: Entebbe Learning Day Out
+## PACKAGE 1: Uganda Educational Field Trip
 
-**Title:** Entebbe Learning Day Out: Wildlife Centre, Botanical Gardens & Lake Victoria
-**Slug:** `entebbe-school-day-trip`
-**Location:** Entebbe, Uganda
-**Duration:** 1 day
+**Title:** Uganda Educational Field Trip: Day Trips & Park Expeditions
+**Slug:** `uganda-educational-field-trip`
+**Location:** Entebbe, Jinja, Kampala & Uganda's national parks
+**Duration:** 1–3 days
 **Featured:** No
 **Services:** School Tours
 
 **Summary:**
-A full-day school trip to Entebbe: close encounters with Uganda's wildlife at UWEC, a guided nature walk in the Botanical Gardens and Lake Victoria by the shore. Ideal for primary and lower secondary classes.
+Curriculum-linked trips within Uganda: one-day visits to Entebbe, Jinja or Kampala's heritage sites, or a 3-day national park expedition with game drives and a Nile boat cruise. For students aged 12 and above, from upper primary to university.
 
-**Prices** `[confirm: depends on group size and pick-up location]`
+**Prices** `[confirm: depends on destination, group size and pick-up location]`
 
 | Label | UGX | USD | From price |
 |---|---|---|---|
-| Per student (group of 60+, from Kampala) | 75,000 | | ✅ |
-| Per student (group of 30–59) | 90,000 | | |
-| Supervising teachers (1 per 15 students) | Free | | |
+| Day trip, per student (group of 60+, from Kampala) | 75,000 | | ✅ |
+| Day trip, per student (group of 30–59) | 90,000 | | |
+| 3-day national park expedition, per student (group of 40+) | 650,000 | | |
+| 3-day national park expedition, per student (group of 20–39) | 780,000 | | |
 
-*(For the "Free" teacher tier, enter 0 UGX or leave it out of the form and mention it in the description.)*
+*Supervising teachers travel free (1 per 15 students). Mention this in the description rather than adding a 0 UGX tier.*
 
-**SEO title:** Entebbe School Trip: UWEC, Botanical Gardens & Lake Victoria | Altura
-**SEO description:** A safe, educational day trip for schools to the Uganda Wildlife Education Centre, the Entebbe Botanical Gardens and Lake Victoria. From UGX 75,000 per student.
+**SEO title:** School Trips in Uganda: Day Trips & Park Expeditions | Altura
+**SEO description:** Safe, educational school trips in Uganda: Entebbe, Jinja, Kampala heritage sites and 3-day national park expeditions. From UGX 75,000 per student.
 
 ### Description
 
-This is one of the most popular first school trips in Uganda, and it's easy to see why. In a single day, and close to Kampala, students meet the country's wildlife, explore a living science classroom and see Africa's largest lake.
+Uganda is a living classroom. This package lets you pick the trip that fits your class level, subject and budget, and we handle the rest.
 
-**Morning: the Uganda Wildlife Conservation Education Centre (UWEC).** Students see lions, chimpanzees, rhinos, giraffes, shoebill storks and many more animals, most of them rescued, while an **education officer** explains habitats, conservation and the threats facing Uganda's wildlife.
+**One-day trips** (best for upper primary and lower secondary classes and large groups):
+- **Entebbe:** close encounters with lions, chimpanzees, rhinos and shoebill storks at **UWEC**, with a talk from an education officer, then a guided walk in the **Botanical Gardens** (founded 1898) and a visit to the shore of **Lake Victoria**.
+- **Jinja:** the **Source of the Nile**, a boat ride to the point where the river leaves Lake Victoria, and the story of hydro-power at the dams.
+- **Kampala heritage:** the **Uganda Museum**, the **Kasubi Tombs**, **Parliament** and **Namugongo**, linking history, civics and religious education.
 
-**Lunch** is served as a group in Entebbe.
+**3-day expeditions** (best for Senior Three to Senior Six and university students):
+- **Murchison Falls:** rhino tracking on foot at **Ziwa Rhino Sanctuary**, the **Top of the Falls**, a morning **game drive** and a **Nile boat cruise** to the foot of the falls.
+- **Queen Elizabeth:** crossing the **Equator**, the **Kazinga Channel** boat cruise, crater lakes and the **Lake Katwe** salt mines.
 
-**Afternoon: the Entebbe Botanical Gardens.** Founded in 1898, the gardens are home to hundreds of plant species, colobus monkeys and many birds. A guided walk links directly to **biology and agriculture lessons** on plant classification, medicinal plants and ecosystems.
+**Age requirement:** in line with Ministry of Education and Sports guidance, all students must be **12 years or older**. Children below 12 are not allowed on school tours.
 
-**Late afternoon: Lake Victoria.** Before heading back to school, students visit the lakeshore and talk about the lake as the source of the Nile, its fisheries and why it matters to East Africa.
-
-On request, we provide **curriculum-linked worksheets** so the trip continues back in the classroom.
+Every trip has an Altura coordinator, and supervising teachers travel free (1 per 15 students). On request, we provide **curriculum-linked worksheets** so the learning continues back in the classroom.
 
 ### Highlights
-- Guided educational talk at the Uganda Wildlife Conservation Education Centre
-- See lions, chimpanzees, rhinos and the shoebill stork
-- Guided nature walk in the Entebbe Botanical Gardens (founded 1898)
-- Lake Victoria lakeshore visit
+- Choose a day trip or a 3-day national park expedition
+- Guided educational talks at every stop
+- Wildlife, geography, history and civics brought to life
 - Curriculum-linked worksheets (on request)
-- Supervised by an Altura coordinator
+- Free places for supervising teachers
+- Supervised by an Altura coordinator throughout
 
 ### Inclusions
-- Return bus transport from your school (Kampala and Wakiso)
-- Entry fees and a guided educational talk at UWEC
-- Botanical Gardens entry and guide
-- Lunch and drinking water
+- Return bus or coaster transport from your school (Kampala and Wakiso; other areas quoted)
+- Entry fees (student rates) and guided talks
+- Meals and drinking water
+- Student-friendly accommodation for expeditions (separate boys', girls' and staff rooms)
+- Game drive and boat cruise on expeditions
 - An Altura trip coordinator
-- First aid kit on board
+- First aid kit and an emergency plan
 - Group photos for the school
-- Free places for supervising teachers (1 per 15 students)
 
 ### Exclusions
 - Students' pocket money and souvenirs
+- Drinks beyond water
 - Pick-up from outside Kampala and Wakiso (quoted separately)
-- Extra activities not listed
+- Activities not listed
 - Personal insurance
 
 ---
 
-## PACKAGE 2: Murchison Falls School Expedition
+## PACKAGE 2: International Educational & Campus Tour
 
-**Title:** 3-Day Murchison Falls School Expedition
-**Slug:** `murchison-falls-school-expedition`
-**Location:** Murchison Falls National Park & Ziwa Rhino Sanctuary, Uganda
-**Duration:** 3 days / 2 nights
+**Title:** International Educational & University Campus Tour
+**Slug:** `international-educational-campus-tour`
+**Location:** United Kingdom (partner universities)
+**Duration:** 8 days / 7 nights
 **Featured:** No
-**Services:** School Tours
+**Services:** School Tours, Study Abroad Programmes
 
 **Summary:**
-An unforgettable 3-day school expedition for secondary and university students: rhino tracking at Ziwa, game drives, a Nile boat cruise and the top of Murchison Falls, with geography and biology brought to life.
+An educational tour abroad for senior secondary and university students: guided visits to our partner universities, careers and admissions talks, museums, science centres and historic sites. Visas, flights, accommodation and supervision arranged.
 
-**Prices** `[confirm]`
+**Prices** `[confirm: new package. Depends on season, group size and flight fares]`
 
 | Label | UGX | USD | From price |
 |---|---|---|---|
-| Per student (group of 40+) | 650,000 | | ✅ |
-| Per student (group of 20–39) | 780,000 | | |
-| Supervising teacher (beyond 1 free per 15 students) | 650,000 | | |
+| Per student, land package (group of 20+, excludes flights and visa fees) | 9,500,000 | 2,550 | ✅ |
+| Per student, land package (group of 10–19) | 11,000,000 | 2,950 | |
+| Supervising teacher (beyond 1 free per 10 students) | 9,500,000 | 2,550 | |
 
-**SEO title:** Murchison Falls School Trip: 3-Day Educational Safari | Altura
-**SEO description:** A 3-day educational safari for schools: Ziwa rhinos, Murchison Falls game drives, a Nile boat cruise and the top of the falls. Safe, supervised and all-inclusive.
+**SEO title:** International School Tour & University Campus Visit | Altura
+**SEO description:** An 8-day educational tour abroad for students: partner university campus visits, admissions talks, museums and science centres. Visas, flights and supervision arranged.
 
 ### Description
 
-This expedition is a field trip students will talk about for years. It's ideal for **Senior Three to Senior Six** geography and biology classes, and for university tourism, environmental science and wildlife students.
+For senior students weighing up university options, nothing beats **walking around a campus** and asking questions in person. This tour combines visits to our **partner universities** with world-class museums and cultural sites, and it's planned around the countries where we have partner institutions. Today that is the **United Kingdom**.
 
-**Day 1: Kampala to Ziwa and Murchison Falls.** The group travels north to **Ziwa Rhino Sanctuary**, where rangers lead students on foot to see southern white rhinos and explain how rhinos were brought back to Uganda after being wiped out. In the afternoon the group continues to the park and visits the **Top of the Falls**, where the entire River Nile forces itself through a gorge just seven metres wide. It's a powerful lesson in physical geography. The group checks in to student-friendly accommodation for dinner.
+**Campus days.** Students visit partner universities, including the **University of Leeds**, for a guided campus tour, an **admissions and careers talk**, a look at lecture halls, labs, libraries and student accommodation, and, where possible, a conversation with international students.
 
-**Day 2: Game drive and Nile boat cruise.** An early-morning **game drive** across the northern plains looks for giraffes, elephants, buffalo, Uganda kob and, with luck, lions. Guides explain food chains, adaptations and conservation. After lunch, a **boat cruise up the Nile** to the foot of the falls passes hippos, crocodiles and water birds. The evening includes a **group reflection session** led by the coordinator.
+**Learning days.** The rest of the programme is built around your curriculum. In the UK that can include the **Natural History Museum** and **Science Museum** in London, the **British Museum**, historic sites such as the **Houses of Parliament** and the **Tower of London**, and a day exploring a university city such as York or Manchester.
 
-**Day 3: Return to school.** After breakfast the group travels back to Kampala, with a stop at a **local community or craft centre** on the way.
+**Before departure**, we work with the school on **passports, visa applications, parental consent letters and travel insurance**, run a pre-departure briefing for students and parents, and share a detailed day-by-day plan.
 
-Students return with notes, photographs and first-hand understanding of ecosystems, rivers, conservation and tourism as part of Uganda's economy.
+**During the trip**, an Altura coordinator travels with the group alongside your teachers, and parents receive regular updates.
+
+**Age requirement:** in line with Ministry of Education and Sports guidance, children below 12 are not allowed on school tours.
+
+*This tour suits Senior Five, Senior Six and university students. Visa processing for a group can take several weeks, so plan at least four months ahead.*
 
 ### Highlights
-- Rhino tracking on foot at Ziwa Rhino Sanctuary
-- Top of Murchison Falls, a live physical geography lesson
-- Game drive across the Murchison plains
-- Nile boat cruise to the foot of the falls
-- Ranger talks on conservation and anti-poaching
-- Evening learning and reflection sessions
+- Guided campus tours at our partner universities, including the University of Leeds
+- Admissions and careers talks for students and parents
+- World-class museums and science centres
+- Historic and cultural sites
+- Visa, consent and insurance paperwork handled with the school
+- An Altura coordinator travels with the group
 
 ### Inclusions
-- Return bus or coaster transport from your school
-- 2 nights' student-friendly accommodation (separate boys', girls' and staff rooms)
-- All meals (breakfast, lunch, dinner) and drinking water
-- Park entry fees (student rates)
-- Ziwa rhino tracking
-- Game drive with a park ranger guide
-- Nile boat cruise
-- Altura trip coordinator throughout
-- First aid kit and an emergency plan
-- Free places for supervising teachers (1 per 15 students)
+- 7 nights' supervised accommodation (separate rooms for boys, girls and staff)
+- Breakfast and dinner daily
+- Coach transport throughout the tour
+- University campus visits and talks
+- Museum and attraction entry fees in the programme
+- Group visa application support and pre-departure briefing
+- Travel insurance
+- Altura coordinator throughout
+- Free places for supervising teachers (1 per 10 students)
 
 ### Exclusions
+- Return international flights (booked as a group at the best available fare)
+- Visa government fees and biometric appointments
+- Lunches and snacks
 - Pocket money and souvenirs
-- Drinks beyond water
-- Personal insurance
-- Activities not listed (e.g. chimpanzee tracking in Budongo)
+- Activities not listed
 
 ---
 
 ## ARTICLE
 
-**Title:** How to Plan a Safe and Educational School Trip in Uganda
-**Slug:** `plan-safe-educational-school-trip-uganda`
+**Title:** How to Plan a Safe and Educational School Trip, at Home or Abroad
+**Slug:** `plan-safe-educational-school-trip`
 **Related service:** School Tours
 
 **Excerpt:**
-A practical checklist for head teachers and trip organisers: how to choose a destination, link it to the curriculum, keep students safe, manage costs and communicate with parents.
+A practical checklist for head teachers and trip organisers: choosing a destination in Uganda, the region or abroad, linking it to the curriculum, keeping students safe, managing costs and communicating with parents.
 
-**SEO title:** How to Plan a School Trip in Uganda: A Teacher's Checklist | Altura
-**SEO description:** A practical guide for schools: choosing destinations, curriculum links, safety, supervision ratios, budgeting and parent communication for school trips in Uganda.
+**SEO title:** How to Plan a School Trip: A Teacher's Checklist | Altura
+**SEO description:** A practical guide for schools: choosing local, regional or international destinations, curriculum links, safety, supervision ratios, travel documents, budgeting and parent communication.
 
 ### Content
 
-A well-planned school trip can be the highlight of a student's year. A poorly planned one can become a head teacher's worst nightmare. After organising trips for schools across Uganda, here is our practical guide to getting it right.
+A well-planned school trip can be the highlight of a student's year. A poorly planned one can become a head teacher's worst nightmare. After organising trips for schools across Uganda and abroad, here is our practical guide to getting it right.
 
 ## 1. Start with the learning objective
 
@@ -207,29 +232,34 @@ Before choosing a destination, ask: **what should students learn?** Then match t
 
 | Subject | Destination ideas |
 |---|---|
-| **Biology / science** | UWEC Entebbe, Entebbe Botanical Gardens, Lake Mburo, Murchison Falls |
-| **Geography** | The Source of the Nile (Jinja), Murchison Falls, the Equator, Lake Katwe salt mines, the Rwenzori foothills |
-| **History** | The Uganda Museum, the Kasubi Tombs, Namugongo Martyrs Shrine, Fort Patiko |
+| **Biology / science** | UWEC Entebbe, Entebbe Botanical Gardens, Murchison Falls, Nairobi National Park, science museums abroad |
+| **Geography** | The Source of the Nile, Murchison Falls, the Equator, Lake Katwe salt mines, the Kenyan coast |
+| **History** | The Uganda Museum, the Kasubi Tombs, Namugongo, Fort Jesus in Mombasa, the Kigali Genocide Memorial |
 | **Civics / CRE / IRE** | Parliament, Namugongo, the Gaddafi National Mosque, Rubaga and Namirembe Cathedrals |
-| **Culture / music** | Ndere Cultural Centre |
-| **Tourism / business** | National parks, lodges and the Jinja adventure tourism industry |
+| **Careers / further study** | University campus tours at home and at partner universities abroad |
+| **Tourism / business** | National parks, lodges, Jinja's adventure tourism industry |
 
 A clear learning goal also makes it easier to win approval from the school board and parents.
 
-## 2. Choose the right length
+## 2. Check the age rule
 
-- **Day trips** (Entebbe, Jinja, Kampala heritage sites) suit primary classes and large groups, and they're the most affordable.
+The **Ministry of Education and Sports does not allow children below 12 years on school tours.** Plan trips only for classes where every student is 12 or older on the travel date, and check ages on the participant list before you collect payments. In most schools this rules out lower and middle primary classes.
+
+## 3. Choose the right scale
+
+- **Day trips** (Entebbe, Jinja, Kampala heritage sites) suit upper primary classes and large groups, and they're the most affordable.
 - **2–3 day trips** (Murchison Falls, Lake Mburo, Queen Elizabeth) suit secondary and university students.
-- **Regional trips** (Nairobi, Mombasa, Kigali) suit senior classes and need passports or national IDs, parental consent and more planning time.
+- **Regional trips** (Kenya, Rwanda, Tanzania) suit senior classes. Students need passports or travel documents and parental consent, and you'll need more planning time.
+- **International trips** suit senior secondary and university students, especially those thinking about studying abroad. They need passports, visas, insurance and **at least four months** of planning.
 
-## 3. Plan supervision carefully
+## 4. Plan supervision carefully
 
-- Aim for **at least one teacher for every 10–15 students**, or more for younger children and overnight trips.
+- Aim for **at least one teacher for every 10–15 students**, or more for younger students, overnight trips and trips abroad.
 - Include **both male and female staff** on mixed trips.
 - Assign each teacher a **named group** to account for at every stop.
 - Agree on a **headcount routine**: when boarding, when leaving each site and at every meal.
 
-## 4. Put safety first
+## 5. Put safety first
 
 Ask your tour operator these questions:
 
@@ -238,10 +268,18 @@ Ask your tour operator these questions:
 - What is the **emergency plan**? Where is the nearest health facility at each stop?
 - Is accommodation **secure**, with separate rooms for boys, girls and staff?
 - Are activities such as **boat cruises** run by licensed operators with life jackets for every student?
+- For trips abroad: is **travel insurance** included, and who holds copies of every passport and consent letter?
 
 Collect **medical information** for each student before you go, including allergies, asthma, sickle cell and current medication.
 
-## 5. Budget realistically
+## 6. Get travel documents right (trips outside Uganda)
+
+- Start **passport** applications early. Passports should be valid well beyond the travel dates.
+- Prepare a **parental consent letter** for every student under 18, signed by both parents where possible.
+- Check **visa requirements** for every nationality in the group. Group visa applications can take several weeks.
+- Confirm **vaccination requirements**, such as yellow fever certificates.
+
+## 7. Budget realistically
 
 A per-student price usually covers:
 
@@ -251,13 +289,13 @@ A per-student price usually covers:
 - Accommodation (overnight trips)
 - A trip coordinator
 
-Watch out for hidden costs such as extra fuel for distant pick-ups, park fees charged per vehicle and drinks. A good operator gives you a **clear, itemised quotation**.
+For trips abroad, also budget for **flights, visas, insurance and pocket money**. Watch out for hidden costs such as extra fuel for distant pick-ups, park fees charged per vehicle and drinks. A good operator gives you a **clear, itemised quotation**.
 
 **Tip:** Larger groups lower the cost per student, and many operators (including Altura) offer **free places for supervising teachers**.
 
-## 6. Communicate with parents early
+## 8. Communicate with parents early
 
-Send parents a letter at least **four to six weeks** before the trip, covering:
+Send parents a letter at least **four to six weeks** before a local trip, and **three to four months** before a trip abroad, covering:
 
 - The **purpose** and learning goals
 - The **dates**, departure and return times
@@ -266,9 +304,9 @@ Send parents a letter at least **four to six weeks** before the trip, covering:
 - **Emergency contact** details
 - A **consent form** to sign and return
 
-During the trip, a short WhatsApp update to parents ("We have arrived safely at Murchison Falls") builds a great deal of trust.
+During the trip, a short WhatsApp update to parents ("We have arrived safely") builds a great deal of trust.
 
-## 7. Make learning continue after the trip
+## 9. Make learning continue after the trip
 
 - Give students **worksheets or field notebooks** to complete during the trip.
 - Hold a **reflection session** each evening on longer trips.
@@ -276,10 +314,12 @@ During the trip, a short WhatsApp update to parents ("We have arrived safely at 
 
 ## A simple checklist
 
+- [ ] Every student confirmed as 12 or older on the travel date
 - [ ] Learning objectives agreed
 - [ ] Destination and dates confirmed
 - [ ] Quotation approved by school management
 - [ ] Parent letters and consent forms sent
+- [ ] Passports and visas arranged (trips abroad)
 - [ ] Payments collected
 - [ ] Student medical information collected
 - [ ] Supervision groups assigned
@@ -288,4 +328,4 @@ During the trip, a short WhatsApp update to parents ("We have arrived safely at 
 
 ## Let us plan it with you
 
-Altura organises safe, educational trips for schools and universities across Uganda, from our [Entebbe Learning Day Out](/tours/entebbe-school-day-trip) to the [3-Day Murchison Falls School Expedition](/tours/murchison-falls-school-expedition). Send us your class level, number of students and preferred dates, and we'll prepare a quotation you can share with your board and parents.
+Altura organises safe, educational trips for schools and universities, from a [Uganda Educational Field Trip](/tours/uganda-educational-field-trip) to an [International Educational & Campus Tour](/tours/international-educational-campus-tour) at our partner universities. Send us your class level, number of students, preferred destination and dates, and we'll prepare a quotation you can share with your board and parents.

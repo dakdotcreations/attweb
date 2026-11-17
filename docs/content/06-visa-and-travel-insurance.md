@@ -26,8 +26,8 @@ We guide Ugandan and East African travellers through visa applications for the w
 
 - **Tourist and visit visas:** holidays, family visits and festive trips
 - **Business visas:** conferences, trade fairs and meetings, including invitation letters
-- **Student visas:** for study abroad applicants (Malaysia and more)
-- **Medical visas:** including the India e-Medical visa and medical attendant visas
+- **Student visas:** for study abroad applicants going to our partner universities (currently in the UK)
+- **Medical visas:** such as the India e-Medical visa, with attendant visas for companions
 - **Transit visas:** for connecting flights through certain countries
 
 ## Popular destinations

@@ -260,11 +260,10 @@ Mainly:
 
 ## Destinations
 
-Initially:
+Follow the countries of the published Partner Institutions
+(`/dashboard/institutions`). Currently:
 
-- Malaysia
-
-Potentially expandable.
+- United Kingdom (University of Leeds)
 
 ---
 
