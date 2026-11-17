@@ -3,6 +3,7 @@
 	import LatestStories from '#lib/components/public/home/latest-stories.svelte';
 	import InquiryForm from '#lib/components/public/inquiry-form.svelte';
 	import FlightRequestForm from '#lib/components/public/request-forms/flight-request-form.svelte';
+	import SchoolTourRequestForm from '#lib/components/public/request-forms/school-tour-request-form.svelte';
 	import StudyRequestForm from '#lib/components/public/request-forms/study-request-form.svelte';
 	import PackageCard from '#lib/components/public/package-card.svelte';
 	import { reveal } from '#lib/components/public/reveal.js';
@@ -30,7 +31,13 @@
 					title: 'Request a flight quote',
 					intro: "Tell us where and when you're flying. Our ticketing team compares fares across airlines and replies with options, usually the same working day. No payment is needed to ask."
 				}
-			: form === 'STUDY_ABROAD'
+			: form === 'SCHOOL_TOUR'
+				? {
+						cta: 'Plan a school trip',
+						title: 'Plan your school tour',
+						intro: "Tell us about your school and where you'd like to take your students. We'll put together a safe, well-planned trip with transport, guides and costs per student. No payment is needed to ask."
+					}
+				: form === 'STUDY_ABROAD'
 				? {
 						cta: 'Start your application',
 						title: 'Start your study abroad request',
@@ -131,6 +138,8 @@
 	</div>
 	{#if form === 'FLIGHT'}
 		<FlightRequestForm airlines={data.airlines} serviceId={service.id} whatsappNumber={data.site.whatsappNumber} />
+	{:else if form === 'SCHOOL_TOUR'}
+		<SchoolTourRequestForm serviceId={service.id} whatsappNumber={data.site.whatsappNumber} />
 	{:else if form === 'STUDY_ABROAD'}
 		<StudyRequestForm institutions={data.institutions} serviceId={service.id} whatsappNumber={data.site.whatsappNumber} />
 	{:else}

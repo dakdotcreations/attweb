@@ -30,7 +30,11 @@ A degree from abroad can open doors for the rest of your life. Getting there, th
 
 ## Where you can study
 
-We work with **partner institutions** so that our students apply to universities we know and trust. You can choose up to three of them, in order of preference, on our study abroad request form.
+We work with **partner institutions** so that our students apply to universities we know and trust. On our study abroad request form, choose the country you'd like to study in, then up to three of our partners there, in order of preference.
+
+`[Only include the next paragraph once a published institution has "Offers online study" turned on.]`
+
+**Prefer to study from home?** Some partners also teach online. Choose **Online (no travel)** on the form to see them: you earn the same qualification without a student visa, flights or living costs abroad.
 
 **United Kingdom.** Home to some of the world's best-known universities, including our partner the **University of Leeds**, a member of the UK's Russell Group of research universities. UK degrees are recognised worldwide, bachelor's degrees usually take three years and many Master's degrees take just one year, which keeps the total cost of study down.
 

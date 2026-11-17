@@ -124,6 +124,8 @@
 					</Select.Root>
 					{#if values.formType === 'FLIGHT'}
 						<Field.Description>Route, dates, passengers, cabin and airline preferences.</Field.Description>
+					{:else if values.formType === 'SCHOOL_TOUR'}
+						<Field.Description>School name and location, number of students, where they want to go and whether to include meals.</Field.Description>
 					{:else if values.formType === 'STUDY_ABROAD'}
 						<Field.Description>
 							Students choose up to 3 <a href="/dashboard/institutions" class="underline underline-offset-4">partner institutions</a>,

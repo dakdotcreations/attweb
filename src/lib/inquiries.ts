@@ -60,7 +60,7 @@ export const formatInquiryNumber = (n: number) => `#${n}`;
 // Request forms (flight requests, study abroad). See lib/schemas/inquiry-details.ts.
 // ---------------------------------------------------------------------------
 
-export const INQUIRY_KINDS = ['GENERAL', 'FLIGHT', 'STUDY_ABROAD'] as const;
+export const INQUIRY_KINDS = ['GENERAL', 'FLIGHT', 'STUDY_ABROAD', 'SCHOOL_TOUR'] as const;
 export type InquiryKind = (typeof INQUIRY_KINDS)[number];
 
 /** Same values as InquiryKind: the service decides which form its page shows. */
@@ -70,13 +70,15 @@ export type ServiceFormType = InquiryKind;
 export const kindLabels: Record<InquiryKind, string> = {
 	GENERAL: 'General inquiry',
 	FLIGHT: 'Flight request',
-	STUDY_ABROAD: 'Study abroad request'
+	STUDY_ABROAD: 'Study abroad request',
+	SCHOOL_TOUR: 'School tour request'
 };
 
 export const formTypeLabels: Record<ServiceFormType, string> = {
 	GENERAL: 'General inquiry form',
 	FLIGHT: 'Flight request form',
-	STUDY_ABROAD: 'Study abroad form'
+	STUDY_ABROAD: 'Study abroad form',
+	SCHOOL_TOUR: 'School tour form'
 };
 
 export const TRIP_TYPES = ['RETURN', 'ONE_WAY', 'MULTI_CITY'] as const;
@@ -153,3 +155,19 @@ export const studyLevelLabels: Record<StudyLevel, string> = {
 };
 
 export const MAX_INSTITUTIONS = 3;
+
+/** Upper bound for the school tour form's student estimate; bigger groups go in the notes. */
+export const MAX_SCHOOL_STUDENTS = 2000;
+
+/**
+ * The study form's destination is a partner country, or this value for institutions with
+ * offersOnline (study from home, no travel).
+ */
+export const ONLINE_DESTINATION = 'ONLINE';
+export const onlineDestinationLabel = 'Online (no travel)';
+export const destinationLabel = (destination: string) =>
+	destination === ONLINE_DESTINATION ? onlineDestinationLabel : destination;
+
+/** Whether an institution can be chosen for a destination. */
+export const institutionMatches = (i: { country: string; offersOnline: boolean }, destination: string) =>
+	destination === ONLINE_DESTINATION ? i.offersOnline : i.country === destination;

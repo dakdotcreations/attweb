@@ -11,6 +11,7 @@
 	import { formatDetails } from '#lib/schemas/inquiry-details.js';
 	import ArrowLeftIcon from '@lucide/svelte/icons/arrow-left';
 	import GraduationCapIcon from '@lucide/svelte/icons/graduation-cap';
+	import SchoolIcon from '@lucide/svelte/icons/school';
 	import PlaneIcon from '@lucide/svelte/icons/plane';
 	import MailIcon from '@lucide/svelte/icons/mail';
 	import MessageCircleIcon from '@lucide/svelte/icons/message-circle';
@@ -154,7 +155,7 @@
 					<Card.Root>
 						<Card.Header>
 							<Card.Title class="flex items-center gap-2">
-								{#if inquiry.kind === 'FLIGHT'}<PlaneIcon class="size-4" />{:else}<GraduationCapIcon class="size-4" />{/if}
+								{#if inquiry.kind === 'FLIGHT'}<PlaneIcon class="size-4" />{:else if inquiry.kind === 'SCHOOL_TOUR'}<SchoolIcon class="size-4" />{:else}<GraduationCapIcon class="size-4" />{/if}
 								{kindLabels[inquiry.kind]}
 							</Card.Title>
 							{#if inquiry.kind === 'FLIGHT'}

@@ -10,6 +10,7 @@
 	import { INQUIRY_KINDS, INQUIRY_SOURCES, INQUIRY_STATUSES, kindLabels, sourceLabels, statusMeta } from '#lib/inquiries.js';
 	import { cn } from '#lib/utils.js';
 	import GraduationCapIcon from '@lucide/svelte/icons/graduation-cap';
+	import SchoolIcon from '@lucide/svelte/icons/school';
 	import PlaneIcon from '@lucide/svelte/icons/plane';
 	import PlusIcon from '@lucide/svelte/icons/plus';
 	import type { PageProps } from './$types';
@@ -169,6 +170,8 @@
 								<PlaneIcon class="text-muted-foreground mr-1 inline size-3.5 align-[-2px]" aria-label={kindLabels.FLIGHT} />
 							{:else if inquiry.kind === 'STUDY_ABROAD'}
 								<GraduationCapIcon class="text-muted-foreground mr-1 inline size-3.5 align-[-2px]" aria-label={kindLabels.STUDY_ABROAD} />
+							{:else if inquiry.kind === 'SCHOOL_TOUR'}
+								<SchoolIcon class="text-muted-foreground mr-1 inline size-3.5 align-[-2px]" aria-label={kindLabels.SCHOOL_TOUR} />
 							{/if}
 							{inquiry.package?.title ?? inquiry.interest ?? inquiry.service?.name ?? '—'}
 						</Table.Cell>

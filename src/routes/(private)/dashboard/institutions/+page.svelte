@@ -1,6 +1,7 @@
 <script lang="ts">
 	import PageHeader from '#lib/components/admin/page-header.svelte';
 	import StatusBadge from '#lib/components/admin/status-badge.svelte';
+	import { Badge } from '#lib/components/ui/badge/index.js';
 	import { Button } from '#lib/components/ui/button/index.js';
 	import * as Table from '#lib/components/ui/table/index.js';
 	import { formatDate } from '#lib/format.js';
@@ -63,7 +64,10 @@
 						<Table.Cell>
 							<a href="/dashboard/institutions/{inst.id}" class="font-medium after:absolute after:inset-0">{inst.name}</a>
 						</Table.Cell>
-						<Table.Cell>{inst.country}</Table.Cell>
+						<Table.Cell>
+							{inst.country}
+							{#if inst.offersOnline}<Badge variant="secondary" class="ml-1.5">Online</Badge>{/if}
+						</Table.Cell>
 						<Table.Cell><StatusBadge status={inst.status} /></Table.Cell>
 						<Table.Cell class="text-right tabular-nums">{inst._count.inquiries}</Table.Cell>
 						<Table.Cell class="text-right tabular-nums">{inst.sortOrder}</Table.Cell>

@@ -2,13 +2,24 @@
 // One entry point for every public form; `kind` selects the general, flight or study abroad fields.
 import { BETTER_AUTH_URL } from '$app/env/private';
 import type { Currency } from '#lib/format.js';
-import { INQUIRY_KINDS, kindLabels, studyLevelLabels, whatsappLink, type InquiryKind } from '#lib/inquiries.js';
+import {
+	INQUIRY_KINDS,
+	destinationLabel,
+	institutionMatches,
+	kindLabels,
+	studyLevelLabels,
+	whatsappLink,
+	type InquiryKind
+} from '#lib/inquiries.js';
 import {
 	flightDetailsSchema,
 	flightExtrasSummary,
 	flightSummary,
 	formatDetails,
 	readFlightForm,
+	readSchoolTourForm,
+	schoolTourDetailsSchema,
+	type SchoolTourDetails,
 	readStudyForm,
 	studyDetailsSchema,
 	type DetailRow,
@@ -64,7 +75,7 @@ function readKind(form: FormData): InquiryKind {
 }
 
 type KindFields = {
-	details?: FlightDetails | StudyDetails;
+	details?: FlightDetails | StudyDetails | SchoolTourDetails;
 	institutions?: InquiryInstitutionChoice[];
 	travelDate?: Date;
 	groupSize?: number;
@@ -109,13 +120,15 @@ export async function submitPublicInquiry(form: FormData, ctx: { currency: Curre
 	});
 	const flight = kind === 'FLIGHT' ? flightDetailsSchema.safeParse(readFlightForm(form)) : null;
 	const study = kind === 'STUDY_ABROAD' ? studyDetailsSchema.safeParse(readStudyForm(form)) : null;
+	const school = kind === 'SCHOOL_TOUR' ? schoolTourDetailsSchema.safeParse(readSchoolTourForm(form)) : null;
 
 	const errors: FieldErrors = {
 		...(flight && !flight.success ? zodFieldErrors(flight.error) : {}),
 		...(study && !study.success ? zodFieldErrors(study.error) : {}),
+		...(school && !school.success ? zodFieldErrors(school.error) : {}),
 		...(!parsed.success ? zodFieldErrors(parsed.error) : {})
 	};
-	if (!parsed.success || (flight && !flight.success) || (study && !study.success)) {
+	if (!parsed.success || (flight && !flight.success) || (study && !study.success) || (school && !school.success)) {
 		return invalid(400, errors, 'Please check the highlighted fields.');
 	}
 	const data = parsed.data;
@@ -145,7 +158,7 @@ export async function submitPublicInquiry(form: FormData, ctx: { currency: Curre
 		study?.success
 			? db.partnerInstitution.findMany({
 					where: { id: { in: study.data.institutionIds }, status: 'PUBLISHED' },
-					select: { id: true, name: true, country: true }
+					select: { id: true, name: true, country: true, offersOnline: true }
 				})
 			: [],
 		flight?.success && flight.data.airlines.length ? listPublishedAirlineNames() : []
@@ -166,17 +179,28 @@ export async function submitPublicInquiry(form: FormData, ctx: { currency: Curre
 			confirmAbout: `your flight request, ${flightSummary(d)}`,
 			detailRows: formatDetails('FLIGHT', d)
 		};
+	} else if (school?.success) {
+		const d = school.data;
+		extra = {
+			details: d,
+			groupSize: d.students,
+			interest: `School tour: ${d.schoolName}, ${d.schoolLocation}`.slice(0, 200),
+			confirmAbout: `a school tour for ${d.schoolName}`,
+			detailRows: formatDetails('SCHOOL_TOUR', d)
+		};
 	} else if (study?.success) {
-		// Keep the visitor's ranking; drop anything unpublished or deleted meanwhile.
+		// Keep the visitor's ranking; drop anything unpublished, deleted meanwhile, or not offered
+		// for the chosen destination (another country, or campus-only when they asked for online).
+		const { destination } = study.data;
 		const byId = new Map(publishedInstitutions.map((i) => [i.id, i]));
 		const chosen = study.data.institutionIds.flatMap((id) => {
 			const i = byId.get(id);
-			return i ? [{ institutionId: i.id, name: i.name, country: i.country }] : [];
+			return i && institutionMatches(i, destination) ? [{ institutionId: i.id, name: i.name, country: i.country }] : [];
 		});
 		if (!chosen.length) {
 			return invalid(
 				400,
-				{ institutionIds: 'Those institutions are no longer available. Please choose again.' },
+				{ institutionIds: `Those institutions aren't available for ${destinationLabel(destination)}. Please choose again.` },
 				'Please check the highlighted fields.'
 			);
 		}
@@ -184,7 +208,7 @@ export async function submitPublicInquiry(form: FormData, ctx: { currency: Curre
 		extra = {
 			details,
 			institutions: chosen,
-			interest: `Study: ${studyLevelLabels[details.level]} – ${details.course}`.slice(0, 200),
+			interest: `Study: ${studyLevelLabels[details.level]} – ${details.course}, ${destinationLabel(destination)}`.slice(0, 200),
 			confirmAbout: `studying ${details.course}`,
 			detailRows: [
 				...formatDetails('STUDY_ABROAD', details),

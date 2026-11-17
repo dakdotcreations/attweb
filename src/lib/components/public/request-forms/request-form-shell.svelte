@@ -23,6 +23,7 @@
 		submitLabel,
 		successText,
 		notesPlaceholder,
+		showCountry = true,
 		initial = {},
 		errors = $bindable({}),
 		initialSuccess = null,
@@ -36,6 +37,8 @@
 		submitLabel: string;
 		successText: string;
 		notesPlaceholder: string;
+		/** The optional "Country you live in" field; off when the form already says where (school tours). */
+		showCountry?: boolean;
 		/** Values from a no-JS submission (the contact fields are read here). */
 		initial?: Values;
 		errors?: Record<string, string>;
@@ -145,9 +148,11 @@
 					{@render input('phone', 'WhatsApp / phone', { type: 'tel', autocomplete: 'tel', placeholder: '+256 700 000000', max: 40, inputmode: 'tel' })}
 					{@render input('email', 'Email', { type: 'email', autocomplete: 'email', max: 200, inputmode: 'email' })}
 					<p class="text-ink/60 -mt-2 text-sm sm:col-span-2">Give us a WhatsApp number or an email. One is enough.</p>
-					<div class="sm:col-span-2">
-						{@render input('country', 'Country you live in', { autocomplete: 'country-name', max: 80 })}
-					</div>
+					{#if showCountry}
+						<div class="sm:col-span-2">
+							{@render input('country', 'Country you live in', { autocomplete: 'country-name', max: 80 })}
+						</div>
+					{/if}
 
 					<fieldset class="sm:col-span-2">
 						<legend class="text-forest-900 mb-2 text-sm font-semibold">Best way to reach you</legend>

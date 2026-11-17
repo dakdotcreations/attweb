@@ -145,6 +145,7 @@ enum ServiceFormType {
   GENERAL
   FLIGHT
   STUDY_ABROAD
+  SCHOOL_TOUR
 }
 
 /// A business line (Wildlife Tours, Gorilla Trekking, Medical Tourism, ...).
@@ -396,6 +397,7 @@ enum InquiryKind {
   GENERAL
   FLIGHT
   STUDY_ABROAD
+  SCHOOL_TOUR
 }
 
 enum Currency {
@@ -472,16 +474,19 @@ model InquiryNote {
 // ----------------------------------------------------------------------------
 
 model PartnerInstitution {
-  id        String               @id @default(cuid())
-  name      String
-  country   String
-  logoId    String?
-  logo      Media?               @relation("InstitutionLogo", fields: [logoId], references: [id], onDelete: SetNull)
-  status    PublishStatus        @default(DRAFT)
-  sortOrder Int                  @default(0)
-  inquiries InquiryInstitution[]
-  createdAt DateTime             @default(now())
-  updatedAt DateTime             @updatedAt
+  id           String               @id @default(cuid())
+  name         String
+  /// Where it's based. Students pick a country, or "Online" to see institutions with offersOnline.
+  country      String
+  /// Also teaches online, so students can study without travelling.
+  offersOnline Boolean              @default(false)
+  logoId       String?
+  logo         Media?               @relation("InstitutionLogo", fields: [logoId], references: [id], onDelete: SetNull)
+  status       PublishStatus        @default(DRAFT)
+  sortOrder    Int                  @default(0)
+  inquiries    InquiryInstitution[]
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
 
   @@index([status, country, sortOrder])
   @@map("partner_institution")

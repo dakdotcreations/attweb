@@ -6,10 +6,12 @@ import {
 	MAX_AIRLINES,
 	MAX_FLIGHT_LEGS,
 	MAX_INSTITUTIONS,
+	MAX_SCHOOL_STUDENTS,
 	STAY_TYPES,
 	STUDY_LEVELS,
 	TRIP_TYPES,
 	cabinLabels,
+	destinationLabel,
 	stayTypeLabels,
 	studyLevelLabels,
 	tripTypeLabels,
@@ -107,6 +109,8 @@ export const flightDetailsSchema = z
 export type FlightDetails = z.output<typeof flightDetailsSchema>;
 
 export const studyDetailsSchema = z.object({
+	/** A partner country, or ONLINE_DESTINATION; submitPublicInquiry() checks the choices match it. */
+	destination: z.string().trim().min(1, 'Choose a country, or online').max(80),
 	level: z.enum(STUDY_LEVELS, 'Choose a study level'),
 	course: requiredText(150, 'Course'),
 	intake: requiredText(60, 'Intake'),
@@ -121,6 +125,23 @@ export const studyDetailsSchema = z.object({
 export type StudyRequest = z.output<typeof studyDetailsSchema>;
 /** What goes in Inquiry.details (institutions are stored as rows). */
 export type StudyDetails = Omit<StudyRequest, 'institutionIds'>;
+
+export const schoolTourDetailsSchema = z.object({
+	schoolName: requiredText(150, 'School name'),
+	/** Town or district, e.g. "Ntinda, Kampala" */
+	schoolLocation: requiredText(120, 'Location'),
+	/** An estimate; staff confirm numbers when quoting. */
+	students: z
+		.number('Enter roughly how many students')
+		.int('Use a whole number')
+		.min(1, 'At least 1 student')
+		.max(MAX_SCHOOL_STUDENTS, `For more than ${MAX_SCHOOL_STUDENTS} students, tell us in the notes`),
+	/** Free text: places, ideas, subjects the trip should support. */
+	destination: requiredText(2000, 'Where you want to go'),
+	meals: z.boolean('Tell us whether to include meals')
+});
+
+export type SchoolTourDetails = z.output<typeof schoolTourDetailsSchema>;
 
 // ---------------------------------------------------------------------------
 // FormData → objects (plain form fields so the forms work without JS)
@@ -168,8 +189,20 @@ function readAccommodation(form: FormData) {
 	};
 }
 
+export function readSchoolTourForm(form: FormData) {
+	const meals = str(form, 'meals');
+	return {
+		schoolName: str(form, 'schoolName'),
+		schoolLocation: str(form, 'schoolLocation'),
+		students: int(form, 'students', Number.NaN),
+		destination: str(form, 'destination'),
+		meals: meals === 'YES' ? true : meals === 'NO' ? false : undefined
+	};
+}
+
 export function readStudyForm(form: FormData) {
 	return {
+		destination: str(form, 'destination'),
 		level: str(form, 'level'),
 		course: str(form, 'course'),
 		intake: str(form, 'intake'),
@@ -258,9 +291,20 @@ export function formatDetails(kind: InquiryKind, details: unknown): DetailRow[] 
 		if (d.insurance) rows.push({ label: 'Travel insurance', value: 'Requested' });
 		return rows;
 	}
+	if (kind === 'SCHOOL_TOUR') {
+		const d = details as Partial<SchoolTourDetails>;
+		const rows: DetailRow[] = [];
+		if (d.schoolName) rows.push({ label: 'School', value: d.schoolName });
+		if (d.schoolLocation) rows.push({ label: 'Location', value: d.schoolLocation });
+		if (d.students) rows.push({ label: 'Students', value: `About ${d.students}` });
+		if (typeof d.meals === 'boolean') rows.push({ label: 'Meals', value: d.meals ? 'Include meals' : 'Not needed' });
+		if (d.destination) rows.push({ label: 'Where they want to go', value: d.destination });
+		return rows;
+	}
 	if (kind === 'STUDY_ABROAD') {
 		const d = details as Partial<StudyDetails>;
 		const rows: DetailRow[] = [];
+		if (d.destination) rows.push({ label: 'Destination', value: destinationLabel(d.destination) });
 		if (d.level) rows.push({ label: 'Level', value: studyLevelLabels[d.level] ?? d.level });
 		if (d.course) rows.push({ label: 'Course', value: d.course });
 		if (d.intake) rows.push({ label: 'Intake', value: d.intake });

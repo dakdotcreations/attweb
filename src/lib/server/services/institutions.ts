@@ -11,6 +11,7 @@ export function listInstitutions() {
 			id: true,
 			name: true,
 			country: true,
+			offersOnline: true,
 			status: true,
 			sortOrder: true,
 			updatedAt: true,
@@ -48,7 +49,7 @@ export function listPublishedInstitutions() {
 	return db.partnerInstitution.findMany({
 		where: { status: 'PUBLISHED' },
 		orderBy: [...order],
-		select: { id: true, name: true, country: true, logo: { select: { thumbUrl: true, alt: true } } }
+		select: { id: true, name: true, country: true, offersOnline: true, logo: { select: { thumbUrl: true, alt: true } } }
 	});
 }
 

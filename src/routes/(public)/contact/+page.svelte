@@ -3,6 +3,7 @@
 	import BrandIcon from '#lib/components/public/brand-icon.svelte';
 	import InquiryForm from '#lib/components/public/inquiry-form.svelte';
 	import FlightRequestForm from '#lib/components/public/request-forms/flight-request-form.svelte';
+	import SchoolTourRequestForm from '#lib/components/public/request-forms/school-tour-request-form.svelte';
 	import StudyRequestForm from '#lib/components/public/request-forms/study-request-form.svelte';
 	import PageHero from '#lib/components/public/page-hero.svelte';
 	import { reveal } from '#lib/components/public/reveal.js';
@@ -42,6 +43,14 @@
 		{#if failed?.kind === 'FLIGHT'}
 			<h2 class="font-display text-forest-950 mb-6 text-2xl font-semibold uppercase">Your flight request</h2>
 			<FlightRequestForm airlines={failed.airlines} serviceId={failed.values.serviceId || null} whatsappNumber={site.whatsappNumber} initial={failed.values} initialErrors={failed.errors} />
+		{:else if failed?.kind === 'SCHOOL_TOUR'}
+			<h2 class="font-display text-forest-950 mb-6 text-2xl font-semibold uppercase">Your school tour request</h2>
+			<SchoolTourRequestForm
+				serviceId={failed.values.serviceId || null}
+				whatsappNumber={site.whatsappNumber}
+				initial={failed.values}
+				initialErrors={failed.errors}
+			/>
 		{:else if failed?.kind === 'STUDY_ABROAD'}
 			<h2 class="font-display text-forest-950 mb-6 text-2xl font-semibold uppercase">Your study abroad request</h2>
 			<StudyRequestForm

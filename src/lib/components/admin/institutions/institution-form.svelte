@@ -7,6 +7,7 @@
 	import * as Card from '#lib/components/ui/card/index.js';
 	import * as Field from '#lib/components/ui/field/index.js';
 	import { Input } from '#lib/components/ui/input/index.js';
+	import { Switch } from '#lib/components/ui/switch/index.js';
 	import type { MediaRef } from '#lib/media.js';
 	import type { PublishStatus } from '#lib/schemas/common.js';
 	import type { InstitutionInput } from '#lib/schemas/institutions.js';
@@ -15,6 +16,7 @@
 		id: string;
 		name: string;
 		country: string;
+		offersOnline: boolean;
 		status: PublishStatus;
 		sortOrder: number;
 		logo: MediaRef | null;
@@ -33,6 +35,7 @@
 	let values = $state({
 		name: i?.name ?? '',
 		country: i?.country ?? '',
+		offersOnline: i?.offersOnline ?? false,
 		status: i?.status ?? ('DRAFT' as PublishStatus),
 		sortOrder: i?.sortOrder ?? 0,
 		logo: i?.logo ?? null
@@ -75,8 +78,19 @@
 						<datalist id="institution-countries">
 							{#each countries as c (c)}<option value={c}></option>{/each}
 						</datalist>
-						<Field.Description>Students filter by country, so spell it the same way each time.</Field.Description>
+						<Field.Description>
+							Where it's based. Students pick a country first, so spell it the same way each time.
+						</Field.Description>
 						{#if errors.country}<Field.Error>{errors.country}</Field.Error>{/if}
+					</Field.Field>
+					<Field.Field orientation="horizontal">
+						<Switch id="offersOnline" bind:checked={values.offersOnline} />
+						<Field.Content>
+							<Field.Label for="offersOnline">Offers online study</Field.Label>
+							<Field.Description>
+								Also listed under "Online (no travel)" on the study abroad form, for students who want to study from home.
+							</Field.Description>
+						</Field.Content>
 					</Field.Field>
 				</Field.Group>
 			</Card.Content>

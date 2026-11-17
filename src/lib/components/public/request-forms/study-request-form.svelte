@@ -1,24 +1,35 @@
 <!--
-	Study abroad request form (service pages whose formType is STUDY_ABROAD). Students pick up to
-	MAX_INSTITUTIONS partner institutions in order of preference. Without JS the choices are plain
-	checkboxes (ranked by list order); the server enforces the limit either way.
+	Study abroad request form (service pages whose formType is STUDY_ABROAD). Students choose a
+	destination (a partner country, or online for institutions with offersOnline), then up to
+	MAX_INSTITUTIONS institutions there, in order of preference. Without JS every institution is
+	listed and the choices are plain checkboxes (ranked by list order); the server checks the
+	limit and that each choice matches the destination either way.
 -->
 <script module lang="ts">
 	export type PublicInstitution = {
 		id: string;
 		name: string;
 		country: string;
+		offersOnline: boolean;
 		logo: { thumbUrl: string; alt: string } | null;
 	};
 </script>
 
 <script lang="ts">
-	import { MAX_INSTITUTIONS, STUDY_LEVELS, studyLevelLabels } from '#lib/inquiries.js';
+	import {
+		MAX_INSTITUTIONS,
+		ONLINE_DESTINATION,
+		STUDY_LEVELS,
+		institutionMatches,
+		onlineDestinationLabel,
+		studyLevelLabels
+	} from '#lib/inquiries.js';
 	import { cn } from '#lib/utils.js';
 	import FieldError from './field-error.svelte';
 	import RequestFormShell from './request-form-shell.svelte';
 	import { chipClass, inputClass, labelClass, sectionTitleClass, splitEcho } from './styles.js';
 	import GraduationCapIcon from '@lucide/svelte/icons/graduation-cap';
+	import LaptopIcon from '@lucide/svelte/icons/laptop';
 	import XIcon from '@lucide/svelte/icons/x';
 
 	type Values = Record<string, string>;
@@ -44,17 +55,43 @@
 	const start = initial;
 	// svelte-ignore state_referenced_locally
 	let errors = $state<Record<string, string>>(initialErrors);
+	const countries = $derived([...new Set(institutions.map((i) => i.country))].sort((a, b) => a.localeCompare(b)));
+	const hasOnline = $derived(institutions.some((i) => i.offersOnline));
+	/** Partner countries, then online when any institution teaches online. */
+	const destinations = $derived([...countries, ...(hasOnline ? [ONLINE_DESTINATION] : [])]);
+	// With a single option there's nothing to choose, so it's preselected.
+	const defaultDestination = () => (destinations.length === 1 ? destinations[0] : '');
+
+	// svelte-ignore state_referenced_locally
+	let destination = $state(destinations.includes(start.destination ?? '') ? start.destination : defaultDestination());
 	// svelte-ignore state_referenced_locally
 	let chosen = $state<string[]>(splitEcho(start.institutionIds).filter((id) => institutions.some((i) => i.id === id)).slice(0, MAX_INSTITUTIONS));
 	let level = $state(start.level ?? '');
 	let course = $state(start.course ?? '');
 	let intake = $state(start.intake ?? '');
 	let qualification = $state(start.qualification ?? '');
-	let country = $state('');
 
-	const countries = $derived([...new Set(institutions.map((i) => i.country))].sort((a, b) => a.localeCompare(b)));
+	/** Filtering needs JS; without it every institution stays listed and the server checks the match. */
+	let hydrated = $state(false);
+	$effect(() => {
+		hydrated = true;
+	});
+
 	const byId = $derived(new Map(institutions.map((i) => [i.id, i])));
 	const full = $derived(chosen.length >= MAX_INSTITUTIONS);
+	const online = $derived(destination === ONLINE_DESTINATION);
+	const shown = (inst: PublicInstitution) => !hydrated || (!!destination && institutionMatches(inst, destination));
+	const visibleCount = $derived(institutions.filter(shown).length);
+
+	function chooseDestination(value: string) {
+		destination = value;
+		// Choices are for one destination: drop any that don't fit the new one.
+		chosen = chosen.filter((cid) => {
+			const inst = byId.get(cid);
+			return inst ? institutionMatches(inst, value) : false;
+		});
+		if (errors.destination || errors.institutionIds) errors = { ...errors, destination: '', institutionIds: '' };
+	}
 
 	function toggle(id: string, checked: boolean) {
 		if (checked && !chosen.includes(id) && !full) chosen.push(id);
@@ -74,7 +111,7 @@
 		course = '';
 		intake = '';
 		qualification = '';
-		country = '';
+		destination = defaultDestination();
 	}
 
 	const ordinal = ['1st', '2nd', '3rd', '4th', '5th'];
@@ -98,19 +135,31 @@
 			<div>
 				<h3 id={id('where-title')} class={sectionTitleClass}>Where you want to study</h3>
 				<p id={id('where-hint')} class="text-ink/60 mt-1 text-sm">
-					Choose up to {MAX_INSTITUTIONS} of our partner institutions, in order of preference.
+					Choose a country{hasOnline ? ', or online if you’d rather study from home,' : ''} then up to {MAX_INSTITUTIONS} of
+					our partner institutions there, in order of preference.
 				</p>
 			</div>
 
-			{#if countries.length > 1}
-				<div class="flex flex-wrap gap-2" role="group" aria-label="Filter by country">
-					{#each ['', ...countries] as c (c)}
-						<button type="button" class={chipClass(country === c)} aria-pressed={country === c} onclick={() => (country = c)}>
-							{c || 'All countries'}
-						</button>
+			<fieldset>
+				<legend class="text-forest-900 mb-2 text-sm font-semibold">Destination<span class="text-gold-600"> *</span></legend>
+				<div class="flex flex-wrap gap-2">
+					{#each destinations as d (d)}
+						<label class={chipClass(destination === d)}>
+							<input
+								type="radio"
+								name="destination"
+								value={d}
+								checked={destination === d}
+								onchange={() => chooseDestination(d)}
+								required
+								class="sr-only"
+							/>
+							{#if d === ONLINE_DESTINATION}<LaptopIcon class="size-3.5" aria-hidden="true" />{onlineDestinationLabel}{:else}{d}{/if}
+						</label>
 					{/each}
 				</div>
-			{/if}
+				<FieldError id={id('destination-error')} message={errors.destination} />
+			</fieldset>
 
 			{#if chosen.length}
 				<ol class="bg-forest-100/60 flex flex-wrap gap-2 rounded-md p-3" aria-label="Your choices">
@@ -134,14 +183,20 @@
 				</ol>
 			{/if}
 
-			<fieldset aria-describedby={id('where-hint')}>
+			{#if hydrated && !destination}
+				<p class="border-forest-900/15 text-ink/60 rounded-md border border-dashed p-4 text-center text-sm">
+					Choose a destination above to see our partner institutions there.
+				</p>
+			{/if}
+
+			<fieldset aria-describedby={id('where-hint')} class={cn(visibleCount === 0 && 'hidden')}>
 				<legend class="sr-only">Partner institutions</legend>
 				<ul class="grid gap-3 sm:grid-cols-2">
 					{#each institutions as inst (inst.id)}
 						{@const index = chosen.indexOf(inst.id)}
 						{@const checked = index !== -1}
 						{@const disabled = full && !checked}
-						<li class={cn(country && inst.country !== country && 'hidden')}>
+						<li class={cn(!shown(inst) && 'hidden')}>
 							<label
 								class={cn(
 									'flex h-full cursor-pointer items-center gap-3 rounded-md border bg-white p-3 transition-colors has-focus-visible:ring-4 has-focus-visible:ring-forest-700/20',
@@ -167,7 +222,13 @@
 								</span>
 								<span class="min-w-0 flex-1">
 									<span class="text-forest-950 block text-sm leading-snug font-bold">{inst.name}</span>
-									<span class="text-ink/60 block text-xs">{inst.country}</span>
+									<span class="text-ink/60 block text-xs">
+										{#if online}
+											Online, based in {inst.country}
+										{:else}
+											{inst.country}{#if inst.offersOnline}<span class="text-forest-700 font-semibold"> · Also online</span>{/if}
+										{/if}
+									</span>
 								</span>
 								<span
 									class={cn(

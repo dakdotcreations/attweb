@@ -5,6 +5,7 @@ import { mediaIdSchema, publishStatusSchema, requiredText, sortOrderSchema } fro
 export const institutionSchema = z.object({
 	name: requiredText(150, 'Name'),
 	country: requiredText(80, 'Country'),
+	offersOnline: z.boolean(),
 	logoId: mediaIdSchema,
 	status: publishStatusSchema,
 	sortOrder: sortOrderSchema
