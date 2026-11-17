@@ -127,6 +127,11 @@
 					</Select.Root>
 					{#if values.formType === 'FLIGHT'}
 						<Field.Description>Route, dates, passengers, cabin and airline preferences.</Field.Description>
+					{:else if values.formType === 'MEDICAL'}
+						<Field.Description>
+							Purpose (treatment, check-up, research or professional visit), medical field, details, timing and group size. Visitors can pick up to 3
+							<a href="/dashboard/medical-partners" class="underline underline-offset-4">medical partners</a> (optional).
+						</Field.Description>
 					{:else if values.formType === 'SCHOOL_TOUR'}
 						<Field.Description>School name and location, number of students, where they want to go and whether to include meals.</Field.Description>
 					{:else if values.formType === 'STUDY_ABROAD'}

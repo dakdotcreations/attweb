@@ -1,6 +1,7 @@
 import { db } from '#lib/server/db.js';
 import { listPublishedAirlineNames } from '#lib/server/services/airlines.js';
 import { listPublishedInstitutions } from '#lib/server/services/institutions.js';
+import { listPublishedMedicalPartners } from '#lib/server/services/medical-partners.js';
 import { submitPublicInquiry } from '#lib/server/services/public-inquiry.js';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
@@ -28,9 +29,10 @@ export const actions: Actions = {
 		const result = await submitPublicInquiry(await request.formData(), { currency: locals.currency });
 		if (!result.ok) {
 			// Without JS the visitor lands here, so send what the matching form needs to re-render.
-			const [institutions, airlines] = await Promise.all([
+			const [institutions, airlines, medicalPartners] = await Promise.all([
 				result.kind === 'STUDY_ABROAD' ? listPublishedInstitutions() : [],
-				result.kind === 'FLIGHT' ? listPublishedAirlineNames() : []
+				result.kind === 'FLIGHT' ? listPublishedAirlineNames() : [],
+				result.kind === 'MEDICAL' ? listPublishedMedicalPartners() : []
 			]);
 			return fail(result.status, {
 				errors: result.errors,
@@ -38,7 +40,8 @@ export const actions: Actions = {
 				kind: result.kind,
 				values: result.values,
 				institutions,
-				airlines
+				airlines,
+				medicalPartners
 			});
 		}
 		return { success: true, number: result.number };

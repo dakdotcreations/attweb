@@ -2,7 +2,9 @@
 
 > Tone: calm, factual, trustworthy. Avoid promises about treatment outcomes. Medical decisions are always made by the treating doctors.
 >
-> **Destinations:** the service is not tied to one country. We choose the destination for each patient based on the treatment, the hospital's specialists, cost, visa rules and travel time. **India** is our main route today, through our partnership with **JD Max Health Care India**. Other destinations (for example Turkey, the UAE, Egypt and Kenya) are coordinated through the international patient departments of accredited hospitals. Don't name a hospital as a "partner" on the website unless there is a written agreement.
+> **Audience:** medical tourism is any travel with a medical purpose, not only patients. Write for four groups: people travelling for **treatment**, for a **check-up or wellness** programme, **students and researchers** (electives, clinical observerships, research placements, study visits), and **health professionals** (training, conferences, hospital visits). The request form asks for the purpose first. Don't promise placements: electives and research positions are always confirmed by the host hospital or university.
+>
+> **Destinations:** the service is not tied to one country. We choose the destination for each trip based on its purpose, the hospital's specialists, cost, visa rules and travel time. **India** is our main route today, through our partnership with **JD Max Health Care India**. Other destinations (for example Turkey, the UAE, Egypt and Kenya) are coordinated through the international patient departments of accredited hospitals. Don't name a hospital as a "partner" on the website unless there is a written agreement.
 
 ---
 
@@ -11,22 +13,30 @@
 **Name:** Medical Tourism
 **Slug:** `medical-tourism`
 **Sort order:** 6
+**Request form:** Medical tourism form (set under "Request form" in the service editor). Add the partner hospitals under Medical Partners first.
 
 **Summary:**
-Coordinated medical travel from Uganda to accredited hospitals abroad, including India through our partnership with JD Max Health Care. Specialist opinion, medical visa, flights, accommodation, interpreter and aftercare.
+Medical travel from Uganda to accredited hospitals abroad, for treatment, check-ups, study and research, or professional visits. Hospital contact, visas, flights, accommodation and on-the-ground support, including India through our partnership with JD Max Health Care.
 
-**SEO title:** Medical Tourism from Uganda: Treatment Abroad | Altura Tours & Travel
-**SEO description:** Treatment abroad arranged from Kampala: hospital referral, medical visa, flights, accommodation, interpreters and aftercare. India, Turkey, the UAE and more.
+**SEO title:** Medical Tourism from Uganda: Treatment, Study & Research Abroad | Altura
+**SEO description:** Medical travel arranged from Kampala: treatment and check-ups, medical electives, research and training visits. Hospital contact, visas, flights and stay.
 
 ### Content
 
 ## Your medical journey abroad, thoughtfully coordinated from start to finish
 
-When you or a loved one needs specialist treatment that isn't easily available at home, the last thing you need is the stress of organising travel to a foreign country. Altura's medical tourism service lets you focus on your health while we handle the logistics.
+Whether you or a loved one needs specialist treatment, you want a thorough check-up, or you're a medical student, researcher or health professional heading abroad to learn, travelling for a medical purpose takes more planning than an ordinary trip. Altura's medical tourism team handles the logistics so you can focus on why you're going.
+
+## Who we help
+
+- **Treatment and surgery:** specialist care that isn't easily available at home, with an opinion and estimate before you travel.
+- **Health check-ups and wellness:** a hospital-grade check-up or a wellness programme, often combined with a short break.
+- **Students and researchers:** medical and nursing students looking for an elective or clinical observership, and researchers visiting a hospital or university for a placement or study visit.
+- **Health professionals:** doctors, nurses and hospital managers attending training courses, conferences or hospital visits, on their own or as a group.
 
 ## The right hospital, in the right country
 
-We don't push one destination. We look at **what treatment you need**, which hospitals have the right specialists, your budget, visa requirements and how far you're able to travel, and then recommend options.
+We don't push one destination. We look at **the purpose of your trip**, which hospitals and institutions have the right specialists or programmes, your budget, visa requirements and how far you're able to travel, and then recommend options.
 
 - **India:** our main route. Internationally accredited hospitals, experienced specialists and advanced technology, often at a fraction of the cost elsewhere. Direct flights from Entebbe to Mumbai.
 - **Turkey:** a popular choice for orthopaedics, cosmetic surgery, hair transplant, dentistry and eye surgery.
@@ -37,9 +47,11 @@ Other destinations can be arranged on request.
 
 ## Our partnership with JD Max Health Care India
 
-Altura Tours & Travel works with **JD Max Health Care India** through an **Expert Medical Reference Programme**. This gives our patients a direct route to hospital specialists in India, faster responses to medical queries and a coordinated, patient-centred experience.
+Altura Tours & Travel works with **JD Max Health Care India** through an **Expert Medical Reference Programme**. This gives our clients a direct route to hospital specialists in India, faster responses to medical queries and a coordinated, patient-centred experience.
 
-## Specialties we coordinate
+## Medical fields we work with
+
+Whether you're travelling for care or to learn, these are the fields we arrange trips around most often:
 
 - **Specialised medical care:** cardiac care, neurosurgery, oncology and organ-related treatment
 - **Orthopaedics:** joint replacement, spine surgery and sports injuries
@@ -53,18 +65,20 @@ Altura Tours & Travel works with **JD Max Health Care India** through an **Exper
 
 ## Your journey includes
 
-1. **Medical opinion:** we share your reports with specialists and get a treatment opinion and cost estimate, usually before you commit to travel. Where it helps, we can request opinions from hospitals in more than one country so you can compare.
-2. **Visa processing:** the right medical visa for your destination (for example India's e-Medical visa) for the patient, plus attendant visas for companions.
-3. **Flight tickets**, with wheelchair or medical assistance at the airport if needed.
-4. **Hotel or guest-house accommodation** near the hospital for your attendants and for recovery.
-5. **Airport transfers** and hospital transport.
+1. **Contact with the hospital or institution:**
+   - **For treatment**, we share your reports with specialists and get a treatment opinion and cost estimate, usually before you commit to travel. Where it helps, we request opinions from hospitals in more than one country so you can compare.
+   - **For study, research or training**, we help you find a host hospital or university, prepare your application and follow it up. The host decides whether to accept you.
+2. **Visa processing:** the right visa for your purpose and destination, for example India's e-Medical visa with attendant visas for companions, or a student, research or business visa for placements, training and conferences.
+3. **Flight tickets**, with wheelchair or medical assistance at the airport if needed, and group fares for student and professional groups.
+4. **Accommodation** near the hospital or campus: a hotel, guest house or serviced apartment, for recovery or for the length of your placement.
+5. **Airport transfers** and daily transport to the hospital or institution.
 6. **Dedicated support:** an interpreter and coordinator on the ground, plus aftercare and follow-up once you're home.
 
-## Quality care. Trusted partners. Better health.
+## Quality care. Trusted partners. Clear information.
 
-We are not doctors, and we never make medical decisions. Our role is to connect you with qualified specialists, give you clear information and take the travel worries off your shoulders. Every diagnosis and treatment plan comes from the treating hospital.
+We are not doctors, and we never make medical or academic decisions. Our role is to connect you with qualified specialists and reputable institutions, give you clear information and take the travel worries off your shoulders. Every diagnosis and treatment plan comes from the treating hospital, and every placement is confirmed by the host.
 
-**Early consultation is open.** Send us your medical reports in confidence, and we'll come back with a specialist opinion and a transparent estimate.
+**Tell us about your trip.** Choose the purpose on our request form: treatment, a check-up, study and research, or a professional visit. We'll come back with options and a transparent estimate. If you're travelling for treatment, you can share your medical reports with us in confidence.
 
 ---
 
@@ -213,6 +227,66 @@ After discharge you'll usually stay nearby for follow-up checks before you're cl
 
 ---
 
+## PACKAGE 3: Medical Elective & Research Placement Abroad
+
+**Title:** Medical Elective & Research Placement Abroad: Students and Professionals
+**Slug:** `medical-elective-research-placement-abroad`
+**Location:** India and other destinations on request
+**Duration:** 4 weeks (2 to 8 weeks possible)
+**Featured:** No
+**Services:** Medical Tourism
+
+**Summary:**
+For medical, nursing and allied-health students, researchers and health professionals: help finding a host hospital or university abroad, plus visa, flights, accommodation, transfers and a local coordinator for your elective, observership, research placement or training visit.
+
+**Prices** `[confirm: new package, not on a flyer. Host institutions set their own elective or programme fees]`
+
+| Label | UGX | USD | From price |
+|---|---|---|---|
+| Per person, 4 weeks: coordination + shared accommodation (excludes flights and host fees) | 4,800,000 | 1,300 | ✅ |
+| Each extra week of accommodation and support | 900,000 | 240 | |
+| Group of 6 or more, per person (4 weeks) | 4,200,000 | 1,140 | |
+
+**SEO title:** Medical Electives & Research Placements Abroad from Uganda | Altura
+**SEO description:** Medical electives, observerships, research placements and training visits abroad for students and professionals. Host applications, visas, flights and stay.
+
+### Description
+
+Seeing how medicine is practised in another country can shape a whole career. This package is for **medical, nursing and allied-health students** planning an elective or clinical observership, **researchers** visiting a hospital or university, and **health professionals** travelling for training or a hospital visit, on their own or as a group.
+
+**Finding a host.** Tell us your field, your level of study or experience and the dates you have in mind. We look for hospitals and universities that accept international visitors, explain their requirements and fees, and help you prepare the application: usually a CV, a letter from your school or employer, proof of immunisation and, for some hosts, an interview. **The host decides whether to accept you**, and we keep you updated throughout.
+
+**Before you travel**, we arrange the right **visa** for your programme, book your **flights** (with group fares for student groups) and find **accommodation** close to the hospital or campus, usually a shared apartment or guest house.
+
+**On arrival**, our coordinator meets you at the airport, settles you in and makes sure you know the way to your host. During your stay, we're your local contact for anything travel-related, from transport to changing your return date.
+
+**Making the most of it:** many visitors use a free weekend for sightseeing. We can add short trips, for example to the Taj Mahal from Delhi.
+
+### Highlights
+- Electives, observerships, research placements and training visits
+- Help finding and applying to a host hospital or university
+- Visa, flights and accommodation arranged around your programme
+- A local coordinator from arrival to departure
+- Group arrangements for universities, nursing schools and hospitals
+
+### Inclusions
+- Host search and application support
+- Visa processing guidance and document checks
+- 4 weeks' shared accommodation near the hospital or campus
+- Airport transfers on arrival and departure
+- On-ground coordinator support
+- Pre-departure briefing
+
+### Exclusions
+- Return flights (booked by our team at the best available fare)
+- Elective, programme or bench fees charged by the host institution
+- Visa government fees
+- Meals and daily transport
+- Travel and medical insurance (we can arrange it)
+- Personal expenses
+
+---
+
 ## ARTICLE
 
 **Title:** Getting Medical Treatment Abroad from Uganda: A Step-by-Step Guide
@@ -323,3 +397,5 @@ Always ask for a **written estimate** before travelling.
 Altura Tours & Travel coordinates the full journey, from the medical opinion and visa processing to flights, accommodation, airport transfers, interpreter support and aftercare. In India we work with **JD Max Health Care India** through an **Expert Medical Reference Programme**, and we arrange care in other destinations through accredited hospitals' international patient teams.
 
 **Early consultation is open.** Send us your medical reports in confidence through our inquiry form or on WhatsApp, and we'll guide you through the next steps.
+
+**Travelling to study, research or train instead?** Medical tourism isn't only for patients. We also arrange electives, research placements, observerships, training courses and hospital visits for students and health professionals. Choose "Study, research or elective" or "Training, conference or hospital visit" on our request form.

@@ -3,6 +3,7 @@
 	import LatestStories from '#lib/components/public/home/latest-stories.svelte';
 	import InquiryForm from '#lib/components/public/inquiry-form.svelte';
 	import FlightRequestForm from '#lib/components/public/request-forms/flight-request-form.svelte';
+	import MedicalRequestForm from '#lib/components/public/request-forms/medical-request-form.svelte';
 	import SchoolTourRequestForm from '#lib/components/public/request-forms/school-tour-request-form.svelte';
 	import StudyRequestForm from '#lib/components/public/request-forms/study-request-form.svelte';
 	import PackageCard from '#lib/components/public/package-card.svelte';
@@ -31,7 +32,13 @@
 					title: 'Request a flight quote',
 					intro: "Tell us where and when you're flying. Our ticketing team compares fares across airlines and replies with options, usually the same working day. No payment is needed to ask."
 				}
-			: form === 'SCHOOL_TOUR'
+			: form === 'MEDICAL'
+				? {
+						cta: 'Plan a medical trip',
+						title: 'Plan your medical trip',
+						intro: "Travelling for treatment or a check-up, or for medical study, research, an elective or training? Tell us what you have in mind. Our medical travel team arranges the hospital contact, visas, flights and your stay. There's nothing to pay to ask."
+					}
+				: form === 'SCHOOL_TOUR'
 				? {
 						cta: 'Plan a school trip',
 						title: 'Plan your school tour',
@@ -138,6 +145,8 @@
 	</div>
 	{#if form === 'FLIGHT'}
 		<FlightRequestForm airlines={data.airlines} serviceId={service.id} whatsappNumber={data.site.whatsappNumber} />
+	{:else if form === 'MEDICAL'}
+		<MedicalRequestForm partners={data.medicalPartners} serviceId={service.id} whatsappNumber={data.site.whatsappNumber} />
 	{:else if form === 'SCHOOL_TOUR'}
 		<SchoolTourRequestForm serviceId={service.id} whatsappNumber={data.site.whatsappNumber} />
 	{:else if form === 'STUDY_ABROAD'}

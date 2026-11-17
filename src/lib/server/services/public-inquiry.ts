@@ -7,6 +7,8 @@ import {
 	destinationLabel,
 	institutionMatches,
 	kindLabels,
+	medicalPurposeLabels,
+	medicalSpecialtyLabels,
 	studyLevelLabels,
 	whatsappLink,
 	type InquiryKind
@@ -17,7 +19,10 @@ import {
 	flightSummary,
 	formatDetails,
 	readFlightForm,
+	medicalDetailsSchema,
+	readMedicalForm,
 	readSchoolTourForm,
+	type MedicalDetails,
 	schoolTourDetailsSchema,
 	type SchoolTourDetails,
 	readStudyForm,
@@ -75,7 +80,7 @@ function readKind(form: FormData): InquiryKind {
 }
 
 type KindFields = {
-	details?: FlightDetails | StudyDetails | SchoolTourDetails;
+	details?: FlightDetails | StudyDetails | SchoolTourDetails | MedicalDetails;
 	institutions?: InquiryInstitutionChoice[];
 	travelDate?: Date;
 	groupSize?: number;
@@ -121,14 +126,16 @@ export async function submitPublicInquiry(form: FormData, ctx: { currency: Curre
 	const flight = kind === 'FLIGHT' ? flightDetailsSchema.safeParse(readFlightForm(form)) : null;
 	const study = kind === 'STUDY_ABROAD' ? studyDetailsSchema.safeParse(readStudyForm(form)) : null;
 	const school = kind === 'SCHOOL_TOUR' ? schoolTourDetailsSchema.safeParse(readSchoolTourForm(form)) : null;
+	const medical = kind === 'MEDICAL' ? medicalDetailsSchema.safeParse(readMedicalForm(form)) : null;
 
 	const errors: FieldErrors = {
 		...(flight && !flight.success ? zodFieldErrors(flight.error) : {}),
 		...(study && !study.success ? zodFieldErrors(study.error) : {}),
 		...(school && !school.success ? zodFieldErrors(school.error) : {}),
+		...(medical && !medical.success ? zodFieldErrors(medical.error) : {}),
 		...(!parsed.success ? zodFieldErrors(parsed.error) : {})
 	};
-	if (!parsed.success || (flight && !flight.success) || (study && !study.success) || (school && !school.success)) {
+	if (!parsed.success || (flight && !flight.success) || (study && !study.success) || (school && !school.success) || (medical && !medical.success)) {
 		return invalid(400, errors, 'Please check the highlighted fields.');
 	}
 	const data = parsed.data;
@@ -178,6 +185,24 @@ export async function submitPublicInquiry(form: FormData, ctx: { currency: Curre
 			interest: `Flight: ${flightSummary(d)}${flightExtrasSummary(d)}`.slice(0, 200),
 			confirmAbout: `your flight request, ${flightSummary(d)}`,
 			detailRows: formatDetails('FLIGHT', d)
+		};
+	} else if (medical?.success) {
+		// Hospitals are a preference: keep the visitor's order, drop any unpublished or deleted meanwhile.
+		const { partnerIds, ...rest } = medical.data;
+		const published = partnerIds.length
+			? await db.medicalPartner.findMany({
+					where: { id: { in: partnerIds }, status: 'PUBLISHED' },
+					select: { id: true, name: true, country: true }
+				})
+			: [];
+		const byId = new Map(published.map((p) => [p.id, p]));
+		const d: MedicalDetails = { ...rest, partners: partnerIds.flatMap((id) => byId.get(id) ?? []) };
+		extra = {
+			details: d,
+			groupSize: d.travellers,
+			interest: `Medical: ${medicalPurposeLabels[d.purpose]}, ${medicalSpecialtyLabels[d.specialty]}`.slice(0, 200),
+			confirmAbout: 'your medical travel request',
+			detailRows: formatDetails('MEDICAL', d)
 		};
 	} else if (school?.success) {
 		const d = school.data;

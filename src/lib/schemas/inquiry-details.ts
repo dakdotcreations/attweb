@@ -6,7 +6,15 @@ import {
 	MAX_AIRLINES,
 	MAX_FLIGHT_LEGS,
 	MAX_INSTITUTIONS,
+	MAX_MEDICAL_PARTNERS,
+	MAX_MEDICAL_TRAVELLERS,
 	MAX_SCHOOL_STUDENTS,
+	MEDICAL_PURPOSES,
+	MEDICAL_SPECIALTIES,
+	MEDICAL_TIMEFRAMES,
+	medicalPurposeLabels,
+	medicalSpecialtyLabels,
+	medicalTimeframeLabels,
 	STAY_TYPES,
 	STUDY_LEVELS,
 	TRIP_TYPES,
@@ -143,6 +151,37 @@ export const schoolTourDetailsSchema = z.object({
 
 export type SchoolTourDetails = z.output<typeof schoolTourDetailsSchema>;
 
+export const medicalDetailsSchema = z
+	.object({
+		purpose: z.enum(MEDICAL_PURPOSES, 'Choose the purpose of your trip'),
+		specialty: z.enum(MEDICAL_SPECIALTIES, 'Choose a medical field'),
+		description: requiredText(3000, 'Trip details'),
+		/** Only asked for treatment trips; null for every other purpose. */
+		hasReports: z.boolean().nullable(),
+		travellers: z
+			.number('Enter how many people are travelling')
+			.int('Use a whole number')
+			.min(1, 'At least 1 person')
+			.max(MAX_MEDICAL_TRAVELLERS, `Up to ${MAX_MEDICAL_TRAVELLERS}; tell us in the notes about bigger groups`),
+		timeframe: z.enum(MEDICAL_TIMEFRAMES, 'Choose when you hope to travel'),
+		/** Optional: empty = no preference, staff recommend hospitals. */
+		partnerIds: z
+			.array(z.string().min(1).max(40))
+			.max(MAX_MEDICAL_PARTNERS, `Choose up to ${MAX_MEDICAL_PARTNERS} hospitals`)
+			.refine((a) => new Set(a).size === a.length, 'Each hospital only once')
+	})
+	.superRefine((v, ctx) => {
+		if (v.purpose === 'TREATMENT' && v.hasReports === null) {
+			ctx.addIssue({ code: 'custom', path: ['hasReports'], message: 'Tell us whether you have medical reports' });
+		}
+	});
+
+export type MedicalRequest = z.output<typeof medicalDetailsSchema>;
+/** What goes in Inquiry.details: chosen partners as a snapshot, so history survives edits and deletes. */
+export type MedicalDetails = Omit<MedicalRequest, 'partnerIds'> & {
+	partners: { id: string; name: string; country: string }[];
+};
+
 // ---------------------------------------------------------------------------
 // FormData → objects (plain form fields so the forms work without JS)
 // ---------------------------------------------------------------------------
@@ -197,6 +236,21 @@ export function readSchoolTourForm(form: FormData) {
 		students: int(form, 'students', Number.NaN),
 		destination: str(form, 'destination'),
 		meals: meals === 'YES' ? true : meals === 'NO' ? false : undefined
+	};
+}
+
+export function readMedicalForm(form: FormData) {
+	const purpose = str(form, 'purpose');
+	const reports = str(form, 'hasReports');
+	return {
+		purpose,
+		specialty: str(form, 'specialty'),
+		description: str(form, 'description'),
+		// The reports question is only shown (and only counts) for treatment trips.
+		hasReports: purpose === 'TREATMENT' && (reports === 'YES' || reports === 'NO') ? reports === 'YES' : null,
+		travellers: int(form, 'travellers', 1),
+		timeframe: str(form, 'timeframe'),
+		partnerIds: form.getAll('partnerIds').map(String)
 	};
 }
 
@@ -289,6 +343,25 @@ export function formatDetails(kind: InquiryKind, details: unknown): DetailRow[] 
 			});
 		}
 		if (d.insurance) rows.push({ label: 'Travel insurance', value: 'Requested' });
+		return rows;
+	}
+	if (kind === 'MEDICAL') {
+		const d = details as Partial<MedicalDetails>;
+		const rows: DetailRow[] = [];
+		if (d.purpose) rows.push({ label: 'Purpose', value: medicalPurposeLabels[d.purpose] ?? d.purpose });
+		if (d.specialty) rows.push({ label: 'Medical field', value: medicalSpecialtyLabels[d.specialty] ?? d.specialty });
+		if (d.description) rows.push({ label: 'Details', value: d.description });
+		if (typeof d.hasReports === 'boolean') {
+			rows.push({ label: 'Medical reports', value: d.hasReports ? 'Has reports to share' : 'No reports yet' });
+		}
+		if (d.timeframe) rows.push({ label: 'When', value: medicalTimeframeLabels[d.timeframe] ?? d.timeframe });
+		if (typeof d.travellers === 'number') rows.push({ label: 'Travelling', value: `${d.travellers} ${d.travellers === 1 ? 'person' : 'people'}` });
+		if (Array.isArray(d.partners)) {
+			rows.push({
+				label: 'Preferred hospitals',
+				value: d.partners.length ? d.partners.map((p) => `${p.name} (${p.country})`).join(', ') : 'No preference'
+			});
+		}
 		return rows;
 	}
 	if (kind === 'SCHOOL_TOUR') {

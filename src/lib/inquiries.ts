@@ -60,7 +60,7 @@ export const formatInquiryNumber = (n: number) => `#${n}`;
 // Request forms (flight requests, study abroad). See lib/schemas/inquiry-details.ts.
 // ---------------------------------------------------------------------------
 
-export const INQUIRY_KINDS = ['GENERAL', 'FLIGHT', 'STUDY_ABROAD', 'SCHOOL_TOUR'] as const;
+export const INQUIRY_KINDS = ['GENERAL', 'FLIGHT', 'STUDY_ABROAD', 'SCHOOL_TOUR', 'MEDICAL'] as const;
 export type InquiryKind = (typeof INQUIRY_KINDS)[number];
 
 /** Same values as InquiryKind: the service decides which form its page shows. */
@@ -71,14 +71,16 @@ export const kindLabels: Record<InquiryKind, string> = {
 	GENERAL: 'General inquiry',
 	FLIGHT: 'Flight request',
 	STUDY_ABROAD: 'Study abroad request',
-	SCHOOL_TOUR: 'School tour request'
+	SCHOOL_TOUR: 'School tour request',
+	MEDICAL: 'Medical tourism request'
 };
 
 export const formTypeLabels: Record<ServiceFormType, string> = {
 	GENERAL: 'General inquiry form',
 	FLIGHT: 'Flight request form',
 	STUDY_ABROAD: 'Study abroad form',
-	SCHOOL_TOUR: 'School tour form'
+	SCHOOL_TOUR: 'School tour form',
+	MEDICAL: 'Medical tourism form'
 };
 
 export const TRIP_TYPES = ['RETURN', 'ONE_WAY', 'MULTI_CITY'] as const;
@@ -158,6 +160,63 @@ export const MAX_INSTITUTIONS = 3;
 
 /** Upper bound for the school tour form's student estimate; bigger groups go in the notes. */
 export const MAX_SCHOOL_STUDENTS = 2000;
+
+/**
+ * Medical tourism form: why the person is travelling. Not everyone is a patient: students and
+ * professionals travel for research, electives, training and hospital visits.
+ */
+export const MEDICAL_PURPOSES = ['TREATMENT', 'CHECKUP', 'RESEARCH', 'PROFESSIONAL'] as const;
+export type MedicalPurpose = (typeof MEDICAL_PURPOSES)[number];
+export const medicalPurposeLabels: Record<MedicalPurpose, string> = {
+	TREATMENT: 'Treatment or surgery',
+	CHECKUP: 'Health check-up or wellness',
+	RESEARCH: 'Study, research or elective',
+	PROFESSIONAL: 'Training, conference or hospital visit'
+};
+
+/** The medical field the trip is about (matches the service page's specialties). */
+export const MEDICAL_SPECIALTIES = [
+	'CARDIAC',
+	'NEURO',
+	'ONCOLOGY',
+	'ORTHOPAEDICS',
+	'TRANSPLANT',
+	'FERTILITY',
+	'COSMETIC',
+	'DENTAL',
+	'EYE',
+	'GENERAL',
+	'WELLNESS',
+	'OTHER'
+] as const;
+export type MedicalSpecialty = (typeof MEDICAL_SPECIALTIES)[number];
+export const medicalSpecialtyLabels: Record<MedicalSpecialty, string> = {
+	CARDIAC: 'Cardiology',
+	NEURO: 'Neurology & neurosurgery',
+	ONCOLOGY: 'Oncology (cancer)',
+	ORTHOPAEDICS: 'Orthopaedics',
+	TRANSPLANT: 'Transplant & stem cell',
+	FERTILITY: 'Fertility & IVF',
+	COSMETIC: 'Cosmetic & reconstructive',
+	DENTAL: 'Dentistry',
+	EYE: 'Eye care',
+	GENERAL: 'General medicine',
+	WELLNESS: 'Wellness & Ayurveda',
+	OTHER: 'Something else'
+};
+
+export const MEDICAL_TIMEFRAMES = ['ASAP', 'ONE_MONTH', 'THREE_MONTHS', 'EXPLORING'] as const;
+export type MedicalTimeframe = (typeof MEDICAL_TIMEFRAMES)[number];
+export const medicalTimeframeLabels: Record<MedicalTimeframe, string> = {
+	ASAP: 'As soon as possible',
+	ONE_MONTH: 'Within a month',
+	THREE_MONTHS: 'In 1 to 3 months',
+	EXPLORING: 'Just exploring options'
+};
+
+export const MAX_MEDICAL_PARTNERS = 3;
+/** People on one medical trip (patient and family, or a student/research group); more go in the notes. */
+export const MAX_MEDICAL_TRAVELLERS = 30;
 
 /**
  * The study form's destination is a partner country, or this value for institutions with
