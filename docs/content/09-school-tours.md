@@ -18,7 +18,7 @@
 Safe, well-organised educational trips for upper primary (age 12+), secondary schools and universities, in Uganda, across East Africa and abroad, with learning built into every stop.
 
 **SEO title:** School Tours & Educational Trips from Uganda | Altura Tours & Travel
-**SEO description:** Educational trips for schools and universities: national parks and heritage sites in Uganda, East African study tours and international campus tours. Safe and supervised.
+**SEO description:** Educational trips for schools and universities: national parks and heritage sites in Uganda and study tours. Safe and supervised.
 
 ### Content
 

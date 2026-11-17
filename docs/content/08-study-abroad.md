@@ -20,7 +20,7 @@
 Study at our partner universities abroad: foundation, bachelor's, Master's and PhD programmes. We help with course selection, admission, the student visa, flights and arrival, all from Kampala.
 
 **SEO title:** Study Abroad from Uganda: Partner Universities | Altura Tours & Travel
-**SEO description:** Study abroad from Uganda at our partner universities: foundation, degrees, Master's and PhD. Admission, student visa, flights and arrival support. Free consultation.
+**SEO description:** Study abroad from Uganda at our partner universities degrees, Master's and PhD. Admission, student visa, flights and arrival support. Free consultation.
 
 ### Content
 
