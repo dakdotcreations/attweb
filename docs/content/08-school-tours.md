@@ -1,4 +1,4 @@
-# 9. School Tours
+# 8. School Tours
 
 > Audience: upper primary (pupils aged 12 and above), secondary schools, colleges and universities in Uganda. Tone: institutional, safety-first, focused on education. Prices in UGX, per student.
 >
@@ -12,7 +12,7 @@
 
 **Name:** School Tours
 **Slug:** `school-tours`
-**Sort order:** 9
+**Sort order:** 8
 
 **Summary:**
 Safe, well-organised educational trips for upper primary (age 12+), secondary schools and universities, in Uganda, across East Africa and abroad, with learning built into every stop.

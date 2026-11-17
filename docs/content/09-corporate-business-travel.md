@@ -1,4 +1,4 @@
-# 10. Corporate & Business Travel
+# 9. Corporate & Business Travel
 
 ---
 
@@ -6,7 +6,7 @@
 
 **Name:** Corporate & Business Travel
 **Slug:** `corporate-business-travel`
-**Sort order:** 10
+**Sort order:** 9
 
 **Summary:**
 Travel management for companies, NGOs and government delegations: flights, hotels, visas, trade fair trips, conferences and team retreats, all handled by one dedicated team with clear invoicing.
@@ -60,7 +60,7 @@ Tell us about your organisation and how often your team travels. We'll propose a
 **Location:** Istanbul, Turkey
 **Duration:** 5 days / 4 nights
 **Featured:** Yes
-**Services:** Corporate & Business Travel, Visa Application & Assistance
+**Services:** Corporate & Business Travel, Air Ticketing, Hotel Booking, Visas & Travel Insurance
 
 **Summary:**
 A complete trade trip to Istanbul for business owners and traders: return air ticket, invitation letter, visa processing, expo registration, hotel, market visits and cargo arrangements for your goods.

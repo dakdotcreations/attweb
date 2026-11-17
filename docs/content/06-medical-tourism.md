@@ -1,4 +1,4 @@
-# 7. Medical Tourism
+# 6. Medical Tourism
 
 > Tone: calm, factual, trustworthy. Avoid promises about treatment outcomes. Medical decisions are always made by the treating doctors.
 >
@@ -10,7 +10,7 @@
 
 **Name:** Medical Tourism
 **Slug:** `medical-tourism`
-**Sort order:** 7
+**Sort order:** 6
 
 **Summary:**
 Coordinated medical travel from Uganda to accredited hospitals abroad, including India through our partnership with JD Max Health Care. Specialist opinion, medical visa, flights, accommodation, interpreter and aftercare.

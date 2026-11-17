@@ -1,17 +1,19 @@
 <!--
 	Flight request form (service pages whose formType is FLIGHT). Staff quote and book; nothing is booked online.
-	Without JS: one-way or return only (multi-city needs the "Add flight" rows).
+	Without JS: one-way or return only (multi-city needs the "Add flight" rows). The optional stay
+	fields are shown and hidden with CSS :has(), so they work without JS too.
 -->
 <script lang="ts">
 	import {
-		AIRLINES,
 		AIRPORT_SUGGESTIONS,
 		CABIN_CLASSES,
 		MAX_AIRLINES,
 		MAX_FLIGHT_LEGS,
 		TRIP_TYPES,
 		cabinLabels,
+		stayTypeLabels,
 		tripTypeLabels,
+		type StayType,
 		type TripType
 	} from '#lib/inquiries.js';
 	import { cn } from '#lib/utils.js';
@@ -29,12 +31,15 @@
 	type Values = Record<string, string>;
 
 	let {
+		airlines: airlineOptions = [],
 		serviceId = null,
 		whatsappNumber,
 		initial = {},
 		initialErrors = {},
 		initialSuccess = null
 	}: {
+		/** Published airline names (managed at /dashboard/airlines). */
+		airlines?: string[];
 		serviceId?: string | null;
 		whatsappNumber: string | null;
 		/** Values/errors/result from a no-JS submission. */
@@ -70,6 +75,15 @@
 	let airlines = $state<string[]>(splitEcho(start.airlines));
 	let flexibleDates = $state(start.flexibleDates === 'on');
 
+	// Optional extras: accommodation (hotel or Airbnb) and travel insurance.
+	let wantsStay = $state(start.wantsAccommodation === 'on');
+	let stayType = $state<StayType>(start['accommodation.type'] === 'AIRBNB' ? 'AIRBNB' : 'HOTEL');
+	let hotelName = $state(start['accommodation.hotelName'] ?? '');
+	// null = follow the flight dates; set once the visitor picks their own.
+	let checkInEdit = $state<string | null>(start['accommodation.checkIn'] || null);
+	let checkOutEdit = $state<string | null>(start['accommodation.checkOut'] || null);
+	let insurance = $state(start.insurance === 'on');
+
 	/** Multi-city is offered only once JS runs: it needs the add/remove rows. */
 	let hydrated = $state(false);
 	$effect(() => {
@@ -79,6 +93,21 @@
 	const visibleLegs = $derived(tripType === 'MULTI_CITY' ? legs : legs.slice(0, 1));
 	const tripOptions = $derived(TRIP_TYPES.filter((t) => t !== 'MULTI_CITY' || hydrated || tripType === 'MULTI_CITY'));
 	const airlineLimitReached = $derived(airlines.length >= MAX_AIRLINES);
+
+	/** The stay defaults to departure → return (or the last flight on a multi-city trip). */
+	const flightStart = $derived(legs[0]?.date ?? '');
+	const flightEnd = $derived(
+		tripType === 'RETURN' ? returnDate : tripType === 'MULTI_CITY' && legs.length > 1 ? legs[legs.length - 1].date : ''
+	);
+	const checkIn = $derived(checkInEdit ?? flightStart);
+	const checkOut = $derived(checkOutEdit ?? flightEnd);
+	const stayDatesEdited = $derived(checkInEdit !== null || checkOutEdit !== null);
+	const nights = $derived(
+		checkIn && checkOut && checkOut > checkIn
+			? Math.round((Date.parse(`${checkOut}T00:00:00Z`) - Date.parse(`${checkIn}T00:00:00Z`)) / 86_400_000)
+			: 0
+	);
+	const guests = $derived(pax.adults + pax.children + pax.infants);
 
 	function chooseTrip(type: TripType) {
 		tripType = type;
@@ -110,6 +139,12 @@
 		cabin = '';
 		airlines = [];
 		flexibleDates = false;
+		wantsStay = false;
+		stayType = 'HOTEL';
+		hotelName = '';
+		checkInEdit = null;
+		checkOutEdit = null;
+		insurance = false;
 	}
 
 	const paxRows = [
@@ -128,7 +163,7 @@
 	{initialSuccess}
 	submitLabel="Request flight quote"
 	successText="Our ticketing team will compare fares and get back to you with options, usually the same working day."
-	notesPlaceholder="Baggage, wheelchair assistance, special meals, a budget, or anything we should know…"
+	notesPlaceholder="Baggage, wheelchair assistance, special meals, a visa, a budget, or anything we should know…"
 	onreset={reset}
 >
 	{#snippet children(id)}
@@ -167,6 +202,24 @@
 					bind:value={bindTo.get, bindTo.set}
 					{min}
 					required
+					aria-invalid={errors[name] ? true : undefined}
+					aria-describedby={errors[name] ? id(`${name}-error`) : undefined}
+					class={inputClass(!!errors[name])}
+				/>
+				<FieldError id={id(`${name}-error`)} message={errors[name]} />
+			</div>
+		{/snippet}
+
+		{#snippet stayDate(name: string, label: string, min: string, bindTo: { get: () => string; set: (v: string) => void })}
+			<div>
+				<label for={id(name)} class={labelClass}>{label}<span class="text-gold-600"> *</span></label>
+				<input
+					id={id(name)}
+					{name}
+					type="date"
+					bind:value={bindTo.get, bindTo.set}
+					{min}
+					required={wantsStay}
 					aria-invalid={errors[name] ? true : undefined}
 					aria-describedby={errors[name] ? id(`${name}-error`) : undefined}
 					class={inputClass(!!errors[name])}
@@ -339,26 +392,130 @@
 				<FieldError id={id('cabin-error')} message={errors.cabin} />
 			</fieldset>
 
-			<fieldset aria-describedby={id('airlines-hint')}>
-				<legend class="text-forest-900 mb-1 text-sm font-semibold">Preferred airlines</legend>
-				<p id={id('airlines-hint')} class="text-ink/60 mb-3 text-xs">
-					Pick up to {MAX_AIRLINES} if you only want to fly with certain airlines.
-				</p>
-				<div class="flex flex-wrap gap-2">
-					<button type="button" class={chipClass(airlines.length === 0)} aria-pressed={airlines.length === 0} onclick={() => (airlines = [])}>
-						{#if airlines.length === 0}<CheckIcon class="size-3.5" />{/if}Any airline
-					</button>
-					{#each AIRLINES as airline (airline)}
-						{@const checked = airlines.includes(airline)}
-						{@const disabled = airlineLimitReached && !checked}
-						<label class={chipClass(checked, disabled)}>
-							<input type="checkbox" name="airlines" value={airline} bind:group={airlines} {disabled} class="sr-only" />
-							{#if checked}<CheckIcon class="size-3.5" />{/if}{airline}
+			{#if airlineOptions.length}
+				<fieldset aria-describedby={id('airlines-hint')}>
+					<legend class="text-forest-900 mb-1 text-sm font-semibold">Preferred airlines</legend>
+					<p id={id('airlines-hint')} class="text-ink/60 mb-3 text-xs">
+						Pick up to {MAX_AIRLINES} if you only want to fly with certain airlines.
+					</p>
+					<div class="flex flex-wrap gap-2">
+						<button type="button" class={chipClass(airlines.length === 0)} aria-pressed={airlines.length === 0} onclick={() => (airlines = [])}>
+							{#if airlines.length === 0}<CheckIcon class="size-3.5" />{/if}Any airline
+						</button>
+						{#each airlineOptions as airline (airline)}
+							{@const checked = airlines.includes(airline)}
+							{@const disabled = airlineLimitReached && !checked}
+							<label class={chipClass(checked, disabled)}>
+								<input type="checkbox" name="airlines" value={airline} bind:group={airlines} {disabled} class="sr-only" />
+								{#if checked}<CheckIcon class="size-3.5" />{/if}{airline}
+							</label>
+						{/each}
+					</div>
+					<FieldError id={id('airlines-error')} message={errors.airlines} />
+				</fieldset>
+			{/if}
+		</section>
+
+		<section class="stay border-forest-900/10 space-y-5 border-t pt-8" aria-labelledby={id('extras-title')}>
+			<div>
+				<h3 id={id('extras-title')} class={sectionTitleClass}>Accommodation &amp; insurance</h3>
+				<p class="text-ink/60 mt-1 text-sm">Optional. We can book your stay and arrange cover alongside your flight.</p>
+			</div>
+
+			<label class="text-forest-900 flex cursor-pointer items-center gap-2.5 text-sm font-semibold">
+				<input type="checkbox" name="wantsAccommodation" bind:checked={wantsStay} class="stay-toggle accent-forest-800 size-4" />
+				I need accommodation too
+			</label>
+
+			<div class="stay-details border-forest-900/10 bg-paper/60 rounded-md border p-4 sm:p-5">
+				<div class="space-y-5">
+					<fieldset>
+						<legend class="text-forest-900 mb-2 text-sm font-semibold">Where would you like to stay?</legend>
+						<div class="flex flex-wrap gap-2">
+							<label class={chipClass(stayType === 'HOTEL')}>
+								<input type="radio" name="accommodation.type" value="HOTEL" bind:group={stayType} class="sr-only" />
+								{stayTypeLabels.HOTEL}
+							</label>
+							<label class={chipClass(stayType === 'AIRBNB')}>
+								<input type="radio" name="accommodation.type" value="AIRBNB" bind:group={stayType} class="stay-airbnb sr-only" />
+								{stayTypeLabels.AIRBNB}
+							</label>
+						</div>
+						<FieldError id={id('accommodation.type-error')} message={errors['accommodation.type']} />
+					</fieldset>
+
+					<div class="stay-hotel">
+						<label for={id('accommodation.hotelName')} class={labelClass}>
+							Hotel name <span class="text-ink/50 font-normal">(optional)</span>
 						</label>
-					{/each}
+						<input
+							id={id('accommodation.hotelName')}
+							name="accommodation.hotelName"
+							bind:value={hotelName}
+							placeholder="Leave blank and we'll suggest options"
+							maxlength="120"
+							autocomplete="off"
+							aria-invalid={errors['accommodation.hotelName'] ? true : undefined}
+							aria-describedby={errors['accommodation.hotelName'] ? id('accommodation.hotelName-error') : undefined}
+							class={inputClass(!!errors['accommodation.hotelName'])}
+						/>
+						<FieldError id={id('accommodation.hotelName-error')} message={errors['accommodation.hotelName']} />
+					</div>
+
+					<div class="grid gap-4 sm:grid-cols-2">
+						{@render stayDate('accommodation.checkIn', 'Check-in', today, {
+							get: () => checkIn,
+							set: (v) => (checkInEdit = v)
+						})}
+						{@render stayDate('accommodation.checkOut', 'Check-out', checkIn || today, {
+							get: () => checkOut,
+							set: (v) => (checkOutEdit = v)
+						})}
+					</div>
+					<div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm">
+						<p class="text-ink/60">
+							{#if nights}
+								{nights} night{nights === 1 ? '' : 's'} for {guests} guest{guests === 1 ? '' : 's'}.
+							{:else}
+								The dates follow your flights. Change them if you need to.
+							{/if}
+						</p>
+						{#if stayDatesEdited && flightStart}
+							<button
+								type="button"
+								onclick={() => {
+									checkInEdit = null;
+									checkOutEdit = null;
+								}}
+								class="text-forest-800 hover:text-forest-700 font-semibold underline underline-offset-4"
+							>
+								Match my flight dates
+							</button>
+						{/if}
+					</div>
 				</div>
-				<FieldError id={id('airlines-error')} message={errors.airlines} />
-			</fieldset>
+			</div>
+
+			<label class="flex cursor-pointer items-start gap-2.5">
+				<input type="checkbox" name="insurance" bind:checked={insurance} class="accent-forest-800 mt-0.5 size-4 shrink-0" />
+				<span>
+					<span class="text-forest-900 block text-sm font-semibold">I'd like travel insurance</span>
+					<span class="text-ink/60 block text-xs">Required for Schengen visas. We'll quote cover for everyone travelling.</span>
+				</span>
+			</label>
 		</section>
 	{/snippet}
 </RequestFormShell>
+
+<style>
+	/* Driven by CSS so the optional stay fields also show and hide without JS. */
+	.stay-details {
+		display: none;
+	}
+	.stay:has(.stay-toggle:checked) .stay-details {
+		display: block;
+	}
+	.stay:has(.stay-airbnb:checked) .stay-hotel {
+		display: none;
+	}
+</style>

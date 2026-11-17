@@ -174,8 +174,8 @@
 				/>
 			{/if}
 		{/each}
-		<div class="absolute inset-0 z-[2] bg-linear-to-r from-black/50 via-black/20 to-black/10"></div>
-		<div class="absolute inset-0 z-[2] bg-linear-to-t from-black/40 via-transparent to-black/40"></div>
+		<div class="absolute inset-0 z-[2] bg-linear-to-tr from-black/50 via-transparent to-black/10"></div>
+		<div class="absolute inset-0 z-[2] bg-linear-to-t from-black/40 via-transparent to-black/20"></div>
 		<!-- Phones: the copy sits low over the photo, so weight the scrim to the bottom. -->
 		<div class="absolute inset-x-0 bottom-0 z-[2] h-4/5 bg-linear-to-t from-black/90 via-black/60 to-transparent lg:hidden"></div>
 	</div>
@@ -233,7 +233,7 @@
 									type="button"
 									data-queue-key={key}
 									onclick={() => advance(k + 1)}
-									class="group perforated-left bg-forest-800 focus-visible:outline-gold-400 relative block aspect-[5/8] w-full overflow-hidden rounded-md text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:[-webkit-mask:none] focus-visible:[mask:none]"
+									class="group perforated-left border-4 border-cream-200/10 focus-visible:outline-gold-400 relative block aspect-square md:aspect-6/8 w-full overflow-hidden rounded-md text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:[-webkit-mask:none] focus-visible:[mask:none]"
 									aria-label="Show {s.name}"
 								>
 									{#if src}

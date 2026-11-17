@@ -96,25 +96,6 @@ export const cabinLabels: Record<CabinClass, string> = {
 	FIRST: 'First'
 };
 
-/** Carriers the ticketing team books (from the Flights service page). */
-export const AIRLINES = [
-	'Uganda Airlines',
-	'Kenya Airways',
-	'Emirates',
-	'Qatar Airways',
-	'Etihad',
-	'Ethiopian Airlines',
-	'RwandAir',
-	'Turkish Airlines',
-	'EgyptAir',
-	'KLM',
-	'Brussels Airlines',
-	'flydubai',
-	'Air Arabia',
-	'South African Airways',
-	'Air Tanzania',
-	'Malaysia Airlines'
-] as const;
 export const MAX_AIRLINES = 5;
 
 /** Suggestions for the From/To fields; visitors can type any city. */
@@ -152,6 +133,14 @@ export const AIRPORT_SUGGESTIONS = [
 ] as const;
 
 export const MAX_FLIGHT_LEGS = 5;
+
+/** Optional stay requested with a flight. Hotels aren't in the system; the visitor may name one. */
+export const STAY_TYPES = ['HOTEL', 'AIRBNB'] as const;
+export type StayType = (typeof STAY_TYPES)[number];
+export const stayTypeLabels: Record<StayType, string> = {
+	HOTEL: 'Hotel',
+	AIRBNB: 'Airbnb'
+};
 
 export const STUDY_LEVELS = ['FOUNDATION', 'DIPLOMA', 'BACHELOR', 'MASTER', 'PHD'] as const;
 export type StudyLevel = (typeof STUDY_LEVELS)[number];

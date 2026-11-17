@@ -1,4 +1,4 @@
-# 8. Study Abroad Programmes
+# 7. Study Abroad Programmes
 
 > Audience: Ugandan students, school leavers and working professionals. Tone: educational and reassuring, focused on applications. Prices mainly in UGX.
 >
@@ -14,7 +14,7 @@
 
 **Name:** Study Abroad Programmes
 **Slug:** `study-abroad-programmes`
-**Sort order:** 8
+**Sort order:** 7
 
 **Summary:**
 Study at our partner universities abroad: foundation, bachelor's, Master's and PhD programmes. We help with course selection, admission, the student visa, flights and arrival, all from Kampala.

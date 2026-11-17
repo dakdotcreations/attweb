@@ -41,7 +41,7 @@
 	<div {@attach reveal()}>
 		{#if failed?.kind === 'FLIGHT'}
 			<h2 class="font-display text-forest-950 mb-6 text-2xl font-semibold uppercase">Your flight request</h2>
-			<FlightRequestForm serviceId={failed.values.serviceId || null} whatsappNumber={site.whatsappNumber} initial={failed.values} initialErrors={failed.errors} />
+			<FlightRequestForm airlines={failed.airlines} serviceId={failed.values.serviceId || null} whatsappNumber={site.whatsappNumber} initial={failed.values} initialErrors={failed.errors} />
 		{:else if failed?.kind === 'STUDY_ABROAD'}
 			<h2 class="font-display text-forest-950 mb-6 text-2xl font-semibold uppercase">Your study abroad request</h2>
 			<StudyRequestForm

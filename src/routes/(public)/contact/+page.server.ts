@@ -1,4 +1,5 @@
 import { db } from '#lib/server/db.js';
+import { listPublishedAirlineNames } from '#lib/server/services/airlines.js';
 import { listPublishedInstitutions } from '#lib/server/services/institutions.js';
 import { submitPublicInquiry } from '#lib/server/services/public-inquiry.js';
 import { fail, redirect } from '@sveltejs/kit';
@@ -27,13 +28,17 @@ export const actions: Actions = {
 		const result = await submitPublicInquiry(await request.formData(), { currency: locals.currency });
 		if (!result.ok) {
 			// Without JS the visitor lands here, so send what the matching form needs to re-render.
-			const institutions = result.kind === 'STUDY_ABROAD' ? await listPublishedInstitutions() : [];
+			const [institutions, airlines] = await Promise.all([
+				result.kind === 'STUDY_ABROAD' ? listPublishedInstitutions() : [],
+				result.kind === 'FLIGHT' ? listPublishedAirlineNames() : []
+			]);
 			return fail(result.status, {
 				errors: result.errors,
 				message: result.message,
 				kind: result.kind,
 				values: result.values,
-				institutions
+				institutions,
+				airlines
 			});
 		}
 		return { success: true, number: result.number };

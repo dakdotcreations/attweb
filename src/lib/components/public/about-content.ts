@@ -79,31 +79,3 @@ export const BROCHURE_SERVICES = [
 	'Medical tourism',
 	'Car bonding'
 ] as const;
-
-/** Airlines shown on Altura's flyers (names only; logos are the airlines' trademarks). */
-export const AIRLINES = [
-	'Uganda Airlines',
-	'Qatar Airways',
-	'Emirates',
-	'Kenya Airways',
-	'Ethiopian Airlines',
-	'Turkish Airlines',
-	'flydubai',
-	'EgyptAir',
-	'RwandAir',
-	'KLM',
-	'Brussels Airlines',
-	'South African Airways',
-	'Etihad Airways',
-	'Air Arabia',
-	'Air Tanzania'
-] as const;
-
-/**
- * "Issued by": the real people who plan trips and answer WhatsApp, shown on the About page.
- * Add one entry per person (real names and photos only). Put photos in static/team/, e.g.
- * { name: 'Sarah', role: 'Safari planner', photo: '/team/sarah.jpg', whatsapp: '+256700000000' }.
- * The section stays hidden while this list is empty.
- */
-export type TeamMember = { name: string; role: string; photo: string; whatsapp?: string };
-export const TEAM: TeamMember[] = [];

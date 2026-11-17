@@ -2,14 +2,15 @@
 // study abroad institution choices live in the InquiryInstitution table instead.
 import { formatDateOnly } from '#lib/format.js';
 import {
-	AIRLINES,
 	CABIN_CLASSES,
 	MAX_AIRLINES,
 	MAX_FLIGHT_LEGS,
 	MAX_INSTITUTIONS,
+	STAY_TYPES,
 	STUDY_LEVELS,
 	TRIP_TYPES,
 	cabinLabels,
+	stayTypeLabels,
 	studyLevelLabels,
 	tripTypeLabels,
 	type InquiryKind
@@ -35,6 +36,14 @@ const flightLegSchema = z.object({
 	date: dateString('Date')
 });
 
+const accommodationSchema = z.object({
+	type: z.enum(STAY_TYPES, 'Choose a hotel or an Airbnb'),
+	/** Only for hotels; null = no preference, staff suggest options. */
+	hotelName: nullableText(120, 'Hotel name'),
+	checkIn: dateString('Check-in date'),
+	checkOut: dateString('Check-out date')
+});
+
 const passengers = (label: string, min: number) =>
 	z.number(`Enter the number of ${label}`).int('Use a whole number').min(min).max(50, 'For groups over 50, tell us in the notes');
 
@@ -50,10 +59,14 @@ export const flightDetailsSchema = z
 		cabin: z.enum(CABIN_CLASSES).nullable(),
 		/** empty = open to any airline */
 		airlines: z
-			.array(z.enum(AIRLINES))
+			// Names from the Airline table; submitPublicInquiry() keeps only published ones.
+			.array(z.string().trim().min(1).max(80))
 			.max(MAX_AIRLINES, `Choose up to ${MAX_AIRLINES} airlines, or leave them all open`)
 			.refine((a) => new Set(a).size === a.length, 'Each airline only once'),
-		flexibleDates: z.boolean()
+		flexibleDates: z.boolean(),
+		/** null = no accommodation wanted (the whole extras section is optional) */
+		accommodation: accommodationSchema.nullable(),
+		insurance: z.boolean()
 	})
 	.superRefine((v, ctx) => {
 		const min = earliestDate();
@@ -77,6 +90,13 @@ export const flightDetailsSchema = z
 			if (!v.returnDate) ctx.addIssue({ code: 'custom', path: ['returnDate'], message: 'Return date is required' });
 			else if (v.returnDate < v.legs[0].date) {
 				ctx.addIssue({ code: 'custom', path: ['returnDate'], message: 'Must be on or after the departure date' });
+			}
+		}
+		if (v.accommodation) {
+			const { checkIn, checkOut } = v.accommodation;
+			if (checkIn < min) ctx.addIssue({ code: 'custom', path: ['accommodation', 'checkIn'], message: 'This date has passed' });
+			if (checkOut <= checkIn) {
+				ctx.addIssue({ code: 'custom', path: ['accommodation', 'checkOut'], message: 'Must be after the check-in date' });
 			}
 		}
 		if (v.infants > v.adults) {
@@ -130,7 +150,21 @@ export function readFlightForm(form: FormData) {
 		infants: int(form, 'infants', 0),
 		cabin: str(form, 'cabin') || null,
 		airlines: form.getAll('airlines').map(String),
-		flexibleDates: form.has('flexibleDates')
+		flexibleDates: form.has('flexibleDates'),
+		accommodation: readAccommodation(form),
+		insurance: form.has('insurance')
+	};
+}
+
+/** Null unless "I need accommodation" is ticked; the hidden fields are ignored otherwise. */
+function readAccommodation(form: FormData) {
+	if (!form.has('wantsAccommodation')) return null;
+	const type = str(form, 'accommodation.type');
+	return {
+		type,
+		hotelName: type === 'HOTEL' ? str(form, 'accommodation.hotelName') : '',
+		checkIn: str(form, 'accommodation.checkIn'),
+		checkOut: str(form, 'accommodation.checkOut')
 	};
 }
 
@@ -159,6 +193,18 @@ export function flightSummary(d: Pick<FlightDetails, 'tripType' | 'legs'>) {
 			? [d.legs[0].from, ...d.legs.map((l) => l.to)].join(' → ')
 			: `${d.legs[0].from} → ${d.legs[0].to}`;
 	return `${route} (${tripTypeLabels[d.tripType]})`;
+}
+
+/** Whole nights between two "YYYY-MM-DD" dates. */
+export const nightsBetween = (checkIn: string, checkOut: string) =>
+	Math.round((Date.parse(`${checkOut}T00:00:00Z`) - Date.parse(`${checkIn}T00:00:00Z`)) / 86_400_000);
+
+/** " + hotel + insurance" for the inquiry "interest" line; empty when nothing extra was asked for. */
+export function flightExtrasSummary(d: Pick<FlightDetails, 'accommodation' | 'insurance'>) {
+	return [d.accommodation && stayTypeLabels[d.accommodation.type].toLowerCase(), d.insurance && 'insurance']
+		.filter(Boolean)
+		.map((x) => ` + ${x}`)
+		.join('');
 }
 
 export function passengerSummary(d: Pick<FlightDetails, 'adults' | 'children' | 'infants'>) {
@@ -196,6 +242,20 @@ export function formatDetails(kind: InquiryKind, details: unknown): DetailRow[] 
 		});
 		rows.push({ label: 'Cabin', value: d.cabin ? (cabinLabels[d.cabin] ?? d.cabin) : 'Any cabin' });
 		rows.push({ label: 'Airlines', value: d.airlines?.length ? d.airlines.join(', ') : 'Any airline' });
+		const stay = d.accommodation;
+		if (stay?.checkIn && stay.checkOut) {
+			const type = stayTypeLabels[stay.type] ?? stay.type;
+			rows.push({
+				label: 'Accommodation',
+				value: stay.type === 'HOTEL' ? (stay.hotelName ? `Hotel: ${stay.hotelName}` : 'Hotel, no preference') : type
+			});
+			const nights = nightsBetween(stay.checkIn, stay.checkOut);
+			rows.push({
+				label: 'Stay',
+				value: `${formatDateOnly(stay.checkIn)} to ${formatDateOnly(stay.checkOut)} (${plural(nights, 'night')})`
+			});
+		}
+		if (d.insurance) rows.push({ label: 'Travel insurance', value: 'Requested' });
 		return rows;
 	}
 	if (kind === 'STUDY_ABROAD') {

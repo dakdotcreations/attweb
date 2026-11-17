@@ -1,4 +1,4 @@
-# 11. Airport Transfers & Car Rental
+# 10. Airport Transfers & Car Rental
 
 ---
 
@@ -6,7 +6,7 @@
 
 **Name:** Airport Transfers & Car Rental
 **Slug:** `airport-transfers-car-rental`
-**Sort order:** 11
+**Sort order:** 10
 
 **Summary:**
 Reliable Entebbe airport pick-ups and drop-offs, plus car hire with professional drivers, from city saloons to 4x4 safari vehicles with pop-up roofs. On time, clean and fairly priced.

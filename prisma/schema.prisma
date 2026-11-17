@@ -122,6 +122,7 @@ model Media {
   testimonials     Testimonial[]         @relation("TestimonialPhoto")
   siteOgImage      SiteSettings[]        @relation("SiteOgImage")
   institutionLogos PartnerInstitution[]  @relation("InstitutionLogo")
+  teamPhotos       TeamMember[]          @relation("TeamPhoto")
   createdAt        DateTime              @default(now())
   updatedAt        DateTime              @updatedAt
 
@@ -499,4 +500,43 @@ model InquiryInstitution {
   @@id([inquiryId, rank])
   @@index([institutionId])
   @@map("inquiry_institution")
+}
+
+// ----------------------------------------------------------------------------
+// Airlines: offered on the flight request form and listed on the About page.
+// Inquiries store the chosen names (Inquiry.details), so renames/deletes don't touch history.
+// ----------------------------------------------------------------------------
+
+model Airline {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  status    PublishStatus @default(PUBLISHED)
+  sortOrder Int           @default(0)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([status, sortOrder])
+  @@map("airline")
+}
+
+// ----------------------------------------------------------------------------
+// Team: the people clients meet, shown on the About page.
+// ----------------------------------------------------------------------------
+
+model TeamMember {
+  id        String        @id @default(cuid())
+  name      String
+  role      String
+  photoId   String?
+  photo     Media?        @relation("TeamPhoto", fields: [photoId], references: [id], onDelete: SetNull)
+  /// Personal WhatsApp number; the About page falls back to the site number when empty.
+  whatsapp  String?
+  status    PublishStatus @default(DRAFT)
+  sortOrder Int           @default(0)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([status, sortOrder])
+  @@index([photoId])
+  @@map("team_member")
 }

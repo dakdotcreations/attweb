@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Seo from '#lib/components/public/seo.svelte';
-	import { AIRLINES, BROCHURE_SERVICES, IMPACT, MISSION, OBJECTIVES, TEAM, VISION } from '#lib/components/public/about-content.js';
+	import { BROCHURE_SERVICES, IMPACT, MISSION, OBJECTIVES, VISION } from '#lib/components/public/about-content.js';
 	import { whatsappLink } from '#lib/inquiries.js';
 	import PlanCta from '#lib/components/public/home/plan-cta.svelte';
 	import Logo from '#lib/components/public/logo.svelte';
@@ -54,18 +54,18 @@
 	</div>
 </section>
 
-<!-- Issued by (dark): the people behind every trip. Hidden until TEAM is filled in. -->
-{#if TEAM.length}
+<!-- Issued by (dark): the people behind every trip (managed at /dashboard/team). Hidden while empty. -->
+{#if data.team.length}
 	<section class="bg-forest-900 text-paper py-20 sm:py-28" aria-labelledby="team-title">
 		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 			<span class="bg-gold-400 block h-0.5 w-10" aria-hidden="true"></span>
 			<h2 id="team-title" class="font-display mt-5 text-5xl leading-[0.95] font-semibold uppercase sm:text-6xl" {@attach reveal()}>Issued by</h2>
 			<p class="text-paper/75 mt-5 max-w-xl text-lg">The people in our Kampala Road office who plan your trip and answer your messages.</p>
 			<ul class="mt-12 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4" {@attach reveal({ selector: ':scope > li', stagger: 0.08 })}>
-				{#each TEAM as person (person.name)}
+				{#each data.team as person (person.id)}
 					{@const wa = whatsappLink(person.whatsapp ?? data.site.whatsappNumber, `Hello ${person.name}, I'd like help planning a trip.`)}
 					<li>
-						<img src={person.photo} alt="{person.name}, {person.role}" loading="lazy" class="perforated-left aspect-[4/5] w-full rounded-md object-cover" />
+						<img src={person.photo?.url} alt="{person.name}, {person.role}" loading="lazy" class="perforated-left aspect-[4/5] w-full rounded-md object-cover" />
 						<p class="font-display mt-4 text-2xl leading-none font-semibold uppercase">{person.name}</p>
 						<p class="text-paper/65 mt-1 text-sm">{person.role}</p>
 						{#if wa}
@@ -151,19 +151,21 @@
 	</div>
 </section>
 
-<!-- Airlines (light alt) -->
+<!-- Airlines (light alt), managed at /dashboard/airlines -->
+{#if data.airlines.length}
 <section class="bg-paper-200 py-14" aria-labelledby="airlines-title">
 	<div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
 		<h2 id="airlines-title" class="font-display text-forest-950 inline-flex items-center gap-2 text-2xl font-semibold uppercase">
 			<PlaneIcon class="text-forest-700 size-5" /> Flights we book
 		</h2>
 		<ul class="mt-6 flex flex-wrap justify-center gap-2" {@attach reveal({ selector: ':scope > li', stagger: 0.03, y: 12 })}>
-			{#each AIRLINES as airline (airline)}
+			{#each data.airlines as airline (airline)}
 				<li class="bg-paper text-forest-900 rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-forest-950/10">{airline}</li>
 			{/each}
 		</ul>
 	</div>
 </section>
+{/if}
 
 <PlanCta
 	whatsappNumber={data.site.whatsappNumber}

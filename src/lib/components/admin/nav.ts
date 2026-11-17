@@ -1,3 +1,4 @@
+import AirlinesIcon from '@lucide/svelte/icons/plane';
 import BlogIcon from '@lucide/svelte/icons/newspaper';
 import DashboardIcon from '@lucide/svelte/icons/layout-dashboard';
 import InboxIcon from '@lucide/svelte/icons/inbox';
@@ -6,6 +7,7 @@ import MediaIcon from '@lucide/svelte/icons/images';
 import PackagesIcon from '@lucide/svelte/icons/map';
 import ServicesIcon from '@lucide/svelte/icons/briefcase-business';
 import SettingsIcon from '@lucide/svelte/icons/settings';
+import TeamIcon from '@lucide/svelte/icons/contact';
 import TestimonialsIcon from '@lucide/svelte/icons/message-square-quote';
 import UsersIcon from '@lucide/svelte/icons/users';
 
@@ -39,6 +41,8 @@ export const NAV_GROUPS: NavGroup[] = [
 			{ title: 'Blog', href: '/dashboard/blog', icon: BlogIcon },
 			{ title: 'Testimonials', href: '/dashboard/testimonials', icon: TestimonialsIcon },
 			{ title: 'Partner Institutions', href: '/dashboard/institutions', icon: InstitutionsIcon },
+			{ title: 'Airlines', href: '/dashboard/airlines', icon: AirlinesIcon },
+			{ title: 'Team', href: '/dashboard/team', icon: TeamIcon },
 			{ title: 'Media', href: '/dashboard/media', icon: MediaIcon }
 		]
 	},

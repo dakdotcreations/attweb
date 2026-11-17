@@ -5,6 +5,7 @@ import type { Currency } from '#lib/format.js';
 import { INQUIRY_KINDS, kindLabels, studyLevelLabels, whatsappLink, type InquiryKind } from '#lib/inquiries.js';
 import {
 	flightDetailsSchema,
+	flightExtrasSummary,
 	flightSummary,
 	formatDetails,
 	readFlightForm,
@@ -18,6 +19,7 @@ import { publicInquirySchema, publicRequestContactSchema } from '#lib/schemas/in
 import { db } from '../db.js';
 import { sendInquiryConfirmation, sendInquiryNotification } from '../email.js';
 import { zodFieldErrors, type FieldErrors } from '../forms.js';
+import { listPublishedAirlineNames } from './airlines.js';
 import { createInquiry, type InquiryInstitutionChoice } from './inquiries.js';
 import { getSettings } from './settings.js';
 
@@ -133,7 +135,7 @@ export async function submitPublicInquiry(form: FormData, ctx: { currency: Curre
 	}
 
 	// Only link to things visitors can actually see.
-	const [pkg, service, publishedInstitutions] = await Promise.all([
+	const [pkg, service, publishedInstitutions, publishedAirlines] = await Promise.all([
 		data.packageId
 			? db.tourPackage.findFirst({ where: { id: data.packageId, status: 'PUBLISHED' }, select: { id: true, title: true } })
 			: null,
@@ -145,19 +147,22 @@ export async function submitPublicInquiry(form: FormData, ctx: { currency: Curre
 					where: { id: { in: study.data.institutionIds }, status: 'PUBLISHED' },
 					select: { id: true, name: true, country: true }
 				})
-			: []
+			: [],
+		flight?.success && flight.data.airlines.length ? listPublishedAirlineNames() : []
 	]);
 
 	// Kind-specific fields, plus the shared columns the inquiry list shows and searches.
 	let extra: KindFields = { interest: pkg?.title ?? service?.name ?? null, detailRows: [] };
 
 	if (flight?.success) {
-		const d = flight.data;
+		// Airlines are a preference: silently drop any that were unpublished or deleted meanwhile.
+		const known = new Set(publishedAirlines);
+		const d = { ...flight.data, airlines: flight.data.airlines.filter((a) => known.has(a)) };
 		extra = {
 			details: d,
 			travelDate: new Date(`${d.legs[0].date}T00:00:00Z`),
 			groupSize: d.adults + d.children + d.infants,
-			interest: `Flight: ${flightSummary(d)}`.slice(0, 200),
+			interest: `Flight: ${flightSummary(d)}${flightExtrasSummary(d)}`.slice(0, 200),
 			confirmAbout: `your flight request, ${flightSummary(d)}`,
 			detailRows: formatDetails('FLIGHT', d)
 		};

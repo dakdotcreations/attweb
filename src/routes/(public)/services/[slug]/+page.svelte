@@ -130,7 +130,7 @@
 		<p class="text-paper/75 mt-5 text-lg leading-relaxed">{copy.intro}</p>
 	</div>
 	{#if form === 'FLIGHT'}
-		<FlightRequestForm serviceId={service.id} whatsappNumber={data.site.whatsappNumber} />
+		<FlightRequestForm airlines={data.airlines} serviceId={service.id} whatsappNumber={data.site.whatsappNumber} />
 	{:else if form === 'STUDY_ABROAD'}
 		<StudyRequestForm institutions={data.institutions} serviceId={service.id} whatsappNumber={data.site.whatsappNumber} />
 	{:else}
