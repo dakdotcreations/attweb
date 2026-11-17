@@ -1,17 +1,18 @@
 import type { AirlineData } from '#lib/schemas/airlines.js';
 import { db } from '../db.js';
+import { mediaRefSelect } from './services.js';
 
 const order = [{ sortOrder: 'asc' }, { name: 'asc' }] as const;
 
 export function listAirlines() {
 	return db.airline.findMany({
 		orderBy: [...order],
-		select: { id: true, name: true, status: true, sortOrder: true, updatedAt: true }
+		select: { id: true, name: true, status: true, sortOrder: true, updatedAt: true, logo: { select: mediaRefSelect } }
 	});
 }
 
 export function getAirline(id: string) {
-	return db.airline.findUnique({ where: { id } });
+	return db.airline.findUnique({ where: { id }, include: { logo: { select: mediaRefSelect } } });
 }
 
 export function saveAirline(id: string | null, data: AirlineData) {

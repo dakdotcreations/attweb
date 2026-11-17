@@ -1,5 +1,5 @@
 import { airlineSchema } from '#lib/schemas/airlines.js';
-import { formFailure, isNotFound, isUniqueViolation, parseJsonPayload } from '#lib/server/forms.js';
+import { formFailure, isForeignKeyViolation, isNotFound, isUniqueViolation, parseJsonPayload } from '#lib/server/forms.js';
 import { requireUser } from '#lib/server/guards.js';
 import { deleteAirline, getAirline, saveAirline } from '#lib/server/services/airlines.js';
 import { error, redirect } from '@sveltejs/kit';
@@ -24,6 +24,7 @@ export const actions: Actions = {
 			({ id } = await saveAirline(isNew ? null : params.id, parsed.data));
 		} catch (err) {
 			if (isUniqueViolation(err, 'name')) return formFailure({ name: 'This airline is already in the list' });
+			if (isForeignKeyViolation(err)) return formFailure({}, 'The selected logo no longer exists. Choose another.');
 			if (isNotFound(err)) error(404, 'Airline not found');
 			throw err;
 		}

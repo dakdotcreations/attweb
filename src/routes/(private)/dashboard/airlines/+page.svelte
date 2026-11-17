@@ -4,6 +4,7 @@
 	import { Button } from '#lib/components/ui/button/index.js';
 	import * as Table from '#lib/components/ui/table/index.js';
 	import { formatDate } from '#lib/format.js';
+	import PlaneIcon from '@lucide/svelte/icons/plane';
 	import PlusIcon from '@lucide/svelte/icons/plus';
 	import type { PageProps } from './$types';
 
@@ -31,6 +32,7 @@
 		<Table.Root>
 			<Table.Header>
 				<Table.Row>
+					<Table.Head class="w-16"></Table.Head>
 					<Table.Head>Name</Table.Head>
 					<Table.Head>Status</Table.Head>
 					<Table.Head class="text-right">Order</Table.Head>
@@ -40,6 +42,15 @@
 			<Table.Body>
 				{#each data.airlines as airline (airline.id)}
 					<Table.Row class="relative">
+						<Table.Cell>
+							<div class="bg-muted flex size-10 items-center justify-center overflow-hidden rounded">
+								{#if airline.logo}
+									<img src={airline.logo.thumbUrl} alt="" class="size-full object-contain" />
+								{:else}
+									<PlaneIcon class="text-muted-foreground size-5" />
+								{/if}
+							</div>
+						</Table.Cell>
 						<Table.Cell>
 							<a href="/dashboard/airlines/{airline.id}" class="font-medium after:absolute after:inset-0">{airline.name}</a>
 						</Table.Cell>

@@ -1,9 +1,10 @@
 import { z } from 'zod';
-import { publishStatusSchema, requiredText, sortOrderSchema } from './common.js';
+import { mediaIdSchema, publishStatusSchema, requiredText, sortOrderSchema } from './common.js';
 
-/** An airline visitors can pick on the flight request form (also listed on the About page). */
+/** An airline visitors can pick on the flight request form; its logo also runs in the About page logo strip. */
 export const airlineSchema = z.object({
 	name: requiredText(80, 'Name'),
+	logoId: mediaIdSchema,
 	status: publishStatusSchema,
 	sortOrder: sortOrderSchema
 });

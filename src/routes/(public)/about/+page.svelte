@@ -4,11 +4,11 @@
 	import { whatsappLink } from '#lib/inquiries.js';
 	import PlanCta from '#lib/components/public/home/plan-cta.svelte';
 	import Logo from '#lib/components/public/logo.svelte';
+	import LogoMarquee from '#lib/components/public/logo-marquee.svelte';
 	import { reveal } from '#lib/components/public/reveal.js';
 	import { TRUST_BADGES } from '#lib/components/public/site.js';
 	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
 	import CheckIcon from '@lucide/svelte/icons/check';
-	import PlaneIcon from '@lucide/svelte/icons/plane';
 	import ShieldCheckIcon from '@lucide/svelte/icons/shield-check';
 	import type { PageProps } from './$types';
 
@@ -151,20 +151,9 @@
 	</div>
 </section>
 
-<!-- Airlines (light alt), managed at /dashboard/airlines -->
-{#if data.airlines.length}
-<section class="bg-paper-200 py-14" aria-labelledby="airlines-title">
-	<div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-		<h2 id="airlines-title" class="font-display text-forest-950 inline-flex items-center gap-2 text-2xl font-semibold uppercase">
-			<PlaneIcon class="text-forest-700 size-5" /> Flights we book
-		</h2>
-		<ul class="mt-6 flex flex-wrap justify-center gap-2" {@attach reveal({ selector: ':scope > li', stagger: 0.03, y: 12 })}>
-			{#each data.airlines as airline (airline)}
-				<li class="bg-paper text-forest-900 rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-forest-950/10">{airline}</li>
-			{/each}
-		</ul>
-	</div>
-</section>
+<!-- Logos of the airlines, universities and hospitals we work with (managed in the dashboard). -->
+{#if data.partnerLogos.length}
+	<LogoMarquee logos={data.partnerLogos} />
 {/if}
 
 <PlanCta
