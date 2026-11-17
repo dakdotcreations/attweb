@@ -27,8 +27,10 @@
 	let {
 		value = $bindable(''),
 		invalid = false,
-		minHeight = '16rem'
-	}: { value?: string; invalid?: boolean; minHeight?: string } = $props();
+		minHeight = '16rem',
+		// The content scrolls inside this height so the toolbar stays in view.
+		maxHeight = '70vh'
+	}: { value?: string; invalid?: boolean; minHeight?: string; maxHeight?: string } = $props();
 
 	let element = $state<HTMLDivElement>();
 	let editor = $state.raw<Editor>();
@@ -55,7 +57,7 @@
 			editorProps: {
 				attributes: {
 					class: 'prose prose-stone dark:prose-invert max-w-none px-4 py-3 focus:outline-none',
-					style: `min-height: ${minHeight}`
+					style: `min-height: min(${minHeight}, ${maxHeight})`
 				}
 			},
 			onTransaction: () => version++,
@@ -158,7 +160,7 @@
 		</div>
 	{/if}
 
-	<div bind:this={element}></div>
+	<div bind:this={element} class="overflow-y-auto overscroll-contain" style:max-height={maxHeight}></div>
 </div>
 
 <MediaPicker
