@@ -19,6 +19,12 @@ export default defineConfig({
 			adapter: adapter()
 		})
 	],
+	ssr: {
+		// sanitize-html is CommonJS but require()s htmlparser2 v12, which is ESM-only. Node 22+ copes,
+		// Vercel's function runtime doesn't (ERR_REQUIRE_ESM on every page). Bundling it converts it
+		// to ESM, so htmlparser2 is loaded with `import` instead.
+		noExternal: ['sanitize-html']
+	},
 	optimizeDeps: {
 		// Scan every route up front so all deps (simple-icons, gsap, per-icon lucide imports…) are
 		// pre-bundled at startup. Otherwise the first visit to a page with a new dep makes Vite
