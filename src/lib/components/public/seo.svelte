@@ -6,7 +6,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import type { Snippet } from 'svelte';
-	import { BRAND, LOGO } from './site.js';
+	import { BRAND, DEVELOPER, LOGO } from './site.js';
 
 	type Site = {
 		companyName: string;
@@ -59,6 +59,10 @@
 	<meta name="description" content={desc} />
 	<link rel="canonical" href={canonical} />
 	{#if noindex}<meta name="robots" content="noindex" />{/if}
+	<!-- Developer credit for crawlers only; nothing is rendered on the page. -->
+	<meta name="designer" content="{DEVELOPER.name}, {DEVELOPER.url}" />
+	<meta name="web_author" content="{DEVELOPER.name}, {DEVELOPER.url}" />
+	<link rel="author" href="/humans.txt" />
 
 	<meta property="og:site_name" content={site.companyName || BRAND.name} />
 	<meta property="og:type" content={type} />

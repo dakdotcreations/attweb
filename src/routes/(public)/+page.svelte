@@ -5,26 +5,40 @@
 	import PostmarkedQuotes from '#lib/components/public/home/postmarked-quotes.svelte';
 	import ServiceHero from '#lib/components/public/home/service-hero.svelte';
 	import Seo from '#lib/components/public/seo.svelte';
-	import { LOGO } from '#lib/components/public/site.js';
+	import { DEVELOPER, LOGO } from '#lib/components/public/site.js';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 
-	// Business details for search engines. "<" is escaped so content can't close the script tag.
+	// Business details for search engines, plus the site itself (credited to its developer, see DEVELOPER).
+	// "<" is escaped so content can't close the script tag.
 	const jsonLd = $derived(
 		JSON.stringify({
 			'@context': 'https://schema.org',
-			'@type': 'TravelAgency',
-			name: data.site.companyName,
-			slogan: data.site.tagline || undefined,
-			url: page.url.origin,
-			logo: page.url.origin + LOGO.full,
-			image: data.site.ogImageUrl || undefined,
-			email: data.site.email || undefined,
-			telephone: data.site.phone || undefined,
-			address: data.site.address ? { '@type': 'PostalAddress', streetAddress: data.site.address, addressCountry: 'UG' } : undefined,
-			sameAs: Object.values(data.site.socials).filter(Boolean)
-		}).replace(/</g, '\u003c')
+			'@graph': [
+				{
+					'@type': 'TravelAgency',
+					'@id': `${page.url.origin}/#business`,
+					name: data.site.companyName,
+					slogan: data.site.tagline || undefined,
+					url: page.url.origin,
+					logo: page.url.origin + LOGO.full,
+					image: data.site.ogImageUrl || undefined,
+					email: data.site.email || undefined,
+					telephone: data.site.phone || undefined,
+					address: data.site.address ? { '@type': 'PostalAddress', streetAddress: data.site.address, addressCountry: 'UG' } : undefined,
+					sameAs: Object.values(data.site.socials).filter(Boolean)
+				},
+				{
+					'@type': 'WebSite',
+					'@id': `${page.url.origin}/#website`,
+					url: page.url.origin,
+					name: data.site.companyName,
+					publisher: { '@id': `${page.url.origin}/#business` },
+					creator: { '@type': 'Organization', name: DEVELOPER.name, url: DEVELOPER.url }
+				}
+			]
+		}).replace(/</g, '\\u003c')
 	);
 </script>
 

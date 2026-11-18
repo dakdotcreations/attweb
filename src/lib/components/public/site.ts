@@ -6,6 +6,9 @@ export const BRAND = {
 	tagline: 'Your journey, our passion'
 } as const;
 
+/** Built and maintained by. Credited only in machine-readable places (meta, JSON-LD, humans.txt), never on the page. */
+export const DEVELOPER = { name: 'Dakdot Creations Limited', url: 'https://dakdot.com' } as const;
+
 /** Shown as written per the business (from their flyers). */
 /** Only verifiable credentials belong here (see PRODUCT.md, Evidence on Hand). */
 export const TRUST_BADGES = ['Member of Uganda Tourism Association'] as const;

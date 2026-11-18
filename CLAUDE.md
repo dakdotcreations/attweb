@@ -10,6 +10,8 @@ Package manager is **pnpm** (`pnpm-workspace.yaml` sets `engineStrict: true`).
 - `pnpm build` / `pnpm preview` — production build and preview it
 - `pnpm check` — `svelte-kit sync` + `svelte-check` type checking (the only static check; there is no lint or test setup yet)
 - `pnpm dlx shadcn-svelte@latest add <component>` — add a shadcn-svelte UI component
+- Deploys: `vercel.json` runs `scripts/vercel-build.sh`, which runs `pnpm db:deploy` (production only, or with `RUN_MIGRATIONS=1`) and then `pnpm build`. Commit every migration; a failed migration fails the deploy.
+- Developer credit (Dakdot Creations Limited, `DEVELOPER` in `components/public/site.ts`) is machine-readable only: `designer`/`web_author` meta and `rel=author` in `seo.svelte`, the homepage JSON-LD `WebSite.creator`, `static/humans.txt` and a comment in `app.html`. Never render it visibly.
 - `pnpm db:generate` (client into `src/lib/server/generated/prisma`, gitignored), `pnpm db:migrate` (dev migration), `pnpm db:deploy`, `pnpm db:seed` (upserts the first ADMIN from `SEED_ADMIN_EMAIL`), `pnpm db:studio`
 
 ## Stack and architecture
