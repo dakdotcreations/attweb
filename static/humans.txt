@@ -1,0 +1,8 @@
+/* TEAM */
+	Design and development: Dakdot Creations Limited
+	Site: https://dakdot.com
+
+/* SITE */
+	Client: Altura Tours & Travel Limited, Kampala, Uganda
+	Standards: HTML5, CSS3, TypeScript
+	Components: SvelteKit, Svelte 5, Tailwind CSS, Prisma, PostgreSQL

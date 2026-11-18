@@ -1,0 +1,121 @@
+<script lang="ts">
+	import Seo from '#lib/components/public/seo.svelte';
+	import BlogCard from '#lib/components/public/blog-card.svelte';
+	import PlanCta from '#lib/components/public/home/plan-cta.svelte';
+	import PageHero from '#lib/components/public/page-hero.svelte';
+	import Pagination from '#lib/components/public/pagination.svelte';
+	import { reveal } from '#lib/components/public/reveal.js';
+	import { formatDate } from '#lib/format.js';
+	import { cn } from '#lib/utils.js';
+	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
+
+	const active = $derived(data.topics.find((t) => t.slug === data.activeTopic) ?? null);
+	const title = $derived(active ? `${active.name} guides` : 'Travel guides & stories');
+	// The newest post gets a wide feature card on the first unfiltered page.
+	const featured = $derived(!active && data.page === 1 ? (data.posts[0] ?? null) : null);
+	const rest = $derived(featured ? data.posts.slice(1) : data.posts);
+
+	function pageHref(n: number) {
+		const params = new URLSearchParams();
+		if (data.activeTopic) params.set('topic', data.activeTopic);
+		if (n > 1) params.set('page', String(n));
+		const qs = params.toString();
+		return qs ? `/blog?${qs}` : '/blog';
+	}
+</script>
+
+<Seo
+	site={data.site}
+	title="{title}{data.page > 1 ? ` (page ${data.page})` : ''} | {data.site.companyName}"
+	description={active
+		? `${active.name} guides and tips from the ${data.site.companyName} team in Kampala.`
+		: `Gorilla permits, safaris, visas, medical tourism and more: practical travel guides from the ${data.site.companyName} team.`}
+	path={pageHref(data.page)}
+	image={data.posts.find((p) => p.coverImage)?.coverImage?.url}
+/>
+
+<PageHero
+	{title}
+	intro="Practical advice from our Kampala team: permits, seasons, visas, what to pack and what to expect."
+	breadcrumbs={[{ label: 'Blog', href: '/blog' }]}
+>
+	{#if data.topics.length}
+		<nav aria-label="Filter by topic" class="-mx-2 mt-8 flex max-w-full gap-1 overflow-x-auto [scrollbar-width:thin]">
+			{#each [{ slug: '', name: 'All articles' }, ...data.topics] as t (t.slug)}
+				{@const isActive = data.activeTopic === t.slug}
+				<a
+					href={t.slug ? `/blog?topic=${t.slug}` : '/blog'}
+					data-sveltekit-reset="false"
+					aria-current={isActive ? 'page' : undefined}
+					class={cn(
+						'shrink-0 px-2 py-2 text-sm font-semibold whitespace-nowrap underline-offset-[10px] transition-colors',
+						isActive ? 'text-paper decoration-gold-400 underline decoration-2' : 'text-paper/70 hover:text-paper'
+					)}
+				>
+					{t.name}
+				</a>
+			{/each}
+		</nav>
+	{/if}
+</PageHero>
+
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+	{#if data.posts.length}
+		{#key `${data.activeTopic}-${data.page}`}
+			{#if featured}
+				<article class="group relative mb-16 grid items-center gap-8 lg:grid-cols-[1.3fr_1fr] lg:gap-12" {@attach reveal()}>
+					<div class="bg-forest-100 aspect-[16/10] overflow-hidden rounded-md">
+						{#if featured.coverImage}
+							<img
+								src={featured.coverImage.url}
+								alt={featured.coverImage.alt}
+								fetchpriority="high"
+								class="size-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
+							/>
+						{/if}
+					</div>
+					<div>
+						<span class="bg-gold-500 block h-0.5 w-10" aria-hidden="true"></span>
+						<h2 class="font-display text-forest-950 mt-5 text-4xl leading-[0.95] font-semibold uppercase text-balance sm:text-5xl">
+							<a href="/blog/{featured.slug}" class="after:absolute after:inset-0 focus-visible:underline focus-visible:outline-none">{featured.title}</a>
+						</h2>
+						<p class="text-ink/60 mt-3 text-sm">
+							Latest{#if featured.service} · {featured.service.name}{/if} · <time datetime={featured.publishedAt ? new Date(featured.publishedAt).toISOString() : undefined}>{formatDate(featured.publishedAt)}</time>
+						</p>
+						{#if featured.excerpt}<p class="text-ink/75 mt-4 line-clamp-4 text-lg leading-relaxed">{featured.excerpt}</p>{/if}
+						<span class="text-forest-800 mt-6 inline-flex items-center gap-2 text-sm font-bold">
+							Read article <ArrowRightIcon class="size-4 transition-transform group-hover:translate-x-1" />
+						</span>
+					</div>
+				</article>
+			{/if}
+
+			{#if rest.length}
+				<ul class="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" {@attach reveal({ selector: ':scope > li', stagger: 0.08, start: 'top 95%' })}>
+					{#each rest as post (post.id)}
+						<li><BlogCard {post} headingLevel={2} /></li>
+					{/each}
+				</ul>
+			{/if}
+		{/key}
+
+		<Pagination page={data.page} pageCount={data.pageCount} href={pageHref} />
+	{:else}
+		<div class="mx-auto max-w-lg py-10 text-center">
+			<h2 class="font-display text-forest-950 text-3xl font-semibold uppercase">Stories are on their way</h2>
+			<p class="text-ink/65 mt-3">Our team is writing new guides. In the meantime, ask us anything about your trip.</p>
+			<a href="/contact" class="bg-forest-800 text-paper hover:bg-forest-700 mt-6 inline-flex rounded-full px-6 py-3 text-sm font-bold">Contact us</a>
+		</div>
+	{/if}
+</section>
+
+<PlanCta
+	whatsappNumber={data.site.whatsappNumber}
+	email={data.site.email}
+	address={data.site.address}
+	officeHours={data.site.officeHours}
+	image={data.posts.find((p) => p.coverImage)?.coverImage?.url ?? null}
+/>

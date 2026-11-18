@@ -1,0 +1,45 @@
+// Shared constants for the public website.
+
+export const BRAND = {
+	name: 'Altura Tours & Travel',
+	legalName: 'Altura Tours & Travel Limited',
+	tagline: 'Your journey, our passion'
+} as const;
+
+/** Built and maintained by. Credited only in machine-readable places (meta, JSON-LD, humans.txt), never on the page. */
+export const DEVELOPER = { name: 'Dakdot Creations Limited', url: 'https://dakdot.com' } as const;
+
+/** Shown as written per the business (from their flyers). */
+/** Only verifiable credentials belong here (see PRODUCT.md, Evidence on Hand). */
+export const TRUST_BADGES = ['Member of Uganda Tourism Association'] as const;
+
+/** Header (desktop and mobile menu): kept short on purpose. */
+export const MAIN_NAV = [
+	{ label: 'Tours', href: '/tours' },
+	{ label: 'Services', href: '/services', children: 'services' as const },
+	{ label: 'About', href: '/about' },
+	{ label: 'Contact', href: '/contact' }
+];
+
+/** Footer "Explore" column: the header links plus the secondary pages (Gallery, Blog live only here). */
+export const FOOTER_NAV = [
+	{ label: 'Tours', href: '/tours' },
+	{ label: 'Services', href: '/services' },
+	{ label: 'Gallery', href: '/gallery' },
+	{ label: 'Blog', href: '/blog' },
+	{ label: 'About', href: '/about' },
+	{ label: 'Contact', href: '/contact' }
+];
+
+/**
+ * Logo files (added by the business into static/brand/). Until they exist the
+ * Logo component falls back to a Cinzel wordmark.
+ */
+export const LOGO = {
+	/** Stacked crest; light backgrounds only. */
+	full: '/brand/logo-full.webp',
+	/** Crane only; used with the text wordmark in header/footer and as the favicon. */
+	mark: '/brand/logo-mark.webp'
+} as const;
+
+export const DEFAULT_WHATSAPP_MESSAGE = "Hi Altura, I'd like to plan a trip.";

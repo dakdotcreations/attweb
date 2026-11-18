@@ -18,5 +18,11 @@ export default defineConfig({
 			// See https://svelte.dev/docs/kit/adapters for more information about adapters.
 			adapter: adapter()
 		})
-	]
+	],
+	optimizeDeps: {
+		// Scan every route up front so all deps (simple-icons, gsap, per-icon lucide imports…) are
+		// pre-bundled at startup. Otherwise the first visit to a page with a new dep makes Vite
+		// re-optimize mid-request: stale chunks 504, the page module fails to load, and Kit shows a 500.
+		entries: ['src/routes/**/+*.{svelte,ts}']
+	}
 });

@@ -2,7 +2,9 @@
 @import "tw-animate-css";
 @import "shadcn-svelte/tailwind.css";
 @import "@fontsource-variable/montserrat";
-@import "@fontsource-variable/merriweather";
+@import "@fontsource-variable/cinzel";
+@import "@fontsource-variable/oswald";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -76,8 +78,13 @@
 }
 
 @theme inline {
-	--font-sans: 'Montserrat Variable', sans-serif;
-	--font-heading: 'Merriweather Variable', serif;
+	--font-sans: 'Montserrat Variable', ui-sans-serif, system-ui, sans-serif;
+	/* Headings in shadcn components (dashboard, auth): card, dialog and sheet titles. */
+	--font-heading: 'Montserrat Variable', ui-sans-serif, system-ui, sans-serif;
+	/* The logo's Trajan-style wordmark; also the public footer column heads and tagline. */
+	--font-wordmark: 'Cinzel Variable', 'Times New Roman', serif;
+	/* Public site display face: tall condensed caps for hero titles, section and card headings. */
+	--font-display: 'Oswald Variable', 'Arial Narrow', sans-serif;
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -116,6 +123,97 @@
 	--radius-2xl: calc(var(--radius) * 1.8);
 	--radius-3xl: calc(var(--radius) * 2.2);
 	--radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+ * Altura brand palette (public website), from the crowned-crane logo.
+ * Separate from the shadcn tokens above, which style the dashboard.
+ * Gold is for accents and large text on forest only, never small text on cream.
+ */
+@theme {
+	--color-forest-950: #062b19;
+	--color-forest-900: #0b3d24;
+	--color-forest-800: #0b4d2c;
+	--color-forest-700: #145f38;
+	--color-forest-600: #1f7547;
+	--color-forest-100: #e3efe7;
+	--color-gold-600: #a8841f;
+	--color-gold-500: #c9a23a;
+	--color-gold-400: #ddbb5c;
+	--color-gold-300: #ead18a;
+	--color-gold-100: #f7edd0;
+	--color-cream: #fbf7ea;
+	--color-cream-200: #f3ecd6;
+	--color-ink: #1f2937;
+	--color-crane-red: #c8102e;
+	--color-whatsapp: #22c55e;
+	--color-whatsapp-dark: #16a34a;
+	/* Engraved Stamps world: gummed stamp paper and engraving ink. */
+	--color-paper: #fbfbf8;
+	--color-paper-200: #eceee6;
+	--color-engrave: #1e2a22;
+}
+
+/*
+ * Perforated stamp edge. The element's own background is the stamp paper; the mask
+ * punches evenly spaced holes along every edge (`round` keeps the spacing whole on any size),
+ * so whatever sits behind shows through. Set --perf to change the hole radius.
+ * Masks clip outlines, so focus rings for stamps must be drawn inside the edge.
+ */
+@utility perforated {
+	--perf: 5px;
+	padding: calc(2.4 * var(--perf));
+	-webkit-mask:
+		radial-gradient(var(--perf), #0000 97%, #000) round calc(-1.5 * var(--perf)) calc(-1.5 * var(--perf)) / calc(3 * var(--perf)) calc(3 * var(--perf)),
+		linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--perf)) calc(100% - 3 * var(--perf));
+	mask:
+		radial-gradient(var(--perf), #0000 97%, #000) round calc(-1.5 * var(--perf)) calc(-1.5 * var(--perf)) / calc(3 * var(--perf)) calc(3 * var(--perf)),
+		linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--perf)) calc(100% - 3 * var(--perf));
+}
+
+/*
+ * One-sided perforations: the stamp edge kept as a single detail rather than a white frame.
+ * Semicircle holes run down the left edge (photo cards) or across the top edge (a card's
+ * ticket stub), showing whatever sits behind.
+ *
+ * How it works: the mask is one tile, a radial gradient that is transparent inside a circle
+ * centred exactly on the edge (at 0 50% = middle of the left side) and opaque everywhere else.
+ * Only the half of the circle inside the element shows, so each tile punches one semicircle
+ * "bite". The tile is the element's full width and --perf-pitch tall, repeated down the side;
+ * `round` stretches the pitch slightly so a whole number of holes fits and none is cut in half
+ * at the corners. --perf-r is the hole radius; the solid gap between holes is pitch - 2 × radius.
+ */
+@utility perforated-left {
+	--perf-r: 6px;
+	--perf-pitch: 22px;
+	-webkit-mask: radial-gradient(circle var(--perf-r) at 0 50%, #0000 97%, #000) 0 0 / 100% var(--perf-pitch) round;
+	mask: radial-gradient(circle var(--perf-r) at 0 50%, #0000 97%, #000) 0 0 / 100% var(--perf-pitch) round;
+}
+@utility perforated-top {
+	--perf-r: 6px;
+	--perf-pitch: 22px;
+	-webkit-mask: radial-gradient(circle var(--perf-r) at 50% 0, #0000 97%, #000) 0 0 / var(--perf-pitch) 100% round;
+	mask: radial-gradient(circle var(--perf-r) at 50% 0, #0000 97%, #000) 0 0 / var(--perf-pitch) 100% round;
+}
+
+/* Text selection and the caret carry the palette, not the browser default blue. */
+@layer base {
+	::selection {
+		background: var(--color-gold-300);
+		color: var(--color-forest-950);
+	}
+}
+
+@utility gold-rule {
+	height: 1px;
+	background: linear-gradient(90deg, transparent, var(--color-gold-500) 20%, var(--color-gold-300) 50%, var(--color-gold-500) 80%, transparent);
+}
+
+@utility gold-border {
+	border: 1px solid transparent;
+	background:
+		linear-gradient(var(--gold-border-fill, var(--color-forest-900)), var(--gold-border-fill, var(--color-forest-900))) padding-box,
+		linear-gradient(135deg, var(--color-gold-300), var(--color-gold-600), var(--color-gold-400)) border-box;
 }
 
 @layer base {

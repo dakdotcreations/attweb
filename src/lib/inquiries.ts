@@ -1,0 +1,232 @@
+// Inquiry labels and helpers shared by dashboard and public pages.
+
+export const INQUIRY_STATUSES = ['NEW', 'CONTACTED', 'QUOTED', 'WON', 'LOST', 'CLOSED'] as const;
+export type InquiryStatus = (typeof INQUIRY_STATUSES)[number];
+
+export const INQUIRY_SOURCES = ['WEBSITE', 'WHATSAPP', 'EMAIL', 'PHONE', 'WALK_IN', 'OTHER'] as const;
+export type InquirySource = (typeof INQUIRY_SOURCES)[number];
+
+export const CONTACT_CHANNELS = ['WHATSAPP', 'EMAIL', 'PHONE'] as const;
+export type ContactChannel = (typeof CONTACT_CHANNELS)[number];
+
+export const statusMeta: Record<InquiryStatus, { label: string; description: string; class: string }> = {
+	NEW: { label: 'New', description: 'Not yet contacted', class: 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200' },
+	CONTACTED: { label: 'Contacted', description: 'We replied and are talking', class: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200' },
+	QUOTED: { label: 'Quoted', description: 'A price was sent', class: 'bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200' },
+	WON: { label: 'Won', description: 'Booked', class: 'bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-200' },
+	LOST: { label: 'Lost', description: 'Did not book', class: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200' },
+	CLOSED: { label: 'Closed', description: 'Spam, duplicate or no longer relevant', class: 'bg-muted text-muted-foreground' }
+};
+
+export const sourceLabels: Record<InquirySource, string> = {
+	WEBSITE: 'Website',
+	WHATSAPP: 'WhatsApp',
+	EMAIL: 'Email',
+	PHONE: 'Phone call',
+	WALK_IN: 'Walk-in',
+	OTHER: 'Other'
+};
+
+export const channelLabels: Record<ContactChannel, string> = {
+	WHATSAPP: 'WhatsApp',
+	EMAIL: 'Email',
+	PHONE: 'Phone call'
+};
+
+/**
+ * Digits for wa.me links. Local Ugandan numbers ("0700 123456") are assumed
+ * to be +256; anything else must already include its country code.
+ */
+export function toWhatsAppDigits(phone: string | null | undefined) {
+	if (!phone) return null;
+	const trimmed = phone.trim();
+	const digits = trimmed.replace(/\D/g, '');
+	if (!digits) return null;
+	if (trimmed.startsWith('+')) return digits;
+	if (digits.startsWith('00')) return digits.slice(2);
+	if (digits.startsWith('0') && digits.length === 10) return `256${digits.slice(1)}`;
+	return digits;
+}
+
+export function whatsappLink(phone: string | null | undefined, text?: string) {
+	const digits = toWhatsAppDigits(phone);
+	if (!digits) return null;
+	return `https://wa.me/${digits}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
+}
+
+export const formatInquiryNumber = (n: number) => `#${n}`;
+
+// ---------------------------------------------------------------------------
+// Request forms (flight requests, study abroad). See lib/schemas/inquiry-details.ts.
+// ---------------------------------------------------------------------------
+
+export const INQUIRY_KINDS = ['GENERAL', 'FLIGHT', 'STUDY_ABROAD', 'SCHOOL_TOUR', 'MEDICAL'] as const;
+export type InquiryKind = (typeof INQUIRY_KINDS)[number];
+
+/** Same values as InquiryKind: the service decides which form its page shows. */
+export const SERVICE_FORM_TYPES = INQUIRY_KINDS;
+export type ServiceFormType = InquiryKind;
+
+export const kindLabels: Record<InquiryKind, string> = {
+	GENERAL: 'General inquiry',
+	FLIGHT: 'Flight request',
+	STUDY_ABROAD: 'Study abroad request',
+	SCHOOL_TOUR: 'School tour request',
+	MEDICAL: 'Medical tourism request'
+};
+
+export const formTypeLabels: Record<ServiceFormType, string> = {
+	GENERAL: 'General inquiry form',
+	FLIGHT: 'Flight request form',
+	STUDY_ABROAD: 'Study abroad form',
+	SCHOOL_TOUR: 'School tour form',
+	MEDICAL: 'Medical tourism form'
+};
+
+export const TRIP_TYPES = ['RETURN', 'ONE_WAY', 'MULTI_CITY'] as const;
+export type TripType = (typeof TRIP_TYPES)[number];
+export const tripTypeLabels: Record<TripType, string> = {
+	RETURN: 'Return',
+	ONE_WAY: 'One-way',
+	MULTI_CITY: 'Multi-city'
+};
+
+export const CABIN_CLASSES = ['ECONOMY', 'PREMIUM_ECONOMY', 'BUSINESS', 'FIRST'] as const;
+export type CabinClass = (typeof CABIN_CLASSES)[number];
+export const cabinLabels: Record<CabinClass, string> = {
+	ECONOMY: 'Economy',
+	PREMIUM_ECONOMY: 'Premium economy',
+	BUSINESS: 'Business',
+	FIRST: 'First'
+};
+
+export const MAX_AIRLINES = 5;
+
+/** Suggestions for the From/To fields; visitors can type any city. */
+export const AIRPORT_SUGGESTIONS = [
+	'Entebbe (EBB)',
+	'Nairobi (NBO)',
+	'Mombasa (MBA)',
+	'Kigali (KGL)',
+	'Dar es Salaam (DAR)',
+	'Zanzibar (ZNZ)',
+	'Kilimanjaro (JRO)',
+	'Addis Ababa (ADD)',
+	'Johannesburg (JNB)',
+	'Cape Town (CPT)',
+	'Cairo (CAI)',
+	'Dubai (DXB)',
+	'Abu Dhabi (AUH)',
+	'Doha (DOH)',
+	'Istanbul (IST)',
+	'Mumbai (BOM)',
+	'Delhi (DEL)',
+	'Chennai (MAA)',
+	'Bangkok (BKK)',
+	'Phuket (HKT)',
+	'Kuala Lumpur (KUL)',
+	'Guangzhou (CAN)',
+	'London Heathrow (LHR)',
+	'Amsterdam (AMS)',
+	'Brussels (BRU)',
+	'Paris (CDG)',
+	'Frankfurt (FRA)',
+	'New York (JFK)',
+	'Toronto (YYZ)',
+	'Jeddah (JED)'
+] as const;
+
+export const MAX_FLIGHT_LEGS = 5;
+
+/** Optional stay requested with a flight. Hotels aren't in the system; the visitor may name one. */
+export const STAY_TYPES = ['HOTEL', 'AIRBNB'] as const;
+export type StayType = (typeof STAY_TYPES)[number];
+export const stayTypeLabels: Record<StayType, string> = {
+	HOTEL: 'Hotel',
+	AIRBNB: 'Airbnb'
+};
+
+export const STUDY_LEVELS = ['FOUNDATION', 'DIPLOMA', 'BACHELOR', 'MASTER', 'PHD'] as const;
+export type StudyLevel = (typeof STUDY_LEVELS)[number];
+export const studyLevelLabels: Record<StudyLevel, string> = {
+	FOUNDATION: 'Foundation',
+	DIPLOMA: 'Diploma',
+	BACHELOR: "Bachelor's",
+	MASTER: "Master's",
+	PHD: 'PhD'
+};
+
+export const MAX_INSTITUTIONS = 3;
+
+/** Upper bound for the school tour form's student estimate; bigger groups go in the notes. */
+export const MAX_SCHOOL_STUDENTS = 2000;
+
+/**
+ * Medical tourism form: why the person is travelling. Not everyone is a patient: students and
+ * professionals travel for research, electives, training and hospital visits.
+ */
+export const MEDICAL_PURPOSES = ['TREATMENT', 'CHECKUP', 'RESEARCH', 'PROFESSIONAL'] as const;
+export type MedicalPurpose = (typeof MEDICAL_PURPOSES)[number];
+export const medicalPurposeLabels: Record<MedicalPurpose, string> = {
+	TREATMENT: 'Treatment or surgery',
+	CHECKUP: 'Health check-up or wellness',
+	RESEARCH: 'Study, research or elective',
+	PROFESSIONAL: 'Training, conference or hospital visit'
+};
+
+/** The medical field the trip is about (matches the service page's specialties). */
+export const MEDICAL_SPECIALTIES = [
+	'CARDIAC',
+	'NEURO',
+	'ONCOLOGY',
+	'ORTHOPAEDICS',
+	'TRANSPLANT',
+	'FERTILITY',
+	'COSMETIC',
+	'DENTAL',
+	'EYE',
+	'GENERAL',
+	'WELLNESS',
+	'OTHER'
+] as const;
+export type MedicalSpecialty = (typeof MEDICAL_SPECIALTIES)[number];
+export const medicalSpecialtyLabels: Record<MedicalSpecialty, string> = {
+	CARDIAC: 'Cardiology',
+	NEURO: 'Neurology & neurosurgery',
+	ONCOLOGY: 'Oncology (cancer)',
+	ORTHOPAEDICS: 'Orthopaedics',
+	TRANSPLANT: 'Transplant & stem cell',
+	FERTILITY: 'Fertility & IVF',
+	COSMETIC: 'Cosmetic & reconstructive',
+	DENTAL: 'Dentistry',
+	EYE: 'Eye care',
+	GENERAL: 'General medicine',
+	WELLNESS: 'Wellness & Ayurveda',
+	OTHER: 'Something else'
+};
+
+export const MEDICAL_TIMEFRAMES = ['ASAP', 'ONE_MONTH', 'THREE_MONTHS', 'EXPLORING'] as const;
+export type MedicalTimeframe = (typeof MEDICAL_TIMEFRAMES)[number];
+export const medicalTimeframeLabels: Record<MedicalTimeframe, string> = {
+	ASAP: 'As soon as possible',
+	ONE_MONTH: 'Within a month',
+	THREE_MONTHS: 'In 1 to 3 months',
+	EXPLORING: 'Just exploring options'
+};
+
+export const MAX_MEDICAL_PARTNERS = 3;
+/** People on one medical trip (patient and family, or a student/research group); more go in the notes. */
+export const MAX_MEDICAL_TRAVELLERS = 30;
+
+/**
+ * The study form's destination is a partner country, or this value for institutions with
+ * offersOnline (study from home, no travel).
+ */
+export const ONLINE_DESTINATION = 'ONLINE';
+export const onlineDestinationLabel = 'Online (no travel)';
+export const destinationLabel = (destination: string) =>
+	destination === ONLINE_DESTINATION ? onlineDestinationLabel : destination;
+
+/** Whether an institution can be chosen for a destination. */
+export const institutionMatches = (i: { country: string; offersOnline: boolean }, destination: string) =>
+	destination === ONLINE_DESTINATION ? i.offersOnline : i.country === destination;
