@@ -1,7 +1,9 @@
 <!--
-	A slow, untitled strip of partner logos (airlines, universities, hospitals) that drifts left in a
-	loop. Pure CSS transform animation, visible before JS. Pauses on hover, keyboard focus and with
-	the pause button; for reduced motion it is a static, centred, wrapping row.
+	A slow strip of partner logos (airlines, universities, hospitals) that drifts left in a loop.
+	Pure CSS transform animation, visible before JS. Pauses on hover, keyboard focus and with the
+	pause button; for reduced motion it is a static, centred, wrapping row. `label` is shown as a
+	small heading when `showLabel` is set (otherwise it only names the region). `bare` drops the
+	strip's own background and padding so it can sit inside another section.
 -->
 <script lang="ts">
 	import PauseIcon from '@lucide/svelte/icons/pause';
@@ -9,7 +11,14 @@
 
 	type Logo = { key: string; name: string; src: string };
 
-	let { logos, label = 'Airlines, universities and hospitals we work with' }: { logos: Logo[]; label?: string } = $props();
+	let {
+		logos,
+		label = 'Airlines, universities and hospitals we work with',
+		showLabel = false,
+		bare = false
+	}: { logos: Logo[]; label?: string; showLabel?: boolean; bare?: boolean } = $props();
+
+	const labelId = $props.id();
 
 	let paused = $state(false);
 
@@ -36,11 +45,20 @@
 		title={logo.name}
 		loading="lazy"
 		decoding="async"
-		class="h-10 w-auto max-w-36 object-contain opacity-60 grayscale transition-opacity duration-300 hover:opacity-100 hover:grayscale-0 sm:h-12 sm:max-w-44"
+		class="h-16 w-auto max-w-48 object-contain grayscale transition-opacity duration-300 hover:grayscale-0"
 	/>
 {/snippet}
 
-<section class="bg-paper-200 py-12 sm:py-16" aria-label={label}>
+<section
+	class={bare ? undefined : 'bg-cream pt-12 sm:pt-16'}
+	aria-label={showLabel ? undefined : label}
+	aria-labelledby={showLabel ? labelId : undefined}
+>
+	{#if showLabel}
+		<h2 id={labelId} class="sr-only">
+			{label}
+		</h2>
+	{/if}
 	{#if !scrolls}
 		<ul class="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-16 gap-y-8 px-4 sm:px-6 lg:px-8">
 			{#each logos as logo (logo.key)}

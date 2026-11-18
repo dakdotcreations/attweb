@@ -54,17 +54,6 @@ export const OBJECTIVES = [
 	}
 ] as const;
 
-/** "Choose Altura Tours and Travel": the wider good each trip does. */
-export const IMPACT = [
-	'Promotes tourism and showcases beautiful destinations',
-	'Creates employment and business opportunities',
-	'Supports hotels, transport providers, tour guides and local communities',
-	'Encourages cultural exchange and understanding',
-	'Provides opportunities for relaxation, adventure and education',
-	'Contributes to economic development',
-	'Promotes conservation and appreciation of nature'
-] as const;
-
 /** Full service list as printed in the brochure. */
 export const BROCHURE_SERVICES = [
 	'Guided wildlife safaris',
@@ -77,5 +66,4 @@ export const BROCHURE_SERVICES = [
 	'Airport transfers and car rentals',
 	'School tours',
 	'Medical tourism',
-	'Car bonding'
 ] as const;

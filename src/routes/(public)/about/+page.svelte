@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Seo from '#lib/components/public/seo.svelte';
-	import { BROCHURE_SERVICES, IMPACT, MISSION, OBJECTIVES, VISION } from '#lib/components/public/about-content.js';
+	import { BROCHURE_SERVICES, MISSION, OBJECTIVES, VISION } from '#lib/components/public/about-content.js';
 	import { whatsappLink } from '#lib/inquiries.js';
 	import PlanCta from '#lib/components/public/home/plan-cta.svelte';
 	import Logo from '#lib/components/public/logo.svelte';
@@ -59,11 +59,11 @@
 	<section class="bg-forest-900 text-paper py-20 sm:py-28" aria-labelledby="team-title">
 		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 			<span class="bg-gold-400 block h-0.5 w-10" aria-hidden="true"></span>
-			<h2 id="team-title" class="font-display mt-5 text-5xl leading-[0.95] font-semibold uppercase sm:text-6xl" {@attach reveal()}>Issued by</h2>
-			<p class="text-paper/75 mt-5 max-w-xl text-lg">The people in our Kampala Road office who plan your trip and answer your messages.</p>
+			<h2 id="team-title" class="font-display mt-5 text-5xl leading-[0.95] font-semibold uppercase sm:text-6xl" {@attach reveal()}>The Team</h2>
+			<p class="text-paper/75 mt-5 max-w-xl text-lg">The people who plan your trip and answer your messages.</p>
 			<ul class="mt-12 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4" {@attach reveal({ selector: ':scope > li', stagger: 0.08 })}>
 				{#each data.team as person (person.id)}
-					{@const wa = whatsappLink(person.whatsapp ?? data.site.whatsappNumber, `Hello ${person.name}, I'd like help planning a trip.`)}
+					{@const wa = whatsappLink(person.whatsapp, `Hello ${person.name}, I'd like help planning a trip.`)}
 					<li>
 						<img src={person.photo?.url} alt="{person.name}, {person.role}" loading="lazy" class="perforated-left aspect-[4/5] w-full rounded-md object-cover" />
 						<p class="font-display mt-4 text-2xl leading-none font-semibold uppercase">{person.name}</p>
@@ -79,6 +79,34 @@
 		</div>
 	</section>
 {/if}
+
+<!-- What we do (light). Straight after the team, so visitors learn what we offer before what we stand for.
+     Without the team section it would sit on the intro's paper, so it switches to paper-200 then. -->
+<section class={data.team.length ? 'bg-paper' : 'bg-paper-200'} aria-labelledby="services-title">
+	<div class="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-20 lg:px-8 lg:py-28">
+		<div {@attach reveal()}>
+			<span class="bg-gold-500 block h-0.5 w-10" aria-hidden="true"></span>
+			<h2 id="services-title" class="font-display text-forest-950 mt-5 text-4xl font-semibold uppercase sm:text-5xl">Our services</h2>
+			<p class="text-ink/70 mt-5 max-w-md text-lg leading-relaxed">
+				From the first safari idea to the flight home, one team handles the planning.
+			</p>
+			<a
+				href="/services"
+				class="border-forest-950/30 text-forest-950 hover:bg-forest-950 hover:text-paper mt-8 inline-flex h-12 items-center gap-2 rounded-full border px-6 text-sm font-semibold transition-colors"
+			>
+				Explore our services <ArrowRightIcon class="size-4" />
+			</a>
+		</div>
+		<ul class="grid content-start gap-x-8 sm:grid-cols-2" {@attach reveal({ selector: ':scope > li', stagger: 0.04, y: 16 })}>
+			{#each BROCHURE_SERVICES as service (service)}
+				<li class="border-forest-950/10 text-ink/85 flex items-start gap-3 border-t py-3 text-base font-semibold">
+					<CheckIcon class="text-forest-700 mt-0.5 size-5 shrink-0" />
+					{service}
+				</li>
+			{/each}
+		</ul>
+	</div>
+</section>
 
 <!-- Vision & mission (light, editorial) -->
 <section class="bg-paper-200" aria-label="Vision and mission">
@@ -115,51 +143,19 @@
 	</div>
 </section>
 
-<!-- What we do + impact (light) -->
-<section class="bg-paper">
-	<div class="mx-auto grid max-w-7xl gap-14 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:gap-20 lg:px-8 lg:py-28">
-		<div {@attach reveal()}>
-			<span class="bg-gold-500 block h-0.5 w-10" aria-hidden="true"></span>
-			<h2 class="font-display text-forest-950 mt-5 text-4xl font-semibold uppercase sm:text-5xl">Our services</h2>
-			<ul class="mt-8 grid gap-3 sm:grid-cols-2">
-				{#each BROCHURE_SERVICES as service (service)}
-					<li class="text-ink/85 flex items-start gap-3 text-base font-semibold">
-						<CheckIcon class="text-forest-700 mt-0.5 size-5 shrink-0" />
-						{service}
-					</li>
-				{/each}
-			</ul>
-			<a
-				href="/services"
-				class="border-forest-950/30 text-forest-950 hover:bg-forest-950 hover:text-paper mt-10 inline-flex h-12 items-center gap-2 rounded-full border px-6 text-sm font-semibold transition-colors"
-			>
-				Explore our services <ArrowRightIcon class="size-4" />
-			</a>
-		</div>
-		<div {@attach reveal({ delay: 0.1 })}>
-			<span class="bg-gold-500 block h-0.5 w-10" aria-hidden="true"></span>
-			<h2 class="font-display text-forest-950 mt-5 text-4xl font-semibold uppercase sm:text-5xl">Why it matters</h2>
-			<p class="text-ink/70 mt-4">Every trip you take with us does more than move you from place to place. It:</p>
-			<ul class="mt-6">
-				{#each IMPACT as item (item)}
-					<li class="border-forest-950/10 text-ink/85 flex items-start gap-3 border-t py-3 text-base">
-						<CheckIcon class="text-forest-700 mt-0.5 size-5 shrink-0" />{item}
-					</li>
-				{/each}
-			</ul>
-		</div>
-	</div>
-</section>
+<!-- patners -->
+<LogoMarquee logos={data.partnerLogos} />
 
-<!-- Logos of the airlines, universities and hospitals we work with (managed in the dashboard). -->
-{#if data.partnerLogos.length}
-	<LogoMarquee logos={data.partnerLogos} />
-{/if}
-
+<!-- Closing (cream, after the dark objectives): partner logos (managed in the dashboard) as proof,
+     then the ask, in one band rather than a thin strip of its own. -->
 <PlanCta
+	tone="light"
 	whatsappNumber={data.site.whatsappNumber}
 	email={data.site.email}
 	address={data.site.address}
 	officeHours={data.site.officeHours}
-	image={data.site.ogImageUrl}
 />
+
+{#snippet partnerLogos()}
+	<LogoMarquee logos={data.partnerLogos} bare showLabel />
+{/snippet}

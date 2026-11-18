@@ -175,14 +175,25 @@
  * One-sided perforations: the stamp edge kept as a single detail rather than a white frame.
  * Semicircle holes run down the left edge (photo cards) or across the top edge (a card's
  * ticket stub), showing whatever sits behind.
+ *
+ * How it works: the mask is one tile, a radial gradient that is transparent inside a circle
+ * centred exactly on the edge (at 0 50% = middle of the left side) and opaque everywhere else.
+ * Only the half of the circle inside the element shows, so each tile punches one semicircle
+ * "bite". The tile is the element's full width and --perf-pitch tall, repeated down the side;
+ * `round` stretches the pitch slightly so a whole number of holes fits and none is cut in half
+ * at the corners. --perf-r is the hole radius; the solid gap between holes is pitch - 2 × radius.
  */
 @utility perforated-left {
-	-webkit-mask: radial-gradient(circle 3.5px at 0 50%, #0000 97%, #000) 0 0 / 100% 13px repeat-y;
-	mask: radial-gradient(circle 3.5px at 0 50%, #0000 97%, #000) 0 0 / 100% 13px repeat-y;
+	--perf-r: 6px;
+	--perf-pitch: 22px;
+	-webkit-mask: radial-gradient(circle var(--perf-r) at 0 50%, #0000 97%, #000) 0 0 / 100% var(--perf-pitch) round;
+	mask: radial-gradient(circle var(--perf-r) at 0 50%, #0000 97%, #000) 0 0 / 100% var(--perf-pitch) round;
 }
 @utility perforated-top {
-	-webkit-mask: radial-gradient(circle 3.5px at 50% 0, #0000 97%, #000) 0 0 / 13px 100% repeat-x;
-	mask: radial-gradient(circle 3.5px at 50% 0, #0000 97%, #000) 0 0 / 13px 100% repeat-x;
+	--perf-r: 6px;
+	--perf-pitch: 22px;
+	-webkit-mask: radial-gradient(circle var(--perf-r) at 50% 0, #0000 97%, #000) 0 0 / var(--perf-pitch) 100% round;
+	mask: radial-gradient(circle var(--perf-r) at 50% 0, #0000 97%, #000) 0 0 / var(--perf-pitch) 100% round;
 }
 
 /* Text selection and the caret carry the palette, not the browser default blue. */
