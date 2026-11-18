@@ -1,6 +1,11 @@
 <!--
 	Fixed site header (outside the ScrollSmoother wrapper). Over a hero it starts
 	transparent with the light logo and turns solid cream once the page scrolls.
+
+	Mobile menu: a full-screen forest panel *behind* the header (so the logo and the close button stay
+	put), rendered as a sibling of <header> because the header's backdrop-filter would otherwise trap a
+	fixed child inside the header box. Links sit at the bottom, in thumb reach. It is always in the DOM
+	and animated with CSS transform/opacity (closed = inert + visibility hidden), static for reduced motion.
 -->
 <script lang="ts">
 	import { afterNavigate } from '$app/navigation';
@@ -33,7 +38,8 @@
 	let servicesOpen = $state(false);
 	let mobileOpen = $state(false);
 
-	const solid = $derived(!overHero || scrolled || mobileOpen);
+	/** While the menu is open the header sits transparent and light over the forest panel. */
+	const solid = $derived(!mobileOpen && (!overHero || scrolled));
 
 	useGsap(({ ScrollTrigger }) => {
 		// Driven by ScrollTrigger so it stays in sync with ScrollSmoother.
@@ -169,35 +175,115 @@
 		</div>
 	</div>
 
-	{#if mobileOpen}
-		<div
-			id="mobile-menu"
-			class="bg-paper text-forest-900 fixed inset-x-0 bottom-0 overflow-y-auto px-6 pt-4 pb-10 lg:hidden"
-			style="top: calc(4.5rem + env(safe-area-inset-top, 0px))"
-		>
-			<nav aria-label="Mobile">
-				<ul class="divide-y divide-gold-500/20">
-					{#each MAIN_NAV as item (item.href)}
-						<li class="py-1">
-							<a href={item.href} class="font-display block py-3 text-xl font-semibold tracking-wide">{item.label}</a>
-							{#if item.children === 'services' && services.length}
-								<ul class="mb-3 grid gap-1 pl-3">
+</header>
+
+<div
+	id="mobile-menu"
+	class="mobile-menu bg-forest-950 text-paper fixed inset-0 z-45 overflow-y-auto overscroll-contain lg:hidden"
+	data-open={mobileOpen ? '' : undefined}
+	inert={!mobileOpen}
+>
+	<!-- mt-auto (not justify-end) pushes the links to the bottom yet keeps them scrollable when tall. -->
+	<div
+		class="flex min-h-full flex-col px-6"
+		style="padding-top: calc(6.5rem + env(safe-area-inset-top, 0px)); padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px))"
+	>
+		<nav class="mt-auto" aria-label="Mobile">
+			<span class="menu-item bg-gold-400 block h-0.5 w-10" style:--i={0} aria-hidden="true"></span>
+			<ul class="border-paper/10 mt-6 border-b">
+				{#each MAIN_NAV as item, i (item.href)}
+					<li class="menu-item border-paper/10 border-t" style:--i={i + 1}>
+						{#if item.children === 'services' && services.length}
+							<details class="group">
+								<summary
+									class={cn(
+										'font-display flex cursor-pointer list-none items-center justify-between py-4 text-4xl leading-none font-semibold uppercase [&::-webkit-details-marker]:hidden',
+										isActive(item.href) && 'text-gold-300'
+									)}
+								>
+									{item.label}
+									<ChevronDownIcon class="text-gold-300 size-7 transition-transform group-open:rotate-180 motion-reduce:transition-none" />
+								</summary>
+								<ul class="grid gap-1 pb-4">
 									{#each services as service (service.id)}
 										<li>
-											<a href="/services/{service.slug}" class="text-forest-700 block py-1.5 text-sm font-medium">
+											<a
+												href="/services/{service.slug}"
+												class="text-paper/80 hover:text-gold-300 block py-2 text-base font-medium"
+												aria-current={isActive(`/services/${service.slug}`) ? 'page' : undefined}
+											>
 												{service.name}
 											</a>
 										</li>
 									{/each}
+									<li>
+										<a href="/services" class="text-gold-300 block py-2 text-base font-semibold">All services →</a>
+									</li>
 								</ul>
-							{/if}
-						</li>
-					{/each}
-				</ul>
-			</nav>
-			<div class="mt-8">
-				<WhatsAppButton number={whatsappNumber} size="lg" class="w-full" label="Chat with us on WhatsApp" />
-			</div>
+							</details>
+						{:else}
+							<a
+								href={item.href}
+								class={cn(
+									'font-display block py-4 text-4xl leading-none font-semibold uppercase',
+									isActive(item.href) && 'text-gold-300'
+								)}
+								aria-current={isActive(item.href) ? 'page' : undefined}
+							>
+								{item.label}
+							</a>
+						{/if}
+					</li>
+				{/each}
+			</ul>
+		</nav>
+		<div class="menu-item mt-8" style:--i={MAIN_NAV.length + 1}>
+			<WhatsAppButton number={whatsappNumber} size="lg" class="w-full" label="Chat with us on WhatsApp" />
 		</div>
-	{/if}
-</header>
+	</div>
+</div>
+
+<style>
+	/* Panel slides down from the top; closing slides it back up, then hides it. */
+	.mobile-menu {
+		visibility: hidden;
+		transform: translateY(-100%);
+		transition:
+			transform 0.55s cubic-bezier(0.7, 0, 0.2, 1),
+			visibility 0s linear 0.55s;
+	}
+	.mobile-menu[data-open] {
+		visibility: visible;
+		transform: none;
+		transition:
+			transform 0.6s cubic-bezier(0.7, 0, 0.2, 1),
+			visibility 0s;
+	}
+
+	/* Items rise in one after another once the panel is mostly down; on close they drop out together, fast. */
+	.menu-item {
+		opacity: 0;
+		transform: translateY(1.5rem);
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease;
+	}
+	.mobile-menu[data-open] .menu-item {
+		opacity: 1;
+		transform: none;
+		transition:
+			opacity 0.45s ease,
+			transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+		transition-delay: calc(0.3s + var(--i) * 0.06s);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.mobile-menu,
+		.mobile-menu[data-open],
+		.menu-item,
+		.mobile-menu[data-open] .menu-item {
+			transition: none;
+			transform: none;
+		}
+	}
+</style>

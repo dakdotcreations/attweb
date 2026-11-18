@@ -10,9 +10,18 @@ export const BRAND = {
 /** Only verifiable credentials belong here (see PRODUCT.md, Evidence on Hand). */
 export const TRUST_BADGES = ['Member of Uganda Tourism Association'] as const;
 
+/** Header (desktop and mobile menu): kept short on purpose. */
 export const MAIN_NAV = [
 	{ label: 'Tours', href: '/tours' },
 	{ label: 'Services', href: '/services', children: 'services' as const },
+	{ label: 'About', href: '/about' },
+	{ label: 'Contact', href: '/contact' }
+];
+
+/** Footer "Explore" column: the header links plus the secondary pages (Gallery, Blog live only here). */
+export const FOOTER_NAV = [
+	{ label: 'Tours', href: '/tours' },
+	{ label: 'Services', href: '/services' },
 	{ label: 'Gallery', href: '/gallery' },
 	{ label: 'Blog', href: '/blog' },
 	{ label: 'About', href: '/about' },

@@ -7,7 +7,7 @@
 	import ShieldCheckIcon from '@lucide/svelte/icons/shield-check';
 	import BrandIcon, { type BrandIconName } from './brand-icon.svelte';
 	import Logo from './logo.svelte';
-	import { BRAND, MAIN_NAV, TRUST_BADGES } from './site.js';
+	import { BRAND, FOOTER_NAV, TRUST_BADGES } from './site.js';
 
 	type Site = {
 		companyName: string;
@@ -49,7 +49,7 @@
 		<nav aria-label="Footer">
 			<h2 class="font-wordmark text-cream mb-4 text-sm font-semibold tracking-[0.2em] uppercase">Explore</h2>
 			<ul class="space-y-2 text-sm">
-				{#each MAIN_NAV as item (item.href)}
+				{#each FOOTER_NAV as item (item.href)}
 					<li><a href={item.href} class="hover:text-gold-400 transition-colors">{item.label}</a></li>
 				{/each}
 			</ul>
